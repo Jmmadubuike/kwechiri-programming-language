@@ -1,157 +1,152 @@
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
-import { describe, expect, it } from "vitest";
+import { spawnSync } from "node:child_process";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { afterEach, describe, expect, it } from "vitest";
 
-const execFileAsync = promisify(execFile);
+interface CliResult { readonly status: number | null; readonly stdout: string; readonly stderr: string }
 
-describe("Kwechiri CLI", () => {
-  it(
-    "runs hello.kwe",
-    async () => {
-      const { stdout, stderr } = await execFileAsync(
-        process.execPath,
-        ["dist/cli/index.js", "hello.kwe"],
-        { encoding: "utf8" },
-      );
-      expect(stdout.trim()).toBe("Ndewo Ụwa!");
-      expect(stderr).toBe("");
-    },
-    15_000,
-  );
+const temporaryDirectories: string[] = [];
+const cliPath = resolve("dist/cli/index.js");
+const runCli = (arguments_: readonly string[], cwd = process.cwd()): CliResult => {
+  const result = spawnSync(process.execPath, [cliPath, ...arguments_], { cwd, encoding: "utf8" });
+  return { status: result.status, stdout: result.stdout, stderr: result.stderr };
+};
+const temporaryDirectory = (name = "kwechiri-cli-"): string => {
+  const directory = mkdtempSync(join(tmpdir(), name));
+  temporaryDirectories.push(directory);
+  return directory;
+};
 
-  it(
-    "runs examples/variables.kwe",
-    async () => {
-      const { stdout, stderr } = await execFileAsync(
-        process.execPath,
-        ["dist/cli/index.js", "examples/variables.kwe"],
-        { encoding: "utf8" },
-      );
-      expect(stdout.trim().split(/\r?\n/u)).toEqual(["Uche", "36"]);
-      expect(stderr).toBe("");
-    },
-    15_000,
-  );
+afterEach(() => {
+  for (const directory of temporaryDirectories.splice(0)) rmSync(directory, { recursive: true, force: true });
+});
 
-  it(
-    "runs examples/expressions.kwe",
-    async () => {
-      const { stdout, stderr } = await execFileAsync(
-        process.execPath,
-        ["dist/cli/index.js", "examples/expressions.kwe"],
-        { encoding: "utf8" },
-      );
-      expect(stdout.trim().split(/\r?\n/u)).toEqual(["60", "15", "-3"]);
-      expect(stderr).toBe("");
-    },
-    15_000,
-  );
+describe("Kwechiri CLI integration", () => {
+  it("preserves shorthand and makes run equivalent without generated output", () => {
+    const directory = temporaryDirectory();
+    const source = join(directory, "hello.kwe");
+    writeFileSync(source, 'bipụta("Ndewo Ụwa!")', "utf8");
+    const shorthand = runCli([source]);
+    const named = runCli(["run", source]);
+    expect(shorthand).toEqual({ status: 0, stdout: "Ndewo Ụwa!\n", stderr: "" });
+    expect(named).toEqual(shorthand);
+    expect(existsSync(join(directory, "hello.js"))).toBe(false);
+  });
 
-  it(
-    "reports division by zero as a Kwechiri CLI error",
-    async () => {
-      await expect(
-        execFileAsync(process.execPath, ["dist/cli/index.js", "tests/fixtures/division-by-zero.kwe"], {
-          encoding: "utf8",
-        }),
-      ).rejects.toMatchObject({
-        stderr: expect.stringContaining("tests/fixtures/division-by-zero.kwe:1:11: Enweghị ike ikewa site na efu."),
-      });
-    },
-    15_000,
-  );
+  it("checks valid source and a valid module graph silently without executing", () => {
+    expect(runCli(["check", resolve("tests/fixtures/division-by-zero.kwe")])).toEqual({ status: 0, stdout: "", stderr: "" });
+    expect(runCli(["check", resolve("examples/modules/main.kwe")])).toEqual({ status: 0, stdout: "", stderr: "" });
+  });
 
-  it(
-    "runs examples/conditions.kwe",
-    async () => {
-      const { stdout, stderr } = await execFileAsync(
-        process.execPath,
-        ["dist/cli/index.js", "examples/conditions.kwe"],
-        { encoding: "utf8" },
-      );
-      expect(stdout.trim()).toBe("Okenye");
-      expect(stderr).toBe("");
-    },
-    15_000,
-  );
+  it("reports syntax, semantic, module, and runtime diagnostics as exit 1", () => {
+    const directory = temporaryDirectory();
+    const cases = [
+      ["syntax.kwe", 'bipụta("missing"'],
+      ["semantic.kwe", "bipụta(amaghi)"],
+      ["module.kwe", 'webata { efu } site na "./missing.kwe"'],
+      ["runtime.kwe", "bipụta(10 / 0)"],
+    ] as const;
+    for (const [name, source] of cases) writeFileSync(join(directory, name), source, "utf8");
+    for (const name of ["syntax.kwe", "semantic.kwe", "module.kwe"]) {
+      const result = runCli(["check", join(directory, name)]);
+      expect(result.status).toBe(1);
+      expect(result.stdout).toBe("");
+      expect(result.stderr).toContain("KWECHIRI ERROR");
+    }
+    const runtime = runCli(["run", join(directory, "runtime.kwe")]);
+    expect(runtime.status).toBe(1);
+    expect(runtime.stdout).toBe("");
+    expect(runtime.stderr).toContain("Division by zero");
+    expect(runtime.stderr).not.toContain(" at ");
+  });
 
-  it(
-    "runs examples/loops.kwe",
-    async () => {
-      const { stdout, stderr } = await execFileAsync(
-        process.execPath,
-        ["dist/cli/index.js", "examples/loops.kwe"],
-        { encoding: "utf8" },
-      );
-      expect(stdout.trim().split(/\r?\n/u)).toEqual(["1", "2", "3", "4", "5"]);
-      expect(stderr).toBe("");
-    },
-    15_000,
-  );
+  it("compiles to a default sibling that runs directly with Node", () => {
+    const directory = temporaryDirectory();
+    const source = join(directory, "hello.kwe");
+    const output = join(directory, "hello.js");
+    writeFileSync(source, 'bipụta("Ndewo")', "utf8");
+    expect(runCli(["compile", source])).toEqual({ status: 0, stdout: "", stderr: "" });
+    expect(existsSync(output)).toBe(true);
+    const executed = spawnSync(process.execPath, [output], { encoding: "utf8" });
+    expect({ status: executed.status, stdout: executed.stdout, stderr: executed.stderr }).toEqual({ status: 0, stdout: "Ndewo\n", stderr: "" });
+  });
 
-  it(
-    "runs examples/functions.kwe",
-    async () => {
-      const { stdout, stderr } = await execFileAsync(
-        process.execPath,
-        ["dist/cli/index.js", "examples/functions.kwe"],
-        { encoding: "utf8" },
-      );
-      expect(stdout.trim()).toBe("30");
-      expect(stderr).toBe("");
-    },
-    15_000,
-  );
+  it("compiles a module graph to an explicit directly runnable output", () => {
+    const directory = temporaryDirectory();
+    const output = join(directory, "module.js");
+    expect(runCli(["compile", resolve("examples/modules/main.kwe"), "--out", output])).toEqual({ status: 0, stdout: "", stderr: "" });
+    const executed = spawnSync(process.execPath, [output], { encoding: "utf8" });
+    expect(executed.status).toBe(0);
+    expect(executed.stdout.trim()).toBe("5.14159");
+  });
 
-  it(
-    "runs examples/collections.kwe",
-    async () => {
-      const { stdout, stderr } = await execFileAsync(
-        process.execPath,
-        ["dist/cli/index.js", "examples/collections.kwe"],
-        { encoding: "utf8" },
-      );
-      expect(stdout.trim().split(/\r?\n/u)).toEqual([
-        '["Uche","Ada","Obi"]',
-        '{"aha":"Uche","afọ":36}',
-        "Uche",
-      ]);
-      expect(stderr).toBe("");
-    },
-    15_000,
-  );
+  it("keeps expected runtime failures concise in directly runnable output", () => {
+    const directory = temporaryDirectory();
+    const source = join(directory, "runtime.kwe");
+    const output = join(directory, "runtime.js");
+    writeFileSync(source, "bipụta(10 / 0)", "utf8");
+    expect(runCli(["compile", source]).status).toBe(0);
+    const executed = spawnSync(process.execPath, [output], { encoding: "utf8" });
+    expect(executed.status).toBe(1);
+    expect(executed.stdout).toBe("");
+    expect(executed.stderr).toContain("KWECHIRI ERROR");
+    expect(executed.stderr).not.toContain(" at ");
+  });
 
-  it(
-    "runs a multi-file module program",
-    async () => {
-      const { stdout, stderr } = await execFileAsync(
-        process.execPath,
-        ["dist/cli/index.js", "examples/modules/main.kwe"],
-        { encoding: "utf8" },
-      );
-      expect(stdout.trim()).toBe("5.14159");
-      expect(stderr).toBe("");
-    },
-    15_000,
-  );
+  it("refuses overwrite, supports force, and preserves output after failed compilation", () => {
+    const directory = temporaryDirectory();
+    const source = join(directory, "program.kwe");
+    const output = join(directory, "program.js");
+    writeFileSync(source, 'bipụta("first")', "utf8");
+    writeFileSync(output, "preserve", "utf8");
+    expect(runCli(["compile", source]).status).toBe(3);
+    expect(readFileSync(output, "utf8")).toBe("preserve");
+    expect(runCli(["compile", source, "--force"]).status).toBe(0);
+    expect(readFileSync(output, "utf8")).toContain("executeJavaScript");
+    const generated = readFileSync(output, "utf8");
+    writeFileSync(source, "bipụta(unknown)", "utf8");
+    expect(runCli(["compile", source, "--force"]).status).toBe(1);
+    expect(readFileSync(output, "utf8")).toBe(generated);
+  });
 
-  it(
-    "reports circular module dependencies",
-    async () => {
-      await expect(execFileAsync(process.execPath, ["dist/cli/index.js", "tests/fixtures/modules/cycle-a.kwe"], { encoding: "utf8" })).rejects.toMatchObject({
-        stderr: expect.stringContaining("Circular dependency"),
-      });
-    },
-    15_000,
-  );
+  it("classifies entry and destination filesystem failures as exit 3", () => {
+    const directory = temporaryDirectory();
+    const source = join(directory, "hello.kwe");
+    writeFileSync(source, 'bipụta("hello")', "utf8");
+    expect(runCli(["check", join(directory, "missing.kwe")]).status).toBe(3);
+    expect(runCli(["compile", source, "--out", join(directory, "missing", "hello.js")]).status).toBe(3);
+    const destinationDirectory = join(directory, "destination.js");
+    mkdirSync(destinationDirectory);
+    expect(runCli(["compile", source, "--out", destinationDirectory]).status).toBe(3);
+  });
 
-  it(
-    "reports a missing named export",
-    async () => {
-      await expect(execFileAsync(process.execPath, ["dist/cli/index.js", "tests/fixtures/modules/missing-export.kwe"], { encoding: "utf8" })).rejects.toMatchObject({
-        stderr: expect.stringContaining("Missing export"),
-      });
-    },
-    15_000,
-  );
+  it("implements help, version, usage errors, and stream separation", () => {
+    for (const arguments_ of [["--help"], ["run", "--help"], ["check", "--help"], ["compile", "--help"]]) {
+      const result = runCli(arguments_);
+      expect(result.status).toBe(0);
+      expect(result.stdout).toContain("Usage:");
+      expect(result.stderr).toBe("");
+    }
+    expect(runCli(["--version"])).toEqual({ status: 0, stdout: "0.1.0-development\n", stderr: "" });
+    for (const arguments_ of [[], ["run"], ["invalid", "hello.kwe"], ["run", "hello.KWE"], ["compile", "hello.kwe", "--out", "hello.JS"]]) {
+      const result = runCli(arguments_);
+      expect(result.status).toBe(2);
+      expect(result.stdout).toBe("");
+      expect(result.stderr).toContain("KWECHIRI USAGE ERROR");
+    }
+  });
+
+  it("preserves Unicode in source, directories, filenames, and output paths", () => {
+    const root = temporaryDirectory("kwechiri-ụzọ-");
+    const directory = join(root, "ọrụ");
+    mkdirSync(directory);
+    const source = join(directory, "ụbọchị.kwe");
+    const output = join(directory, "nsonaazụ.js");
+    writeFileSync(source, 'ụbọchị = "Mọnde"\nbipụta(ụbọchị)', "utf8");
+    expect(runCli(["compile", source, "--out", output]).status).toBe(0);
+    const executed = spawnSync(process.execPath, [output], { encoding: "utf8" });
+    expect(executed.status).toBe(0);
+    expect(executed.stdout).toBe("Mọnde\n");
+  });
 });

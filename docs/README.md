@@ -43,8 +43,8 @@ and consequences; they do not authorize unresolved future features.
 - [Current project status](roadmap/PROJECT-STATUS.md)
 - [Recorded technical debt](roadmap/technical-debt.md)
 
-Milestones 0–9 are complete. Milestone 10 remains pending owner approval and is
-not implemented.
+Milestones 0–10 are implemented locally. Milestone 10 remains pending final
+owner review and certification; Milestone 11 has not begun.
 
 ## 7. Tutorials
 

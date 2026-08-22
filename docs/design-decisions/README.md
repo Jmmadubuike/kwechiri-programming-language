@@ -17,5 +17,6 @@ decision and a new or amended record.
 | [ADR-010](ADR-010-module-semantics.md) | Module semantics |
 | [ADR-011](ADR-011-runtime-boundary.md) | Runtime boundary |
 | [ADR-012](ADR-012-unicode-identifiers.md) | Implemented Unicode identifiers |
+| [ADR-013](ADR-013-cli-contract.md) | Professional CLI contract |
 
 ADR-012 does not decide Unicode normalization or ASCII aliases.

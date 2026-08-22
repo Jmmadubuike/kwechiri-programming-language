@@ -2,8 +2,11 @@
 
 Last updated: 2026-08-22  
 Current version: `0.1.0-development`  
-Current completed milestone: Milestone 9 — Runtime boundary  
-Next milestone: Milestone 10 — Professional CLI
+Current implemented milestone: Milestone 10 — Professional CLI
+
+Certification state: pending owner review
+
+Next milestone after certification: Milestone 11 — Standard library
 
 ## Purpose
 
@@ -34,6 +37,8 @@ Kwechiri currently supports:
 - an explicit Kwechiri runtime boundary with a Node.js implementation
 - located compile-time and runtime diagnostics
 - the compatible command `kwechiri <file.kwe>`
+- explicit `run`, execution-free `check`, and directly runnable `compile`
+- stable CLI stdout/stderr and exit-code contracts
 
 At the end of Milestone 9, the complete local gate passed with 55 automated
 tests, TypeScript type checking, build validation, CLI success probes, and
@@ -139,46 +144,56 @@ Completed and governed by ADR-011:
 - categorized and located runtime errors
 - isolated program execution
 
-## Immediate next milestone
+## Current milestone
 
 ### Milestone 10 — Professional CLI
 
-Status: contract proposed; owner approval still required before implementation.
+Status: implemented locally; final owner review and certification pending.
 
-Proposed commands:
+Implemented commands:
 
 ```text
 kwechiri hello.kwe
 kwechiri run hello.kwe
 kwechiri check hello.kwe
-kwechiri compile hello.kwe --out hello.js
+kwechiri compile hello.kwe
+kwechiri compile hello.kwe --out build/hello.js --force
 kwechiri --version
 kwechiri --help
 ```
 
-Proposed contract:
+Implemented contract:
 
 - preserve `kwechiri <file.kwe>` as the shorthand for `run`
 - `run` compiles and executes
 - `check` validates the complete module graph without executing
 - `compile` writes JavaScript without executing
-- require `--out` for `compile`
+- default `compile` output to a sibling `.js` file
+- permit one explicit lowercase `.js` output through `--out`
+- emit directly runnable Node.js with an existing-runtime bootstrap
 - require `--force` before overwriting an existing output file
 - send program output to stdout and diagnostics to stderr
 - use exit code `0` for success
 - use exit code `1` for Kwechiri source, semantic, module, or runtime errors
 - use exit code `2` for invalid CLI usage
 - use exit code `3` for filesystem or host failures
+- use exit code `4` for unexpected internal failures
 - reject unknown commands and unsupported options
 - do not add watch mode, a REPL, telemetry, networking, or interactive prompts
 
-Required validation:
+Certification validation:
 
 - tests for every command
 - tests for every exit-code category
 - direct compatibility probe for `kwechiri hello.kwe`
 - output overwrite protection tests
 - module-graph checks through `run`, `check`, and `compile`
+
+Milestone 11 must not begin until Milestone 10 receives explicit certification.
+
+The Milestone 10 local implementation gate passes with 67 automated tests,
+linting, strict source/test type checking, a production build, and direct
+`run`/`check`/`compile` plus generated-artifact probes on Node.js 20 and 24.
 
 ## Remaining roadmap milestones
 
@@ -291,8 +306,7 @@ Every future development session should:
 
 ## Exact resume point
 
-Unless the project owner changes priorities, the next session should begin by
-reviewing and approving the repository-stabilization changes. After
-stabilization is accepted, request explicit approval of the Milestone 10 CLI
-contract above. Implement only Milestone 10 after that approval and do not begin
-the standard library automatically.
+Unless the project owner changes priorities, the next session should review the
+Milestone 10 implementation and validation evidence. Do not begin the standard
+library until Milestone 10 is explicitly certified and Milestone 11 receives a
+separate approved contract.

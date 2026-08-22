@@ -37,7 +37,15 @@ export async function loadModuleGraph(entryPath: string): Promise<string> {
     }
 
     visiting.push(absolute);
-    const raw = await readFile(absolute, "utf8");
+    let raw: string;
+    try {
+      raw = await readFile(absolute, "utf8");
+    } catch (error: unknown) {
+      if (absolute !== entry && error instanceof Error && "code" in error && error.code === "ENOENT") {
+        throw new KwechiriError(`Enweghị ike ịchọta module "${relative(root, absolute)}". (Missing imported module.)`, { line: 1, column: 1, offset: 0 }, absolute);
+      }
+      throw error;
+    }
     const lines = raw.split(/\r?\n/u);
     const imports = new Map<string, string>();
     const bodyLines: string[] = [];

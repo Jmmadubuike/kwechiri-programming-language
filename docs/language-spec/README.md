@@ -16,6 +16,7 @@ approved ADRs.
 - [Modules](modules.md)
 - [Errors](errors.md)
 - [Runtime behaviour](runtime-behaviour.md)
+- [Command-line interface](cli.md)
 
 Files named `milestone-*.md` are historical incremental specifications. They
 show what each milestone introduced and may contain statements superseded by

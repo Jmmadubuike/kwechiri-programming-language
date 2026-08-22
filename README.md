@@ -10,7 +10,8 @@ files use the `.kwe` extension.
 
 ## Current status
 
-Language Milestones 0–9 are complete. The implemented language includes:
+Language Milestones 0–9 and the Milestone 10 professional CLI are implemented.
+The implemented language includes:
 
 - Unicode Igbo identifiers and located diagnostics
 - strings, numbers, booleans, variables, arithmetic, and comparisons
@@ -19,9 +20,6 @@ Language Milestones 0–9 are complete. The implemented language includes:
 - homogeneous arrays and typed objects
 - named relative modules using `webata`, `bupụ`, and `site na`
 - an explicit runtime boundary with a Node.js implementation
-
-Milestone 10, the professional CLI, is pending. Commands proposed for that
-milestone are not implemented or advertised as available here.
 
 ## Quick start
 
@@ -39,12 +37,26 @@ Expected output:
 Ndewo Ụwa!
 ```
 
-After linking the package locally with `npm link`, the existing compatible
-command is:
+After linking the package locally with `npm link`, run a program with either
+the compatible shorthand or the explicit command:
 
 ```sh
 kwechiri hello.kwe
+kwechiri run hello.kwe
 ```
+
+Validate without executing, or compile directly runnable Node.js output:
+
+```sh
+kwechiri check hello.kwe
+kwechiri compile hello.kwe
+node hello.js
+kwechiri compile hello.kwe --out build/hello.js --force
+```
+
+The parent of an explicit output path must already exist. Compilation refuses
+to overwrite by default. See the [CLI specification](docs/language-spec/cli.md)
+for help, version, streams, exit codes, and generated-artifact requirements.
 
 ## Example
 

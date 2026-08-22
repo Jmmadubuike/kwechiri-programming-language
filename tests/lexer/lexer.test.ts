@@ -67,4 +67,8 @@ describe("tokenize", () => {
       TokenType.EndOfFile,
     ]);
   });
+
+  it("recognizes the mgbe loop keyword", () => {
+    expect(tokenize("mgbe")[0]).toMatchObject({ type: TokenType.Keyword, lexeme: "mgbe" });
+  });
 });

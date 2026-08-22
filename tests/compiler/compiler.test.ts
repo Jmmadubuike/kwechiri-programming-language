@@ -90,4 +90,28 @@ describe("compiler", () => {
       /Ụdị mgbanwe "uru" adabaghị n'alaka abụọ/,
     );
   });
+
+  it("compiles a type-stable mgbe loop", () => {
+    expect(compile("ọnụọgụ = 1\nmgbe (ọnụọgụ <= 2) { ọnụọgụ = ọnụọgụ + 1 }")).toBe(
+      "let _kwe0 = 1;\nwhile ((_kwe0 <= 2)) {\n  _kwe0 = (_kwe0 + 1);\n}\n",
+    );
+  });
+
+  it("requires a boolean mgbe condition", () => {
+    expect(() => compile("mgbe (1) { bipụta(1) }", "loops.kwe")).toThrow(
+      /Ọnọdụ `mgbe` ga-abụ eziokwu maọbụ ụgha/,
+    );
+  });
+
+  it("does not expose a loop-local variable afterward", () => {
+    expect(() => compile('mgbe (ụgha) { aha = "Uche" }\nbipụta(aha)', "loops.kwe")).toThrow(
+      /Enweghị ike ịchọta mgbanwe "aha"/,
+    );
+  });
+
+  it("rejects loop-carried type changes", () => {
+    expect(() => compile('uru = 1\nmgbe (ụgha) { uru = "otu" }', "loops.kwe")).toThrow(
+      /Ụdị mgbanwe "uru" ga-anọ otu n'ime `mgbe`/,
+    );
+  });
 });

@@ -1,7 +1,7 @@
 import { KwechiriError, type SourceLocation } from "../errors/kwechiri-error.js";
 import { TokenType, type Token } from "./token.js";
 
-const keywords = new Set(["bipụta", "ọ", "bụrụ", "ọzọ", "eziokwu", "ụgha"]);
+const keywords = new Set(["bipụta", "ọ", "bụrụ", "ọzọ", "eziokwu", "ụgha", "mgbe"]);
 const identifierStart = /[\p{L}_]/u;
 const identifierContinue = /[\p{L}\p{M}\p{N}_]/u;
 

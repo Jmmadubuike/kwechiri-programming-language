@@ -167,6 +167,17 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
         location: keyword.location,
       };
     }
+    if (keyword.lexeme === "mgbe") {
+      consume(TokenType.LeftParen, 'A tụrụ anya "(" mgbe "mgbe" gasịrị.');
+      const condition = parseExpression();
+      consume(TokenType.RightParen, 'A tụrụ anya ")" mgbe ọnọdụ gasịrị.');
+      return {
+        kind: "LoopStatement",
+        condition,
+        body: parseBlock(),
+        location: keyword.location,
+      };
+    }
     if (keyword.lexeme !== "bipụta") {
       throw new KwechiriError(`Okwu iwu a akwadoghị: "${keyword.lexeme}".`, keyword.location, fileName);
     }

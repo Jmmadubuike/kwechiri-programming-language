@@ -7,7 +7,8 @@ export interface ResolvedProgram {
 export type ResolvedStatement =
   | ResolvedPrintStatement
   | ResolvedVariableAssignment
-  | ResolvedConditionalStatement;
+  | ResolvedConditionalStatement
+  | ResolvedLoopStatement;
 export type ValueType = "string" | "number" | "boolean";
 export type ResolvedExpression =
   | ResolvedStringLiteral
@@ -84,4 +85,10 @@ export interface ResolvedConditionalStatement {
   readonly thenBranch: readonly ResolvedStatement[];
   readonly elseBranch?: readonly ResolvedStatement[];
   readonly hoistedDeclarations: readonly string[];
+}
+
+export interface ResolvedLoopStatement {
+  readonly kind: "LoopStatement";
+  readonly condition: ResolvedExpression;
+  readonly body: readonly ResolvedStatement[];
 }

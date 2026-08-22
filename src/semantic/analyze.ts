@@ -89,6 +89,22 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
         continue;
       }
 
+      if (statement.kind === "LoopStatement") {
+        const condition = resolveExpression(statement.condition, symbols);
+        if (condition.valueType !== "boolean") {
+          throw new KwechiriError("Ọnọdụ `mgbe` ga-abụ eziokwu maọbụ ụgha. (A loop condition must be boolean.)", statement.condition.location, fileName);
+        }
+        const bodyResult = resolveBlock(statement.body, symbols);
+        for (const [name, symbol] of symbols) {
+          const bodySymbol = bodyResult.symbols.get(name);
+          if (bodySymbol !== undefined && bodySymbol.valueType !== symbol.valueType) {
+            throw new KwechiriError(`Ụdị mgbanwe "${name}" ga-anọ otu n'ime ` + "`mgbe`" + ". (Loop variable type must remain stable.)", statement.location, fileName);
+          }
+        }
+        statements.push({ kind: "LoopStatement", condition, body: bodyResult.statements });
+        continue;
+      }
+
       const condition = resolveExpression(statement.condition, symbols);
       if (condition.valueType !== "boolean") {
         throw new KwechiriError("Ọnọdụ ga-abụ eziokwu maọbụ ụgha. (A condition must be boolean.)", statement.condition.location, fileName);

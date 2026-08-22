@@ -28,6 +28,9 @@ function containsDivision(expression: ResolvedExpression): boolean {
 }
 
 function statementContainsDivision(statement: ResolvedStatement): boolean {
+  if (statement.kind === "LoopStatement") {
+    return containsDivision(statement.condition) || statement.body.some(statementContainsDivision);
+  }
   if (statement.kind === "ConditionalStatement") {
     return containsDivision(statement.condition)
       || statement.thenBranch.some(statementContainsDivision)
@@ -43,6 +46,14 @@ function generateStatements(statements: readonly ResolvedStatement[], indentatio
     }
     if (statement.kind === "VariableAssignment") {
       return [`${indentation}${statement.declaration ? "let " : ""}${statement.generatedName} = ${generateExpression(statement.value)};`];
+    }
+
+    if (statement.kind === "LoopStatement") {
+      return [
+        `${indentation}while (${generateExpression(statement.condition)}) {`,
+        ...generateStatements(statement.body, `${indentation}  `),
+        `${indentation}}`,
+      ];
     }
 
     const lines = statement.hoistedDeclarations.map((name) => `${indentation}let ${name};`);

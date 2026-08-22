@@ -5,7 +5,7 @@ export interface Program {
   readonly statements: readonly Statement[];
 }
 
-export type Statement = PrintStatement | VariableAssignment | ConditionalStatement;
+export type Statement = PrintStatement | VariableAssignment | ConditionalStatement | LoopStatement;
 
 export type Expression =
   | StringLiteral
@@ -81,5 +81,12 @@ export interface ConditionalStatement {
   readonly condition: Expression;
   readonly thenBranch: readonly Statement[];
   readonly elseBranch?: readonly Statement[];
+  readonly location: SourceLocation;
+}
+
+export interface LoopStatement {
+  readonly kind: "LoopStatement";
+  readonly condition: Expression;
+  readonly body: readonly Statement[];
   readonly location: SourceLocation;
 }

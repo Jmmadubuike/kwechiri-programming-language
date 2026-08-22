@@ -33,6 +33,16 @@ Conditions require explicit boolean expressions:
 }
 ```
 
+Pre-condition loops use `mgbe`:
+
+```kwe
+ọnụọgụ = 1
+mgbe (ọnụọgụ <= 5) {
+    bipụta(ọnụọgụ)
+    ọnụọgụ = ọnụọgụ + 1
+}
+```
+
 ## Development
 
 Requires Node.js 20 or newer.
@@ -53,7 +63,8 @@ kwechiri hello.kwe
 See the [Milestone 1](docs/language-spec/milestone-1.md),
 [Milestone 2](docs/language-spec/milestone-2.md), and
 [Milestone 3](docs/language-spec/milestone-3.md), and
-[Milestone 4](docs/language-spec/milestone-4.md) specifications for the
+[Milestone 4](docs/language-spec/milestone-4.md), and
+[Milestone 5](docs/language-spec/milestone-5.md) specifications for the
 currently supported language surface.
 
 The project license has not yet been selected by the project owner.

@@ -55,7 +55,7 @@ describe("Kwechiri CLI", () => {
           encoding: "utf8",
         }),
       ).rejects.toMatchObject({
-        stderr: expect.stringContaining("KWECHIRI ERROR\nEnweghị ike ikewa site na efu."),
+        stderr: expect.stringContaining("tests/fixtures/division-by-zero.kwe:1:11: Enweghị ike ikewa site na efu."),
       });
     },
     15_000,

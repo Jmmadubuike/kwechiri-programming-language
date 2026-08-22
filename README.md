@@ -91,7 +91,8 @@ See the [Milestone 1](docs/language-spec/milestone-1.md),
 [Milestone 5](docs/language-spec/milestone-5.md), and
 [Milestone 6](docs/language-spec/milestone-6.md), and
 [Milestone 7](docs/language-spec/milestone-7.md), and
-[Milestone 8](docs/language-spec/milestone-8.md) specifications for the
+[Milestone 8](docs/language-spec/milestone-8.md), and
+[Milestone 9](docs/language-spec/milestone-9.md) specifications for the
 currently supported language surface.
 
 The project license has not yet been selected by the project owner.

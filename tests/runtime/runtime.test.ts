@@ -1,0 +1,36 @@
+import { describe, expect, it, vi } from "vitest";
+import { compile } from "../../src/compiler/compile.js";
+import { executeJavaScript } from "../../src/runtime/execute.js";
+import { KwechiriRuntimeError, type KwechiriRuntime } from "../../src/runtime/kwechiri-runtime.js";
+import { NodeKwechiriRuntime } from "../../src/runtime/node-runtime.js";
+
+describe("Kwechiri runtime", () => {
+  it("injects runtime operations into isolated generated programs", () => {
+    const print = vi.fn();
+    const runtime: KwechiriRuntime = {
+      print,
+      divide: (left, right) => left / right,
+      index: (collection, index) => collection[index],
+    };
+    executeJavaScript(compile('bipụta("Ndewo")'), "hello.kwe", runtime);
+    expect(print).toHaveBeenCalledWith("Ndewo", { line: 1, column: 1, offset: 0 });
+  });
+
+  it("categorizes division failures with their Kwechiri location", () => {
+    const runtime = new NodeKwechiriRuntime("zero.kwe", () => undefined);
+    expect(() => runtime.divide(10, 0, { line: 4, column: 8, offset: 30 })).toThrowError(
+      expect.objectContaining<Partial<KwechiriRuntimeError>>({
+        category: "DIVISION_BY_ZERO",
+        fileName: "zero.kwe",
+        location: { line: 4, column: 8, offset: 30 },
+      }),
+    );
+  });
+
+  it("formats collections consistently in the Node host", () => {
+    const output = vi.fn();
+    const runtime = new NodeKwechiriRuntime("collections.kwe", output);
+    runtime.print({ aha: "Uche", afọ: 36 }, { line: 1, column: 1, offset: 0 });
+    expect(output).toHaveBeenCalledWith('{"aha":"Uche","afọ":36}');
+  });
+});

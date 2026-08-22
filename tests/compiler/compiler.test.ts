@@ -4,7 +4,7 @@ import { executeJavaScript } from "../../src/runtime/execute.js";
 
 describe("compiler", () => {
   it("compiles bipụta with an Igbo string to JavaScript", () => {
-    expect(compile('bipụta("Ndewo Ụwa!")')).toBe('console.log("Ndewo Ụwa!");\n');
+    expect(compile('bipụta("Ndewo Ụwa!")')).toBe('_kweRuntime.print("Ndewo Ụwa!", {line:1,column:1,offset:0});\n');
   });
 
   it("executes the generated JavaScript", () => {
@@ -16,7 +16,7 @@ describe("compiler", () => {
 
   it("compiles declarations, reassignment, and Unicode names safely", () => {
     expect(compile('class = "Uche"\nafọ = 36\nclass = afọ\nbipụta(class)')).toBe(
-      'let _kwe0 = "Uche";\nlet _kwe1 = 36;\n_kwe0 = _kwe1;\nconsole.log(_kwe0);\n',
+      'let _kwe0 = "Uche";\nlet _kwe1 = 36;\n_kwe0 = _kwe1;\n_kweRuntime.print(_kwe0, {line:4,column:1,offset:36});\n',
     );
   });
 
@@ -34,7 +34,7 @@ describe("compiler", () => {
 
   it("honors grouping, precedence, and unary minus", () => {
     expect(compile("nsonaazụ = (10 + 20) * 2 - -5\nbipụta(nsonaazụ)")).toBe(
-      "let _kwe0 = (((10 + 20) * 2) - (-5));\nconsole.log(_kwe0);\n",
+      "let _kwe0 = (((10 + 20) * 2) - (-5));\n_kweRuntime.print(_kwe0, {line:2,column:1,offset:30});\n",
     );
   });
 
@@ -46,14 +46,14 @@ describe("compiler", () => {
 
   it("emits an explicit division-by-zero guard", () => {
     const javaScript = compile("bipụta(10 / 0)");
-    expect(javaScript).toContain("function _kweDivide");
+    expect(javaScript).toContain("_kweRuntime.divide(10, 0, {line:1,column:11,offset:10})");
     expect(() => executeJavaScript(javaScript)).toThrow(/Division by zero/);
   });
 
   it("compiles strict comparisons and conditional branches", () => {
     const source = 'afọ = 36\nọ bụrụ (afọ >= 18) { ọkwa = "Okenye" } ọzọ { ọkwa = "Nwatakịrị" }\nbipụta(ọkwa)';
     expect(compile(source)).toBe(
-      'let _kwe0 = 36;\nlet _kwe1;\nif ((_kwe0 >= 18)) {\n  _kwe1 = "Okenye";\n} else {\n  _kwe1 = "Nwatakịrị";\n}\nconsole.log(_kwe1);\n',
+      'let _kwe0 = 36;\nlet _kwe1;\nif ((_kwe0 >= 18)) {\n  _kwe1 = "Okenye";\n} else {\n  _kwe1 = "Nwatakịrị";\n}\n_kweRuntime.print(_kwe1, {line:3,column:1,offset:75});\n',
     );
   });
 
@@ -82,7 +82,7 @@ describe("compiler", () => {
   });
 
   it("uses strict equality when operand types differ", () => {
-    expect(compile('bipụta(1 == "1")')).toBe('console.log((1 === "1"));\n');
+    expect(compile('bipụta(1 == "1")')).toBe('_kweRuntime.print((1 === "1"), {line:1,column:1,offset:0});\n');
   });
 
   it("preserves the implicit unchanged path when ọzọ is omitted", () => {
@@ -118,7 +118,7 @@ describe("compiler", () => {
   it("compiles a declared function and call with safe names", () => {
     const source = "ọrụ gbakọọ(a, b) { laghachi a + b }\nnsonaazụ = gbakọọ(10, 20)\nbipụta(nsonaazụ)";
     expect(compile(source)).toBe(
-      "function _kweFn0(_kweP0_0, _kweP0_1) {\n  return (_kweP0_0 + _kweP0_1);\n}\nlet _kwe0 = _kweFn0(10, 20);\nconsole.log(_kwe0);\n",
+      "function _kweFn0(_kweP0_0, _kweP0_1) {\n  return (_kweP0_0 + _kweP0_1);\n}\nlet _kwe0 = _kweFn0(10, 20);\n_kweRuntime.print(_kwe0, {line:3,column:1,offset:62});\n",
     );
   });
 
@@ -166,8 +166,8 @@ describe("compiler", () => {
     const source = 'ahaNdị = ["Uche", "Ada"]\nmmadụ = { aha: ahaNdị[0], afọ: 36 }\nbipụta(mmadụ.aha)';
     const output = compile(source);
     expect(output).toContain('let _kwe0 = ["Uche", "Ada"];');
-    expect(output).toContain('let _kwe1 = {"aha": _kweIndex(_kwe0, 0), "afọ": 36};');
-    expect(output).toContain('console.log(_kwe1["aha"]);');
+    expect(output).toContain('let _kwe1 = {"aha": _kweRuntime.index(_kwe0, 0, {line:2,column:22,offset:46}), "afọ": 36};');
+    expect(output).toContain('_kweRuntime.print(_kwe1["aha"]');
   });
 
   it("rejects heterogeneous and empty arrays", () => {
@@ -191,7 +191,7 @@ describe("compiler", () => {
 
   it("emits collection formatting support for nested print statements", () => {
     const javaScript = compile("a = [1, 2]\nọ bụrụ (eziokwu) { bipụta(a) }");
-    expect(javaScript).toContain("function _kweFormat");
+    expect(javaScript).toContain("_kweRuntime.print(_kwe0");
     const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
     executeJavaScript(javaScript);
     expect(log).toHaveBeenCalledWith("[1,2]");

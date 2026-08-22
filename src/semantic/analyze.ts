@@ -78,7 +78,7 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       if (expression.index.kind === "NumberLiteral" && (!Number.isInteger(expression.index.value) || expression.index.value < 0 || expression.index.value >= (data.length as number))) {
         throw new KwechiriError("Index ndepụta gafere oke. (Array index out of range.)", expression.location, fileName);
       }
-      return { kind: "IndexExpression", collection, index, valueType: data.element as ValueType };
+      return { kind: "IndexExpression", collection, index, valueType: data.element as ValueType, location: expression.location };
     }
     if (expression.kind === "PropertyAccessExpression") {
       const object = resolveExpression(expression.object, symbols);
@@ -109,7 +109,7 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       const left = resolveExpression(expression.left, symbols);
       const right = resolveExpression(expression.right, symbols);
       if (left.valueType !== "number" || right.valueType !== "number") throw new KwechiriError(`Akara "${expression.operator}" chọrọ ọnụọgụ abụọ. (Arithmetic requires two numbers.)`, expression.location, fileName);
-      return { kind: "BinaryExpression", operator: expression.operator, left, right, valueType: "number" };
+      return { kind: "BinaryExpression", operator: expression.operator, left, right, valueType: "number", location: expression.location };
     }
     if (expression.kind === "ComparisonExpression") {
       const left = resolveExpression(expression.left, symbols);
@@ -150,7 +150,7 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
         continue;
       }
       if (statement.kind === "PrintStatement") {
-        statements.push({ kind: "PrintStatement", value: resolveExpression(statement.value, symbols) });
+        statements.push({ kind: "PrintStatement", value: resolveExpression(statement.value, symbols), location: statement.location });
         continue;
       }
       if (statement.kind === "VariableAssignment") {

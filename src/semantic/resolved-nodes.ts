@@ -29,6 +29,7 @@ export type ResolvedExpression =
 export interface ResolvedPrintStatement {
   readonly kind: "PrintStatement";
   readonly value: ResolvedExpression;
+  readonly location: SourceLocation;
 }
 
 export interface ResolvedVariableAssignment {
@@ -70,6 +71,7 @@ export interface ResolvedBinaryExpression {
   readonly left: ResolvedExpression;
   readonly right: ResolvedExpression;
   readonly valueType: "number";
+  readonly location: SourceLocation;
 }
 
 export interface ResolvedBooleanLiteral {
@@ -135,6 +137,7 @@ export interface ResolvedIndexExpression {
   readonly collection: ResolvedExpression;
   readonly index: ResolvedExpression;
   readonly valueType: ValueType;
+  readonly location: SourceLocation;
 }
 
 export interface ResolvedPropertyAccessExpression {

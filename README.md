@@ -60,6 +60,13 @@ mmadụ = { aha: ahaNdị[0], afọ: 36 }
 bipụta(mmadụ.aha)
 ```
 
+Named modules use `webata`, `bupụ`, and `site na`:
+
+```kwe
+webata { gbakọọ, pi } site na "./mgbakọ.kwe"
+bipụta(gbakọọ(pi, 2))
+```
+
 ## Development
 
 Requires Node.js 20 or newer.
@@ -83,7 +90,8 @@ See the [Milestone 1](docs/language-spec/milestone-1.md),
 [Milestone 4](docs/language-spec/milestone-4.md), and
 [Milestone 5](docs/language-spec/milestone-5.md), and
 [Milestone 6](docs/language-spec/milestone-6.md), and
-[Milestone 7](docs/language-spec/milestone-7.md) specifications for the
+[Milestone 7](docs/language-spec/milestone-7.md), and
+[Milestone 8](docs/language-spec/milestone-8.md) specifications for the
 currently supported language surface.
 
 The project license has not yet been selected by the project owner.

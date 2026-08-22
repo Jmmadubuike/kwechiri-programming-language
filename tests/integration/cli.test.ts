@@ -120,4 +120,38 @@ describe("Kwechiri CLI", () => {
     },
     15_000,
   );
+
+  it(
+    "runs a multi-file module program",
+    async () => {
+      const { stdout, stderr } = await execFileAsync(
+        process.execPath,
+        ["dist/cli/index.js", "examples/modules/main.kwe"],
+        { encoding: "utf8" },
+      );
+      expect(stdout.trim()).toBe("5.14159");
+      expect(stderr).toBe("");
+    },
+    15_000,
+  );
+
+  it(
+    "reports circular module dependencies",
+    async () => {
+      await expect(execFileAsync(process.execPath, ["dist/cli/index.js", "tests/fixtures/modules/cycle-a.kwe"], { encoding: "utf8" })).rejects.toMatchObject({
+        stderr: expect.stringContaining("Circular dependency"),
+      });
+    },
+    15_000,
+  );
+
+  it(
+    "reports a missing named export",
+    async () => {
+      await expect(execFileAsync(process.execPath, ["dist/cli/index.js", "tests/fixtures/modules/missing-export.kwe"], { encoding: "utf8" })).rejects.toMatchObject({
+        stderr: expect.stringContaining("Missing export"),
+      });
+    },
+    15_000,
+  );
 });

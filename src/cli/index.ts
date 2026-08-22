@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { compile } from "../compiler/compile.js";
+import { compileFile } from "../compiler/compile-file.js";
 import { KwechiriError } from "../errors/kwechiri-error.js";
 import { executeJavaScript } from "../runtime/execute.js";
 
@@ -19,8 +18,7 @@ async function main(arguments_: readonly string[]): Promise<number> {
 
   const absolutePath = resolve(sourcePath);
   try {
-    const source = await readFile(absolutePath, "utf8");
-    executeJavaScript(compile(source, sourcePath), sourcePath);
+    executeJavaScript(await compileFile(absolutePath), sourcePath);
     return 0;
   } catch (error: unknown) {
     if (error instanceof KwechiriError) {

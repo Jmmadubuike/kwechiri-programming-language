@@ -1,11 +1,15 @@
 # Kwechiri project status and remaining roadmap
 
-Last updated: 2026-08-22  
+Last updated: 2026-08-23
 Current version: `0.1.0-development`  
 Current implemented milestone: Milestone 10 — Professional CLI
 
 Certification state: Milestone 10 certified and closed at
-`60944dc77b7a5529a217c4474e56ecd3bb8150ef`
+`60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
+closed at `f248fe0f9c6b561d8c2e73a317aee3c103f24512`.
+
+Current post-milestone work: Core Values & Logic implemented locally and
+awaiting owner review and certification.
 
 Next roadmap milestone: Milestone 11 — Standard library (not begun or authorized)
 
@@ -25,7 +29,9 @@ Kwechiri currently supports:
 
 - UTF-8 `.kwe` source files and Igbo Unicode identifiers
 - `bipụta` output
-- strings, numbers, and booleans
+- strings, numbers, booleans, and explicit `efu` absence
+- Kwechiri-facing Boolean and absence printing
+- Boolean-only `na`, `maọbụ`, and `ọ bụghị` with short-circuit evaluation
 - mutable program variables
 - arithmetic, precedence, grouping, and unary minus
 - strict comparisons and boolean conditions
@@ -262,12 +268,7 @@ the appropriate owner decision and milestone placement.
 
 ### Language design
 
-- comments
-- string escape sequences and multiline strings
-- Unicode normalization policy
-- ASCII alias policy
-- `efu` semantics
-- logical operators: `na`, `maọbụ`, and `ọ bụghị`
+- multiline strings
 - `kwụsị`, `gaa n'ihu`, and `maka`
 - empty arrays
 - collection equality and mutation
@@ -308,7 +309,6 @@ Every future development session should:
 
 ## Exact resume point
 
-The approved Lexical Foundations implementation is awaiting a clean final
-certification decision. Re-run that certification after governance corrections.
-Do not begin the standard library until Milestone 11 receives a separate
-approved contract.
+The approved Core Values & Logic implementation is awaiting owner review and a
+separate final certification. Do not begin the next design packet or the
+standard library until each receives its own approved contract.

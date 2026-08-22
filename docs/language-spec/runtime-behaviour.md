@@ -11,5 +11,10 @@ APIs directly.
 The runtime milestone adds no filesystem, HTTP, database, clock, input,
 environment-variable, or package API.
 
+Language-facing output renders Boolean values as `eziokwu` and `ụgha` and the
+absence value as `efu`, including within printable collections. The initial
+JavaScript backend represents absence using `null`; this is an implementation
+detail, and JavaScript `undefined` is not a Kwechiri value.
+
 **Status: Undecided** — future host capabilities, browser execution policy, and
 standard-library/runtime ownership beyond the implemented operations.

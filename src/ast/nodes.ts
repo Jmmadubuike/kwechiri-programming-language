@@ -20,7 +20,9 @@ export type Expression =
   | UnaryExpression
   | BinaryExpression
   | BooleanLiteral
+  | AbsenceLiteral
   | ComparisonExpression
+  | LogicalExpression
   | CallExpression
   | ArrayLiteral
   | ObjectLiteral
@@ -58,6 +60,11 @@ export interface BooleanLiteral {
   readonly location: SourceLocation;
 }
 
+export interface AbsenceLiteral {
+  readonly kind: "AbsenceLiteral";
+  readonly location: SourceLocation;
+}
+
 export interface VariableReference {
   readonly kind: "VariableReference";
   readonly name: string;
@@ -66,8 +73,16 @@ export interface VariableReference {
 
 export interface UnaryExpression {
   readonly kind: "UnaryExpression";
-  readonly operator: "-";
+  readonly operator: "-" | "ọ bụghị";
   readonly operand: Expression;
+  readonly location: SourceLocation;
+}
+
+export interface LogicalExpression {
+  readonly kind: "LogicalExpression";
+  readonly operator: "na" | "maọbụ";
+  readonly left: Expression;
+  readonly right: Expression;
   readonly location: SourceLocation;
 }
 

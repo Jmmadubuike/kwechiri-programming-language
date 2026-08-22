@@ -23,6 +23,13 @@ afterEach(() => {
 });
 
 describe("Kwechiri CLI integration", () => {
+  it("imports and exports values containing efu without changing module behavior", () => {
+    const directory = temporaryDirectory();
+    writeFileSync(join(directory, "value.kwe"), "bupụ ihe = { uru: efu }", "utf8");
+    writeFileSync(join(directory, "main.kwe"), 'webata { ihe } site na "./value.kwe"\nbipụta(ihe.uru == efu)', "utf8");
+    expect(runCli([join(directory, "main.kwe")])).toEqual({ status: 0, stdout: "eziokwu\n", stderr: "" });
+  });
+
   it("matches module keywords and bindings by NFC while leaving the requested path raw", () => {
     const directory = temporaryDirectory();
     const rawExportKeyword = "bupụ".normalize("NFD");

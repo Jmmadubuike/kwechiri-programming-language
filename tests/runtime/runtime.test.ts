@@ -33,4 +33,20 @@ describe("Kwechiri runtime", () => {
     runtime.print({ aha: "Uche", afọ: 36 }, { line: 1, column: 1, offset: 0 });
     expect(output).toHaveBeenCalledWith('{"aha":"Uche","afọ":36}');
   });
+
+  it("formats booleans and absence with Kwechiri vocabulary at every depth", () => {
+    const output = vi.fn();
+    const runtime = new NodeKwechiriRuntime("values.kwe", output);
+    const location = { line: 1, column: 1, offset: 0 };
+    runtime.print(true, location);
+    runtime.print(false, location);
+    runtime.print(null, location);
+    runtime.print({ ezi: true, ihe: [null, false] }, location);
+    expect(output.mock.calls.map(([value]) => value)).toEqual([
+      "eziokwu",
+      "ụgha",
+      "efu",
+      '{"ezi":eziokwu,"ihe":[efu,ụgha]}',
+    ]);
+  });
 });

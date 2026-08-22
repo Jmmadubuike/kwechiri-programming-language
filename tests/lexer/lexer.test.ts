@@ -126,4 +126,12 @@ describe("tokenize", () => {
       { type: TokenType.Identifier, identity: "biputa" },
     ]);
   });
+
+  it("reserves core value and logical vocabulary with NFC identity", () => {
+    const words = ["efu", "na", "maọbụ", "ọ", "bụghị"];
+    const tokens = tokenize(words.map((word) => word.normalize("NFD")).join(" "));
+    expect(tokens.slice(0, words.length).map((token) => ({ type: token.type, identity: token.canonicalLexeme }))).toEqual(
+      words.map((identity) => ({ type: TokenType.Keyword, identity })),
+    );
+  });
 });

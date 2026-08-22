@@ -47,6 +47,10 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
       current += 1;
       expression = { kind: "BooleanLiteral", value: identity(token) === "eziokwu", location: token.location };
     }
+    else if (token.type === TokenType.Keyword && identity(token) === "efu") {
+      current += 1;
+      expression = { kind: "AbsenceLiteral", location: token.location };
+    }
     else if (token.type === TokenType.LeftParen) {
       current += 1;
       const expression = parseExpression();
@@ -118,6 +122,15 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
         location: operator.location,
       };
     }
+    if (peek().type === TokenType.Keyword && identity(peek()) === "ọ") {
+      const operator = peek();
+      current += 1;
+      const second = consume(TokenType.Keyword, 'A tụrụ anya "bụghị" mgbe "ọ" gasịrị. (Expected "bụghị" after "ọ".)');
+      if (identity(second) !== "bụghị") {
+        throw new KwechiriError('A tụrụ anya "ọ bụghị". (Expected "ọ bụghị".)', second.location, fileName);
+      }
+      return { kind: "UnaryExpression", operator: "ọ bụghị", operand: parseUnary(), location: operator.location };
+    }
     return parsePrimary();
   };
 
@@ -153,17 +166,15 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
     return expression;
   };
 
-  function parseExpression(): Expression {
+  const parseOrdering = (): Expression => {
     let expression = parseAdditive();
-    const comparisonTypes = new Map<TokenType, "==" | "!=" | "<" | "<=" | ">" | ">=">([
-      [TokenType.EqualEqual, "=="],
-      [TokenType.BangEqual, "!="],
+    const orderingTypes = new Map<TokenType, "<" | "<=" | ">" | ">=">([
       [TokenType.Less, "<"],
       [TokenType.LessEqual, "<="],
       [TokenType.Greater, ">"],
       [TokenType.GreaterEqual, ">="],
     ]);
-    const operator = comparisonTypes.get(peek().type);
+    const operator = orderingTypes.get(peek().type);
     if (operator !== undefined) {
       const token = peek();
       current += 1;
@@ -174,13 +185,49 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
         right: parseAdditive(),
         location: token.location,
       };
-      if (comparisonTypes.has(peek().type)) {
+      if (orderingTypes.has(peek().type)) {
         throw new KwechiriError(
-          "Enweghị ike ijikọ ntụnyere. Jiri mkpụrụokwu abụọ kewapụ ha. (Comparison chaining is unsupported.)",
+          "Enweghị ike ijikọ ntụnyere nhazi. (Ordering comparison chaining is unsupported.)",
           peek().location,
           fileName,
         );
       }
+    }
+    return expression;
+  };
+
+  const parseEquality = (): Expression => {
+    let expression = parseOrdering();
+    const equalityTypes = new Map<TokenType, "==" | "!=">([
+      [TokenType.EqualEqual, "=="],
+      [TokenType.BangEqual, "!="],
+    ]);
+    const operator = equalityTypes.get(peek().type);
+    if (operator !== undefined) {
+      const token = peek();
+      current += 1;
+      expression = { kind: "ComparisonExpression", operator, left: expression, right: parseOrdering(), location: token.location };
+      if (equalityTypes.has(peek().type)) {
+        throw new KwechiriError("Enweghị ike ijikọ ntụnyere nha. (Equality chaining is unsupported.)", peek().location, fileName);
+      }
+    }
+    return expression;
+  };
+
+  const parseLogicalAnd = (): Expression => {
+    let expression = parseEquality();
+    while (peek().type === TokenType.Keyword && identity(peek()) === "na") {
+      const operator = peek(); current += 1;
+      expression = { kind: "LogicalExpression", operator: "na", left: expression, right: parseEquality(), location: operator.location };
+    }
+    return expression;
+  };
+
+  function parseExpression(): Expression {
+    let expression = parseLogicalAnd();
+    while (peek().type === TokenType.Keyword && identity(peek()) === "maọbụ") {
+      const operator = peek(); current += 1;
+      expression = { kind: "LogicalExpression", operator: "maọbụ", left: expression, right: parseLogicalAnd(), location: operator.location };
     }
     return expression;
   }

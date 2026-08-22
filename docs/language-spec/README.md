@@ -1,8 +1,7 @@
 # Current Kwechiri language specification
 
-This index describes implemented and approved behaviour after Milestone 9. It
-is normative for the current `0.1.0-development` language together with the
-approved ADRs.
+This index describes current implemented and approved behavior. It is normative
+for the current `0.1.0-development` language together with the approved ADRs.
 
 - [Lexical grammar](lexical-grammar.md)
 - [Syntax overview](syntax.md)

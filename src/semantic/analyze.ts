@@ -55,6 +55,7 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
     if (expression.kind === "StringLiteral") return { kind: "StringLiteral", value: expression.value, valueType: "string" };
     if (expression.kind === "NumberLiteral") return { kind: "NumberLiteral", value: expression.value, valueType: "number" };
     if (expression.kind === "BooleanLiteral") return { kind: "BooleanLiteral", value: expression.value, valueType: "boolean" };
+    if (expression.kind === "AbsenceLiteral") return { kind: "AbsenceLiteral", valueType: "absence" };
     if (expression.kind === "ArrayLiteral") {
       if (expression.elements.length === 0) throw new KwechiriError("Ndepụta efu akwadoghị ugbu a. (Empty arrays are not yet supported.)", expression.location, fileName);
       const elements = expression.elements.map((element) => resolveExpression(element, symbols));
@@ -102,6 +103,10 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
     }
     if (expression.kind === "UnaryExpression") {
       const operand = resolveExpression(expression.operand, symbols);
+      if (expression.operator === "ọ bụghị") {
+        if (operand.valueType !== "boolean") throw new KwechiriError('Akara "ọ bụghị" chọrọ boolean. (Logical negation requires a boolean.)', expression.location, fileName);
+        return { kind: "UnaryExpression", operator: "ọ bụghị", operand, valueType: "boolean" };
+      }
       if (operand.valueType !== "number") throw new KwechiriError('Akara "-" chọrọ ọnụọgụ. (Unary "-" requires a number.)', expression.location, fileName);
       return { kind: "UnaryExpression", operator: "-", operand, valueType: "number" };
     }
@@ -110,6 +115,14 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       const right = resolveExpression(expression.right, symbols);
       if (left.valueType !== "number" || right.valueType !== "number") throw new KwechiriError(`Akara "${expression.operator}" chọrọ ọnụọgụ abụọ. (Arithmetic requires two numbers.)`, expression.location, fileName);
       return { kind: "BinaryExpression", operator: expression.operator, left, right, valueType: "number", location: expression.location };
+    }
+    if (expression.kind === "LogicalExpression") {
+      const left = resolveExpression(expression.left, symbols);
+      const right = resolveExpression(expression.right, symbols);
+      if (left.valueType !== "boolean" || right.valueType !== "boolean") {
+        throw new KwechiriError(`Akara "${expression.operator}" chọrọ boolean abụọ. (Logical operator requires two booleans.)`, expression.location, fileName);
+      }
+      return { kind: "LogicalExpression", operator: expression.operator, left, right, valueType: "boolean" };
     }
     if (expression.kind === "ComparisonExpression") {
       const left = resolveExpression(expression.left, symbols);
@@ -211,11 +224,18 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       const parameters = info.declaration.parameters.map((name, index) => `_kweP${info.generatedName.slice(6)}_${index}`);
       info.declaration.parameters.forEach((name, index) => symbols.set(name, { generatedName: parameters[index] as string, valueType: parameterTypes[index] as ValueType }));
       const result = resolveBlock(info.declaration.body, symbols, true);
-      if (!result.alwaysReturns || result.returnTypes.length === 0) throw new KwechiriError(`Ụzọ niile n'ime ọrụ "${info.declaration.name}" ga-eji "laghachi" kwụsị. (Every path must return.)`, info.declaration.location, fileName);
-      const returnType = result.returnTypes[0] as ValueType;
+      const fallthroughType: ValueType = "absence";
+      if (!result.alwaysReturns && result.returnTypes.some((type) => type !== fallthroughType)) {
+        throw new KwechiriError(`Ụdị nloghachi ọrụ "${info.declaration.name}" adabaghị na efu nke ụzọ na-enweghị "laghachi". (Return type conflicts with fallthrough absence.)`, info.declaration.location, fileName);
+      }
+      const returnType = (result.returnTypes[0] ?? fallthroughType) as ValueType;
       if (result.returnTypes.some((type) => type !== returnType)) throw new KwechiriError(`Ụdị nloghachi ọrụ "${info.declaration.name}" adabaghị. (Return types differ.)`, info.declaration.location, fileName);
       info.signatures.set(signature, returnType);
-      info.resolved ??= { generatedName: info.generatedName, parameters, body: result.statements };
+      const body = result.alwaysReturns ? result.statements : [
+        ...result.statements,
+        { kind: "ReturnStatement", value: { kind: "AbsenceLiteral", valueType: "absence" } } as const,
+      ];
+      info.resolved ??= { generatedName: info.generatedName, parameters, body };
       return returnType;
     } finally { info.analyzing = false; }
   };

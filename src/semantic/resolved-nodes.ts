@@ -19,7 +19,9 @@ export type ResolvedExpression =
   | ResolvedUnaryExpression
   | ResolvedBinaryExpression
   | ResolvedBooleanLiteral
+  | ResolvedAbsenceLiteral
   | ResolvedComparisonExpression
+  | ResolvedLogicalExpression
   | ResolvedCallExpression
   | ResolvedArrayLiteral
   | ResolvedObjectLiteral
@@ -60,9 +62,17 @@ export interface ResolvedVariableReference {
 
 export interface ResolvedUnaryExpression {
   readonly kind: "UnaryExpression";
-  readonly operator: "-";
+  readonly operator: "-" | "ọ bụghị";
   readonly operand: ResolvedExpression;
-  readonly valueType: "number";
+  readonly valueType: "number" | "boolean";
+}
+
+export interface ResolvedLogicalExpression {
+  readonly kind: "LogicalExpression";
+  readonly operator: "na" | "maọbụ";
+  readonly left: ResolvedExpression;
+  readonly right: ResolvedExpression;
+  readonly valueType: "boolean";
 }
 
 export interface ResolvedBinaryExpression {
@@ -78,6 +88,11 @@ export interface ResolvedBooleanLiteral {
   readonly kind: "BooleanLiteral";
   readonly value: boolean;
   readonly valueType: "boolean";
+}
+
+export interface ResolvedAbsenceLiteral {
+  readonly kind: "AbsenceLiteral";
+  readonly valueType: "absence";
 }
 
 export interface ResolvedComparisonExpression {

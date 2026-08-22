@@ -7,15 +7,19 @@ const locationCode = (location: SourceLocation): string =>
 function generateExpression(expression: ResolvedExpression): string {
   if (expression.kind === "StringLiteral") return JSON.stringify(expression.value);
   if (expression.kind === "NumberLiteral" || expression.kind === "BooleanLiteral") return String(expression.value);
+  if (expression.kind === "AbsenceLiteral") return "null";
   if (expression.kind === "VariableReference") return expression.generatedName;
   if (expression.kind === "CallExpression") return `${expression.generatedName}(${expression.arguments.map(generateExpression).join(", ")})`;
   if (expression.kind === "ArrayLiteral") return `[${expression.elements.map(generateExpression).join(", ")}]`;
   if (expression.kind === "ObjectLiteral") return `{${expression.fields.map((field) => `${JSON.stringify(field.name)}: ${generateExpression(field.value)}`).join(", ")}}`;
   if (expression.kind === "IndexExpression") return `_kweRuntime.index(${generateExpression(expression.collection)}, ${generateExpression(expression.index)}, ${locationCode(expression.location)})`;
   if (expression.kind === "PropertyAccessExpression") return `${generateExpression(expression.object)}[${JSON.stringify(expression.property)}]`;
-  if (expression.kind === "UnaryExpression") return `(-${generateExpression(expression.operand)})`;
+  if (expression.kind === "UnaryExpression") return expression.operator === "-"
+    ? `(-${generateExpression(expression.operand)})`
+    : `(!${generateExpression(expression.operand)})`;
   const left = generateExpression(expression.left);
   const right = generateExpression(expression.right);
+  if (expression.kind === "LogicalExpression") return `(${left} ${expression.operator === "na" ? "&&" : "||"} ${right})`;
   if (expression.kind === "BinaryExpression" && expression.operator === "/") return `_kweRuntime.divide(${left}, ${right}, ${locationCode(expression.location)})`;
   const operator = expression.kind === "ComparisonExpression" && expression.operator === "==" ? "==="
     : expression.kind === "ComparisonExpression" && expression.operator === "!=" ? "!==" : expression.operator;

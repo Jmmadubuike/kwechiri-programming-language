@@ -1,5 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { compile } from "../../src/compiler/compile.js";
+import { tokenize } from "../../src/lexer/lexer.js";
+import { parse } from "../../src/parser/parser.js";
 import { executeJavaScript } from "../../src/runtime/execute.js";
 
 describe("compiler", () => {
@@ -140,9 +142,9 @@ describe("compiler", () => {
     );
   });
 
-  it("requires every function path to return", () => {
+  it("rejects concrete returns mixed with implicit fallthrough absence", () => {
     expect(() => compile("ọrụ họrọ(x) { ọ bụrụ (x > 0) { laghachi x } }\nbipụta(họrọ(1))", "functions.kwe")).toThrow(
-      /Every path must return/,
+      /Return type conflicts with fallthrough absence/,
     );
   });
 
@@ -216,5 +218,117 @@ describe("compiler", () => {
     const decomposed = "họrọ".normalize("NFD");
     expect(() => compile(`ọrụ họrọ() { laghachi 1 }\nọrụ ${decomposed}() { laghachi 2 }`)).toThrow(/Duplicate function/);
     expect(() => compile("Aha = 1\naha = 2\nbipụta(Aha + aha)")).not.toThrow();
+  });
+
+  it("parses efu as an explicit absence literal", () => {
+    const program = parse(tokenize("bipụta(efu)"));
+    expect(program.statements[0]).toMatchObject({ kind: "PrintStatement", value: { kind: "AbsenceLiteral" } });
+  });
+
+  it("prints booleans and efu using Kwechiri vocabulary", () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile("bipụta(eziokwu)\nbipụta(ụgha)\nbipụta(efu)"));
+    expect(log.mock.calls.map(([value]) => value)).toEqual(["eziokwu", "ụgha", "efu"]);
+    log.mockRestore();
+  });
+
+  it("supports efu assignment and strict equality with primitive values", () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile('x = efu\nbipụta(x == efu)\nbipụta(efu != efu)\nbipụta(1 == efu)\nbipụta("x" != efu)'));
+    expect(log.mock.calls.map(([value]) => value)).toEqual(["eziokwu", "ụgha", "ụgha", "eziokwu"]);
+    log.mockRestore();
+  });
+
+  it("rejects arithmetic, ordering, conditions, and logical operations with efu", () => {
+    expect(() => compile("bipụta(efu + 1)")).toThrow(/Arithmetic requires two numbers/);
+    expect(() => compile("bipụta(efu < 1)")).toThrow(/Ordering requires two numbers/);
+    expect(() => compile("ọ bụrụ (efu) { bipụta(1) }")).toThrow(/condition must be boolean/i);
+    expect(() => compile("bipụta(efu na eziokwu)")).toThrow(/requires two booleans/);
+    expect(() => compile("bipụta(eziokwu maọbụ efu)")).toThrow(/requires two booleans/);
+    expect(() => compile("bipụta(ọ bụghị efu)")).toThrow(/requires a boolean/);
+  });
+
+  it("returns efu from function fallthrough and supports explicit laghachi efu", () => {
+    const source = 'ọrụ meeIhe() { bipụta("Ndewo") }\nọrụ nyeEfu() { laghachi efu }\nbipụta(meeIhe())\nbipụta(nyeEfu())';
+    const javaScript = compile(source);
+    expect(javaScript).toContain("return null;");
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(javaScript);
+    expect(log.mock.calls.map(([value]) => value)).toEqual(["Ndewo", "efu", "efu"]);
+    log.mockRestore();
+  });
+
+  it("rejects concrete return values mixed with fallthrough efu", () => {
+    expect(() => compile("ọrụ nwalee(x) { ọ bụrụ (x) { laghachi 10 } }\nbipụta(nwalee(eziokwu))")).toThrow(
+      /Return type conflicts with fallthrough absence/,
+    );
+  });
+
+  it("supports homogeneous efu arrays and explicit efu object properties", () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile("a = [efu, efu]\no = { uru: efu, ezi: eziokwu }\nbipụta(a)\nbipụta(o)"));
+    expect(log.mock.calls.map(([value]) => value)).toEqual(["[efu,efu]", '{"uru":efu,"ezi":eziokwu}']);
+    log.mockRestore();
+    expect(() => compile("a = [efu, 1]")).toThrow(/Array elements must share a type/);
+    expect(() => compile("o = { uru: efu }\nbipụta(o.aha)")).toThrow(/Missing property/);
+  });
+
+  it("implements complete Boolean truth tables for na and maọbụ", () => {
+    const source = [
+      "bipụta(eziokwu na eziokwu)", "bipụta(eziokwu na ụgha)",
+      "bipụta(ụgha na eziokwu)", "bipụta(ụgha na ụgha)",
+      "bipụta(eziokwu maọbụ eziokwu)", "bipụta(eziokwu maọbụ ụgha)",
+      "bipụta(ụgha maọbụ eziokwu)", "bipụta(ụgha maọbụ ụgha)",
+    ].join("\n");
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile(source));
+    expect(log.mock.calls.map(([value]) => value)).toEqual([
+      "eziokwu", "ụgha", "ụgha", "ụgha", "eziokwu", "eziokwu", "eziokwu", "ụgha",
+    ]);
+    log.mockRestore();
+  });
+
+  it("requires Boolean operands for na, maọbụ, and ọ bụghị with located diagnostics", () => {
+    expect(() => compile("bipụta(5 na eziokwu)", "logic.kwe")).toThrow(/logic\.kwe:1:10:.*requires two booleans/);
+    expect(() => compile('bipụta("Ndewo" maọbụ eziokwu)', "logic.kwe")).toThrow(/requires two booleans/);
+    expect(() => compile("bipụta(ọ bụghị 10)", "logic.kwe")).toThrow(/logic\.kwe:1:8:.*requires a boolean/);
+  });
+
+  it("short-circuits logical expressions left-to-right", () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    expect(() => executeJavaScript(compile("bipụta(ụgha na (10 / 0 == 1))"))).not.toThrow();
+    expect(() => executeJavaScript(compile("bipụta(eziokwu maọbụ (10 / 0 == 1))"))).not.toThrow();
+    expect(() => executeJavaScript(compile("bipụta(eziokwu na (10 / 0 == 1))"))).toThrow(/Division by zero/);
+    expect(() => executeJavaScript(compile("bipụta(ụgha maọbụ (10 / 0 == 1))"))).toThrow(/Division by zero/);
+    log.mockRestore();
+  });
+
+  it("implements right-associated negation and approved logical precedence", () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile("bipụta(ọ bụghị eziokwu maọbụ eziokwu na ụgha)\nbipụta(ọ bụghị (eziokwu maọbụ eziokwu) na ụgha)\nbipụta(ọ bụghị ọ bụghị eziokwu)"));
+    expect(log.mock.calls.map(([value]) => value)).toEqual(["ụgha", "ụgha", "eziokwu"]);
+    log.mockRestore();
+  });
+
+  it("separates ordering and equality precedence without permitting same-tier chains", () => {
+    expect(compile("bipụta(1 < 2 == eziokwu)")).toContain("((1 < 2) === true)");
+    expect(() => compile("bipụta(1 < 2 < 3)")).toThrow(/Ordering comparison chaining is unsupported/);
+    expect(() => compile("bipụta(1 == 1 != ụgha)")).toThrow(/Equality chaining is unsupported/);
+  });
+
+  it("parses na and maọbụ with left associativity", () => {
+    const program = parse(tokenize("bipụta(eziokwu na ụgha na eziokwu maọbụ ụgha maọbụ eziokwu)"));
+    expect(program.statements[0]).toMatchObject({
+      value: {
+        kind: "LogicalExpression",
+        operator: "maọbụ",
+        left: { kind: "LogicalExpression", operator: "maọbụ", left: { kind: "LogicalExpression", operator: "na" } },
+      },
+    });
+  });
+
+  it("rejects malformed negation and reserved vocabulary as assignment names", () => {
+    expect(() => compile("bipụta(ọ eziokwu)", "logic.kwe")).toThrow(/Expected "ọ bụghị"/);
+    for (const name of ["efu", "maọbụ", "bụghị"]) expect(() => compile(`${name} = 1`)).toThrow();
   });
 });

@@ -18,5 +18,7 @@ decision and a new or amended record.
 | [ADR-011](ADR-011-runtime-boundary.md) | Runtime boundary |
 | [ADR-012](ADR-012-unicode-identifiers.md) | Implemented Unicode identifiers |
 | [ADR-013](ADR-013-cli-contract.md) | Professional CLI contract |
+| [ADR-014](ADR-014-lexical-foundations.md) | Comments, escapes, and NFC name identity |
 
-ADR-012 does not decide Unicode normalization or ASCII aliases.
+ADR-014 settles the normalization and ASCII-alias questions left open by
+ADR-012. It does not settle the final identifier code-point profile.

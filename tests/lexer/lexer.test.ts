@@ -86,4 +86,44 @@ describe("tokenize", () => {
     expect(types).toContain(TokenType.Colon);
     expect(types).toContain(TokenType.Dot);
   });
+
+  it("ignores adjacent, Unicode, empty, and EOF line comments while preserving division", () => {
+    const tokens = tokenize('aha=8// okwu: ịọụ 😀\n//\nọzọ=aha/2//EOF');
+    expect(tokens.map((token) => token.lexeme)).toEqual(["aha", "=", "8", "ọzọ", "=", "aha", "/", "2", ""]);
+    expect(tokens[3]?.location).toMatchObject({ line: 3, column: 1 });
+  });
+
+  it("does not interpret comment markers inside strings", () => {
+    expect(tokenize('bipụta("https://example.test//x")')[2]?.literal).toBe("https://example.test//x");
+  });
+
+  it("decodes the five approved string escapes and preserves the raw lexeme", () => {
+    const source = String.raw`"a\nb\tc\rd\\e\"f"`;
+    const token = tokenize(source)[0];
+    expect(token?.literal).toBe('a\nb\tc\rd\\e"f');
+    expect(token?.lexeme).toBe(source);
+  });
+
+  it("rejects unknown and trailing escapes at the backslash location", () => {
+    expect(() => tokenize('"x\\q"', "escape.kwe")).toThrow(/escape\.kwe:1:3:.*Unknown escape sequence/);
+    expect(() => tokenize('"x\\', "escape.kwe")).toThrow(/escape\.kwe:1:3:.*Unterminated escape sequence/);
+  });
+
+  it("retains raw spelling and offsets while exposing NFC identity", () => {
+    const rawKeyword = "bipụta".normalize("NFD");
+    const rawName = "ụbọchị".normalize("NFD");
+    const tokens = tokenize(`${rawKeyword}(${rawName})`);
+    expect(tokens[0]).toMatchObject({ type: TokenType.Keyword, lexeme: rawKeyword, canonicalLexeme: "bipụta" });
+    expect(tokens[2]).toMatchObject({ type: TokenType.Identifier, lexeme: rawName, canonicalLexeme: "ụbọchị" });
+    expect(tokens[1]?.location.offset).toBe(rawKeyword.length);
+  });
+
+  it("keeps identifiers case-sensitive and does not introduce ASCII aliases", () => {
+    const tokens = tokenize("Aha aha biputa");
+    expect(tokens.slice(0, 3).map((token) => ({ type: token.type, identity: token.canonicalLexeme }))).toEqual([
+      { type: TokenType.Identifier, identity: "Aha" },
+      { type: TokenType.Identifier, identity: "aha" },
+      { type: TokenType.Identifier, identity: "biputa" },
+    ]);
+  });
 });

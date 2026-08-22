@@ -31,6 +31,7 @@ export enum TokenType {
 export interface Token {
   readonly type: TokenType;
   readonly lexeme: string;
+  readonly canonicalLexeme?: string;
   readonly literal?: string | number;
   readonly location: SourceLocation;
 }

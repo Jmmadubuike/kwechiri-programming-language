@@ -23,6 +23,32 @@ afterEach(() => {
 });
 
 describe("Kwechiri CLI integration", () => {
+  it("matches module keywords and bindings by NFC while leaving the requested path raw", () => {
+    const directory = temporaryDirectory();
+    const rawExportKeyword = "bupụ".normalize("NFD");
+    const rawImportKeyword = "webata".normalize("NFD");
+    const rawSiteKeyword = "site".normalize("NFD");
+    const rawNaKeyword = "na".normalize("NFD");
+    const rawName = "ụbọchị".normalize("NFD");
+    const rawFileName = `${"ọrụ".normalize("NFD")}.kwe`;
+    writeFileSync(join(directory, rawFileName), `${rawExportKeyword} ${rawName} = "Mọnde"`, "utf8");
+    writeFileSync(
+      join(directory, "main.kwe"),
+      `// comment before imports\n${rawImportKeyword} { ụbọchị } ${rawSiteKeyword} ${rawNaKeyword} "./${rawFileName}"// trailing comment\nbipụta(ụbọchị)`,
+      "utf8",
+    );
+    expect(runCli([join(directory, "main.kwe")])).toEqual({ status: 0, stdout: "Mọnde\n", stderr: "" });
+  });
+
+  it("keeps module import and export names case-sensitive", () => {
+    const directory = temporaryDirectory();
+    writeFileSync(join(directory, "value.kwe"), "bupụ Aha = 1", "utf8");
+    writeFileSync(join(directory, "main.kwe"), 'webata { aha } site na "./value.kwe"\nbipụta(aha)', "utf8");
+    const result = runCli(["check", join(directory, "main.kwe")]);
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('Missing export');
+  });
+
   it("preserves shorthand and makes run equivalent without generated output", () => {
     const directory = temporaryDirectory();
     const source = join(directory, "hello.kwe");

@@ -197,4 +197,24 @@ describe("compiler", () => {
     expect(log).toHaveBeenCalledWith("[1,2]");
     log.mockRestore();
   });
+
+  it("executes comments, decoded escapes, and canonically equivalent variable names", () => {
+    const assigned = "ụbọchị".normalize("NFD");
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile(`${assigned} = "Mọnde\\nỤtụtụ"// nkọwa\nbipụta(ụbọchị)`));
+    expect(log).toHaveBeenCalledWith("Mọnde\nỤtụtụ");
+    log.mockRestore();
+  });
+
+  it("uses NFC identity for functions and object properties", () => {
+    const functionName = "gbakọọ".normalize("NFD");
+    const propertyName = "ụbọchị".normalize("NFD");
+    expect(() => compile(`ọrụ ${functionName}(x) { laghachi x }\no = { ${propertyName}: 1 }\nbipụta(gbakọọ(o.ụbọchị))`)).not.toThrow();
+  });
+
+  it("rejects canonically duplicate function declarations but preserves case distinctions", () => {
+    const decomposed = "họrọ".normalize("NFD");
+    expect(() => compile(`ọrụ họrọ() { laghachi 1 }\nọrụ ${decomposed}() { laghachi 2 }`)).toThrow(/Duplicate function/);
+    expect(() => compile("Aha = 1\naha = 2\nbipụta(Aha + aha)")).not.toThrow();
+  });
 });

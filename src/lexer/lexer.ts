@@ -40,6 +40,12 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
       ">=": TokenType.GreaterEqual,
     };
     const pair = source.slice(offset, offset + 2);
+    if (pair === "//") {
+      while (current() !== undefined && current() !== "\n") {
+        advance();
+      }
+      continue;
+    }
     const pairType = twoCharacterTokens[pair];
     if (pairType !== undefined) {
       advance();
@@ -81,6 +87,31 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
         if (current() === "\n") {
           throw new KwechiriError("Eriri ederede enweghị ike ịgafe ahịrị. (A string cannot cross a line.)", start, fileName);
         }
+        if (current() === "\\") {
+          const escapeLocation = location();
+          advance();
+          const escaped = current();
+          if (escaped === undefined) {
+            throw new KwechiriError("Usoro mgbapụ emechighị. (Unterminated escape sequence.)", escapeLocation, fileName);
+          }
+          if (escaped === "\n") {
+            throw new KwechiriError("Eriri ederede enweghị ike ịgafe ahịrị. (A string cannot cross a line.)", escapeLocation, fileName);
+          }
+          const escapes: Readonly<Record<string, string>> = {
+            n: "\n",
+            t: "\t",
+            r: "\r",
+            "\\": "\\",
+            '"': '"',
+          };
+          const decoded = escapes[escaped];
+          if (decoded === undefined) {
+            throw new KwechiriError(`Usoro mgbapụ amaghị: "\\${escaped}". (Unknown escape sequence.)`, escapeLocation, fileName);
+          }
+          advance();
+          value += decoded;
+          continue;
+        }
         value += advance();
       }
       advance();
@@ -118,9 +149,11 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
       while (current() !== undefined && identifierContinue.test(current() as string)) {
         value += advance();
       }
+      const canonicalValue = value.normalize("NFC");
       tokens.push({
-        type: keywords.has(value) ? TokenType.Keyword : TokenType.Identifier,
+        type: keywords.has(canonicalValue) ? TokenType.Keyword : TokenType.Identifier,
         lexeme: value,
+        canonicalLexeme: canonicalValue,
         location: start,
       });
       continue;

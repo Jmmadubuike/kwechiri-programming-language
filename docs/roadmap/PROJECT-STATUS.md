@@ -4,9 +4,10 @@ Last updated: 2026-08-22
 Current version: `0.1.0-development`  
 Current implemented milestone: Milestone 10 — Professional CLI
 
-Certification state: pending owner review
+Certification state: Milestone 10 certified and closed at
+`60944dc77b7a5529a217c4474e56ecd3bb8150ef`
 
-Next milestone after certification: Milestone 11 — Standard library
+Next roadmap milestone: Milestone 11 — Standard library (not begun or authorized)
 
 ## Purpose
 
@@ -144,11 +145,12 @@ Completed and governed by ADR-011:
 - categorized and located runtime errors
 - isolated program execution
 
-## Current milestone
+## Latest completed milestone
 
 ### Milestone 10 — Professional CLI
 
-Status: implemented locally; final owner review and certification pending.
+Status: certified, committed, pushed, and closed at
+`60944dc77b7a5529a217c4474e56ecd3bb8150ef`.
 
 Implemented commands:
 
@@ -189,7 +191,7 @@ Certification validation:
 - output overwrite protection tests
 - module-graph checks through `run`, `check`, and `compile`
 
-Milestone 11 must not begin until Milestone 10 receives explicit certification.
+Milestone 11 has not begun and requires a separate approved contract.
 
 The Milestone 10 local implementation gate passes with 67 automated tests,
 linting, strict source/test type checking, a production build, and direct
@@ -306,7 +308,7 @@ Every future development session should:
 
 ## Exact resume point
 
-Unless the project owner changes priorities, the next session should review the
-Milestone 10 implementation and validation evidence. Do not begin the standard
-library until Milestone 10 is explicitly certified and Milestone 11 receives a
-separate approved contract.
+The approved Lexical Foundations implementation is awaiting a clean final
+certification decision. Re-run that certification after governance corrections.
+Do not begin the standard library until Milestone 11 receives a separate
+approved contract.

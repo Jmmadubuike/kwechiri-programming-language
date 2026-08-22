@@ -4,6 +4,7 @@ import { TokenType, type Token } from "../lexer/token.js";
 
 export function parse(tokens: readonly Token[], fileName?: string): Program {
   let current = 0;
+  const identity = (token: Token): string => token.canonicalLexeme ?? token.lexeme;
   const peek = (): Token => tokens[current] as Token;
   const consume = (type: TokenType, message: string): Token => {
     const token = peek();
@@ -27,7 +28,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
     }
     else if (token.type === TokenType.Identifier) {
       current += 1;
-      expression = { kind: "VariableReference", name: token.lexeme, location: token.location };
+      expression = { kind: "VariableReference", name: identity(token), location: token.location };
       if (peek().type === TokenType.LeftParen) {
         current += 1;
         const arguments_: Expression[] = [];
@@ -39,12 +40,12 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
           } while (true);
         }
         consume(TokenType.RightParen, 'A tụrụ anya ")" mgbe argument gasịrị.');
-        expression = { kind: "CallExpression", callee: token.lexeme, arguments: arguments_, location: token.location };
+        expression = { kind: "CallExpression", callee: identity(token), arguments: arguments_, location: token.location };
       }
     }
-    else if (token.type === TokenType.Keyword && (token.lexeme === "eziokwu" || token.lexeme === "ụgha")) {
+    else if (token.type === TokenType.Keyword && (identity(token) === "eziokwu" || identity(token) === "ụgha")) {
       current += 1;
-      expression = { kind: "BooleanLiteral", value: token.lexeme === "eziokwu", location: token.location };
+      expression = { kind: "BooleanLiteral", value: identity(token) === "eziokwu", location: token.location };
     }
     else if (token.type === TokenType.LeftParen) {
       current += 1;
@@ -70,7 +71,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
         do {
           const name = consume(TokenType.Identifier, "A tụrụ anya aha property.");
           consume(TokenType.Colon, 'A tụrụ anya ":" mgbe aha property gasịrị.');
-          fields.push({ name: name.lexeme, value: parseExpression(), location: name.location });
+          fields.push({ name: identity(name), value: parseExpression(), location: name.location });
           if (peek().type !== TokenType.Comma) break;
           current += 1;
         } while (true);
@@ -100,7 +101,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
       if (peek().type === TokenType.Dot) {
         const dot = peek(); current += 1;
         const property = consume(TokenType.Identifier, "A tụrụ anya aha property mgbe ntụpọ gasịrị.");
-        expression = { kind: "PropertyAccessExpression", object: expression, property: property.lexeme, location: dot.location };
+        expression = { kind: "PropertyAccessExpression", object: expression, property: identity(property), location: dot.location };
         continue;
       }
       return expression;
@@ -200,33 +201,33 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
       consume(TokenType.Equals, 'A tụrụ anya "=" mgbe aha mgbanwe gasịrị.');
       return {
         kind: "VariableAssignment",
-        name: name.lexeme,
+        name: identity(name),
         value: parseExpression(),
         location: name.location,
       };
     }
 
     const keyword = consume(TokenType.Keyword, 'A tụrụ anya "bipụta", "ọ bụrụ", maọbụ aha mgbanwe.');
-    if (keyword.lexeme === "ọrụ") {
+    if (identity(keyword) === "ọrụ") {
       const name = consume(TokenType.Identifier, 'A tụrụ anya aha ọrụ. (Expected a function name.)');
       consume(TokenType.LeftParen, 'A tụrụ anya "(" mgbe aha ọrụ gasịrị.');
       const parameters: string[] = [];
       if (peek().type !== TokenType.RightParen) {
         do {
-          parameters.push(consume(TokenType.Identifier, "A tụrụ anya aha parameter.").lexeme);
+          parameters.push(identity(consume(TokenType.Identifier, "A tụrụ anya aha parameter.")));
           if (peek().type !== TokenType.Comma) break;
           current += 1;
         } while (true);
       }
       consume(TokenType.RightParen, 'A tụrụ anya ")" mgbe parameter gasịrị.');
-      return { kind: "FunctionDeclaration", name: name.lexeme, parameters, body: parseBlock(), location: keyword.location };
+      return { kind: "FunctionDeclaration", name: identity(name), parameters, body: parseBlock(), location: keyword.location };
     }
-    if (keyword.lexeme === "laghachi") {
+    if (identity(keyword) === "laghachi") {
       return { kind: "ReturnStatement", value: parseExpression(), location: keyword.location };
     }
-    if (keyword.lexeme === "ọ") {
+    if (identity(keyword) === "ọ") {
       const bụrụ = consume(TokenType.Keyword, 'A tụrụ anya "bụrụ" mgbe "ọ" gasịrị.');
-      if (bụrụ.lexeme !== "bụrụ") {
+      if (identity(bụrụ) !== "bụrụ") {
         throw new KwechiriError('A tụrụ anya "ọ bụrụ". (Expected "ọ bụrụ".)', bụrụ.location, fileName);
       }
       consume(TokenType.LeftParen, 'A tụrụ anya "(" mgbe "ọ bụrụ" gasịrị.');
@@ -234,7 +235,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
       consume(TokenType.RightParen, 'A tụrụ anya ")" mgbe ọnọdụ gasịrị.');
       const thenBranch = parseBlock();
       let elseBranch: readonly Statement[] | undefined;
-      if (peek().type === TokenType.Keyword && peek().lexeme === "ọzọ") {
+      if (peek().type === TokenType.Keyword && identity(peek()) === "ọzọ") {
         current += 1;
         elseBranch = parseBlock();
       }
@@ -246,7 +247,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
         location: keyword.location,
       };
     }
-    if (keyword.lexeme === "mgbe") {
+    if (identity(keyword) === "mgbe") {
       consume(TokenType.LeftParen, 'A tụrụ anya "(" mgbe "mgbe" gasịrị.');
       const condition = parseExpression();
       consume(TokenType.RightParen, 'A tụrụ anya ")" mgbe ọnọdụ gasịrị.');
@@ -257,7 +258,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
         location: keyword.location,
       };
     }
-    if (keyword.lexeme !== "bipụta") {
+    if (identity(keyword) !== "bipụta") {
       throw new KwechiriError(`Okwu iwu a akwadoghị: "${keyword.lexeme}".`, keyword.location, fileName);
     }
     consume(TokenType.LeftParen, 'A tụrụ anya "(" mgbe "bipụta" gasịrị.');

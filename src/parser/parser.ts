@@ -16,16 +16,18 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
 
   const parsePrimary = (): Expression => {
     const token = peek();
+    let expression: Expression;
     if (token.type === TokenType.String) {
       current += 1;
-      return { kind: "StringLiteral", value: token.literal as string, location: token.location };
+      expression = { kind: "StringLiteral", value: token.literal as string, location: token.location };
     }
-    if (token.type === TokenType.Number) {
+    else if (token.type === TokenType.Number) {
       current += 1;
-      return { kind: "NumberLiteral", value: token.literal as number, location: token.location };
+      expression = { kind: "NumberLiteral", value: token.literal as number, location: token.location };
     }
-    if (token.type === TokenType.Identifier) {
+    else if (token.type === TokenType.Identifier) {
       current += 1;
+      expression = { kind: "VariableReference", name: token.lexeme, location: token.location };
       if (peek().type === TokenType.LeftParen) {
         current += 1;
         const arguments_: Expression[] = [];
@@ -37,25 +39,72 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
           } while (true);
         }
         consume(TokenType.RightParen, 'A tụrụ anya ")" mgbe argument gasịrị.');
-        return { kind: "CallExpression", callee: token.lexeme, arguments: arguments_, location: token.location };
+        expression = { kind: "CallExpression", callee: token.lexeme, arguments: arguments_, location: token.location };
       }
-      return { kind: "VariableReference", name: token.lexeme, location: token.location };
     }
-    if (token.type === TokenType.Keyword && (token.lexeme === "eziokwu" || token.lexeme === "ụgha")) {
+    else if (token.type === TokenType.Keyword && (token.lexeme === "eziokwu" || token.lexeme === "ụgha")) {
       current += 1;
-      return { kind: "BooleanLiteral", value: token.lexeme === "eziokwu", location: token.location };
+      expression = { kind: "BooleanLiteral", value: token.lexeme === "eziokwu", location: token.location };
     }
-    if (token.type === TokenType.LeftParen) {
+    else if (token.type === TokenType.LeftParen) {
       current += 1;
       const expression = parseExpression();
       consume(TokenType.RightParen, 'A tụrụ anya ")" mgbe expression gasịrị.');
+      return parsePostfix(expression);
+    } else if (token.type === TokenType.LeftBracket) {
+      current += 1;
+      const elements: Expression[] = [];
+      if (peek().type !== TokenType.RightBracket) {
+        do {
+          elements.push(parseExpression());
+          if (peek().type !== TokenType.Comma) break;
+          current += 1;
+        } while (true);
+      }
+      consume(TokenType.RightBracket, 'A tụrụ anya "]".');
+      expression = { kind: "ArrayLiteral", elements, location: token.location };
+    } else if (token.type === TokenType.LeftBrace) {
+      current += 1;
+      const fields: { name: string; value: Expression; location: typeof token.location }[] = [];
+      if (peek().type !== TokenType.RightBrace) {
+        do {
+          const name = consume(TokenType.Identifier, "A tụrụ anya aha property.");
+          consume(TokenType.Colon, 'A tụrụ anya ":" mgbe aha property gasịrị.');
+          fields.push({ name: name.lexeme, value: parseExpression(), location: name.location });
+          if (peek().type !== TokenType.Comma) break;
+          current += 1;
+        } while (true);
+      }
+      consume(TokenType.RightBrace, 'A tụrụ anya "}".');
+      expression = { kind: "ObjectLiteral", fields, location: token.location };
+    } else {
+      throw new KwechiriError(
+        "A tụrụ anya ederede, ọnụọgụ, boolean, collection, maọbụ aha mgbanwe.",
+        token.location,
+        fileName,
+      );
+    }
+    return parsePostfix(expression);
+  };
+
+  const parsePostfix = (initial: Expression): Expression => {
+    let expression = initial;
+    while (true) {
+      if (peek().type === TokenType.LeftBracket) {
+        const bracket = peek(); current += 1;
+        const index = parseExpression();
+        consume(TokenType.RightBracket, 'A tụrụ anya "]".');
+        expression = { kind: "IndexExpression", collection: expression, index, location: bracket.location };
+        continue;
+      }
+      if (peek().type === TokenType.Dot) {
+        const dot = peek(); current += 1;
+        const property = consume(TokenType.Identifier, "A tụrụ anya aha property mgbe ntụpọ gasịrị.");
+        expression = { kind: "PropertyAccessExpression", object: expression, property: property.lexeme, location: dot.location };
+        continue;
+      }
       return expression;
     }
-    throw new KwechiriError(
-      "A tụrụ anya ederede, ọnụọgụ, maọbụ aha mgbanwe. (Expected a string, number, or variable.)",
-      token.location,
-      fileName,
-    );
   };
 
   const parseUnary = (): Expression => {

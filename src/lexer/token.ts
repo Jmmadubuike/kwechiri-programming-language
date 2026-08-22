@@ -21,6 +21,10 @@ export enum TokenType {
   Greater = "Greater",
   GreaterEqual = "GreaterEqual",
   Comma = "Comma",
+  LeftBracket = "LeftBracket",
+  RightBracket = "RightBracket",
+  Colon = "Colon",
+  Dot = "Dot",
   EndOfFile = "EndOfFile",
 }
 

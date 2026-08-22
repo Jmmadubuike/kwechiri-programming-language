@@ -161,4 +161,40 @@ describe("compiler", () => {
   it("does not invent argument types for an uncalled function", () => {
     expect(() => compile('ọrụ họrọ(x) { ọ bụrụ (x) { laghachi "ee" } ọzọ { laghachi "mba" } }')).not.toThrow();
   });
+
+  it("compiles arrays, objects, indexing, and property access", () => {
+    const source = 'ahaNdị = ["Uche", "Ada"]\nmmadụ = { aha: ahaNdị[0], afọ: 36 }\nbipụta(mmadụ.aha)';
+    const output = compile(source);
+    expect(output).toContain('let _kwe0 = ["Uche", "Ada"];');
+    expect(output).toContain('let _kwe1 = {"aha": _kweIndex(_kwe0, 0), "afọ": 36};');
+    expect(output).toContain('console.log(_kwe1["aha"]);');
+  });
+
+  it("rejects heterogeneous and empty arrays", () => {
+    expect(() => compile('a = [1, "abụọ"]')).toThrow(/Array elements must share a type/);
+    expect(() => compile("a = []")).toThrow(/Empty arrays are not yet supported/);
+  });
+
+  it("rejects known out-of-range indexes and missing properties", () => {
+    expect(() => compile("a = [1, 2]\nbipụta(a[2])")).toThrow(/Array index out of range/);
+    expect(() => compile('a = { aha: "Uche" }\nbipụta(a.afọ)')).toThrow(/Missing property/);
+  });
+
+  it("rejects collection equality", () => {
+    expect(() => compile("a = [1]\nb = [1]\nbipụta(a == b)")).toThrow(/Collection equality is not yet supported/);
+  });
+
+  it("guards dynamic indexes at runtime", () => {
+    const javaScript = compile("a = [1, 2]\ni = 3\nbipụta(a[i])");
+    expect(() => executeJavaScript(javaScript)).toThrow(/Array index out of range/);
+  });
+
+  it("emits collection formatting support for nested print statements", () => {
+    const javaScript = compile("a = [1, 2]\nọ bụrụ (eziokwu) { bipụta(a) }");
+    expect(javaScript).toContain("function _kweFormat");
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(javaScript);
+    expect(log).toHaveBeenCalledWith("[1,2]");
+    log.mockRestore();
+  });
 });

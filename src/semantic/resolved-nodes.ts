@@ -11,7 +11,7 @@ export type ResolvedStatement =
   | ResolvedConditionalStatement
   | ResolvedLoopStatement
   | ResolvedReturnStatement;
-export type ValueType = "string" | "number" | "boolean";
+export type ValueType = string;
 export type ResolvedExpression =
   | ResolvedStringLiteral
   | ResolvedNumberLiteral
@@ -20,7 +20,11 @@ export type ResolvedExpression =
   | ResolvedBinaryExpression
   | ResolvedBooleanLiteral
   | ResolvedComparisonExpression
-  | ResolvedCallExpression;
+  | ResolvedCallExpression
+  | ResolvedArrayLiteral
+  | ResolvedObjectLiteral
+  | ResolvedIndexExpression
+  | ResolvedPropertyAccessExpression;
 
 export interface ResolvedPrintStatement {
   readonly kind: "PrintStatement";
@@ -112,4 +116,30 @@ export interface ResolvedFunctionDeclaration {
   readonly generatedName: string;
   readonly parameters: readonly string[];
   readonly body: readonly ResolvedStatement[];
+}
+
+export interface ResolvedArrayLiteral {
+  readonly kind: "ArrayLiteral";
+  readonly elements: readonly ResolvedExpression[];
+  readonly valueType: ValueType;
+}
+
+export interface ResolvedObjectLiteral {
+  readonly kind: "ObjectLiteral";
+  readonly fields: readonly { readonly name: string; readonly value: ResolvedExpression }[];
+  readonly valueType: ValueType;
+}
+
+export interface ResolvedIndexExpression {
+  readonly kind: "IndexExpression";
+  readonly collection: ResolvedExpression;
+  readonly index: ResolvedExpression;
+  readonly valueType: ValueType;
+}
+
+export interface ResolvedPropertyAccessExpression {
+  readonly kind: "PropertyAccessExpression";
+  readonly object: ResolvedExpression;
+  readonly property: string;
+  readonly valueType: ValueType;
 }

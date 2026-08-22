@@ -78,4 +78,12 @@ describe("tokenize", () => {
     expect(tokens.some((token) => token.type === TokenType.Comma)).toBe(true);
     expect(tokens.find((token) => token.lexeme === "laghachi")?.type).toBe(TokenType.Keyword);
   });
+
+  it("tokenizes collection punctuation", () => {
+    const types = tokenize('[1, 2] { aha: "Uche" }.aha').map((token) => token.type);
+    expect(types).toContain(TokenType.LeftBracket);
+    expect(types).toContain(TokenType.RightBracket);
+    expect(types).toContain(TokenType.Colon);
+    expect(types).toContain(TokenType.Dot);
+  });
 });

@@ -21,6 +21,11 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
   const generatedNames = new Map<string, string>();
   const functions = new Map<string, FunctionInfo>();
   let functionCount = 0;
+  const isCollection = (type: ValueType): boolean => type.startsWith("array|") || type.startsWith("object|");
+  const arrayType = (element: ValueType, length: number): ValueType => `array|${JSON.stringify({ element, length })}`;
+  const objectType = (fields: Readonly<Record<string, ValueType>>): ValueType => `object|${JSON.stringify(fields)}`;
+  const collectionData = (type: ValueType): { element?: ValueType; length?: number; [key: string]: unknown } =>
+    JSON.parse(type.slice(type.indexOf("|") + 1)) as { element?: ValueType; length?: number; [key: string]: unknown };
 
   for (const statement of program.statements) {
     if (statement.kind !== "FunctionDeclaration") continue;
@@ -50,6 +55,39 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
     if (expression.kind === "StringLiteral") return { kind: "StringLiteral", value: expression.value, valueType: "string" };
     if (expression.kind === "NumberLiteral") return { kind: "NumberLiteral", value: expression.value, valueType: "number" };
     if (expression.kind === "BooleanLiteral") return { kind: "BooleanLiteral", value: expression.value, valueType: "boolean" };
+    if (expression.kind === "ArrayLiteral") {
+      if (expression.elements.length === 0) throw new KwechiriError("Ndepụta efu akwadoghị ugbu a. (Empty arrays are not yet supported.)", expression.location, fileName);
+      const elements = expression.elements.map((element) => resolveExpression(element, symbols));
+      const elementType = elements[0]?.valueType as ValueType;
+      if (elements.some((element) => element.valueType !== elementType)) throw new KwechiriError("Ihe niile dị na ndepụta ga-enwe otu ụdị. (Array elements must share a type.)", expression.location, fileName);
+      return { kind: "ArrayLiteral", elements, valueType: arrayType(elementType, elements.length) };
+    }
+    if (expression.kind === "ObjectLiteral") {
+      const names = expression.fields.map((field) => field.name);
+      if (new Set(names).size !== names.length) throw new KwechiriError("Aha property ugboro abụọ adịghị ekwe. (Duplicate object property.)", expression.location, fileName);
+      const fields = expression.fields.map((field) => ({ name: field.name, value: resolveExpression(field.value, symbols) }));
+      const types = Object.fromEntries([...fields].sort((a, b) => a.name.localeCompare(b.name)).map((field) => [field.name, field.value.valueType]));
+      return { kind: "ObjectLiteral", fields, valueType: objectType(types) };
+    }
+    if (expression.kind === "IndexExpression") {
+      const collection = resolveExpression(expression.collection, symbols);
+      const index = resolveExpression(expression.index, symbols);
+      if (!collection.valueType.startsWith("array|")) throw new KwechiriError("Enwere ike iji index naanị na ndepụta. (Indexing requires an array.)", expression.location, fileName);
+      if (index.valueType !== "number") throw new KwechiriError("Index ndepụta ga-abụ ọnụọgụ. (Array index must be a number.)", expression.location, fileName);
+      const data = collectionData(collection.valueType);
+      if (expression.index.kind === "NumberLiteral" && (!Number.isInteger(expression.index.value) || expression.index.value < 0 || expression.index.value >= (data.length as number))) {
+        throw new KwechiriError("Index ndepụta gafere oke. (Array index out of range.)", expression.location, fileName);
+      }
+      return { kind: "IndexExpression", collection, index, valueType: data.element as ValueType };
+    }
+    if (expression.kind === "PropertyAccessExpression") {
+      const object = resolveExpression(expression.object, symbols);
+      if (!object.valueType.startsWith("object|")) throw new KwechiriError("Nweta property chọrọ object. (Property access requires an object.)", expression.location, fileName);
+      const fields = collectionData(object.valueType);
+      const valueType = fields[expression.property];
+      if (typeof valueType !== "string") throw new KwechiriError(`Property "${expression.property}" adịghị. (Missing property.)`, expression.location, fileName);
+      return { kind: "PropertyAccessExpression", object, property: expression.property, valueType };
+    }
     if (expression.kind === "CallExpression") {
       const info = functions.get(expression.callee);
       if (info === undefined || info.declaration.location.offset >= expression.location.offset) {
@@ -77,6 +115,7 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       const left = resolveExpression(expression.left, symbols);
       const right = resolveExpression(expression.right, symbols);
       const ordering = expression.operator !== "==" && expression.operator !== "!=";
+      if (isCollection(left.valueType) || isCollection(right.valueType)) throw new KwechiriError("Ntụnyere collection akwadoghị. (Collection equality is not yet supported.)", expression.location, fileName);
       if (ordering && (left.valueType !== "number" || right.valueType !== "number")) throw new KwechiriError(`Ntụnyere "${expression.operator}" chọrọ ọnụọgụ abụọ. (Ordering requires two numbers.)`, expression.location, fileName);
       return { kind: "ComparisonExpression", operator: expression.operator, left, right, valueType: "boolean" };
     }
@@ -162,7 +201,7 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
   };
 
   const analyzeFunction = (info: FunctionInfo, parameterTypes: readonly ValueType[]): ValueType => {
-    const signature = parameterTypes.join(",");
+    const signature = JSON.stringify(parameterTypes);
     const cached = info.signatures.get(signature);
     if (cached !== undefined) return cached;
     if (info.analyzing) throw new KwechiriError(`Recursion akwadoghị maka ọrụ "${info.declaration.name}".`, info.declaration.location, fileName);

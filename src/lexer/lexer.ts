@@ -60,6 +60,10 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
       "<": TokenType.Less,
       ">": TokenType.Greater,
       ",": TokenType.Comma,
+      "[": TokenType.LeftBracket,
+      "]": TokenType.RightBracket,
+      ":": TokenType.Colon,
+      ".": TokenType.Dot,
     };
     const simpleType = simpleTokens[character];
     if (simpleType !== undefined) {

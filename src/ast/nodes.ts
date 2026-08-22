@@ -21,7 +21,11 @@ export type Expression =
   | BinaryExpression
   | BooleanLiteral
   | ComparisonExpression
-  | CallExpression;
+  | CallExpression
+  | ArrayLiteral
+  | ObjectLiteral
+  | IndexExpression
+  | PropertyAccessExpression;
 
 export interface PrintStatement {
   readonly kind: "PrintStatement";
@@ -116,5 +120,31 @@ export interface CallExpression {
   readonly kind: "CallExpression";
   readonly callee: string;
   readonly arguments: readonly Expression[];
+  readonly location: SourceLocation;
+}
+
+export interface ArrayLiteral {
+  readonly kind: "ArrayLiteral";
+  readonly elements: readonly Expression[];
+  readonly location: SourceLocation;
+}
+
+export interface ObjectLiteral {
+  readonly kind: "ObjectLiteral";
+  readonly fields: readonly { readonly name: string; readonly value: Expression; readonly location: SourceLocation }[];
+  readonly location: SourceLocation;
+}
+
+export interface IndexExpression {
+  readonly kind: "IndexExpression";
+  readonly collection: Expression;
+  readonly index: Expression;
+  readonly location: SourceLocation;
+}
+
+export interface PropertyAccessExpression {
+  readonly kind: "PropertyAccessExpression";
+  readonly object: Expression;
+  readonly property: string;
   readonly location: SourceLocation;
 }

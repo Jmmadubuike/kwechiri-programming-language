@@ -1,0 +1,89 @@
+import { KwechiriError, type SourceLocation } from "../errors/kwechiri-error.js";
+import { TokenType, type Token } from "./token.js";
+
+const keywords = new Set(["bipụta"]);
+const identifierStart = /[\p{L}_]/u;
+const identifierContinue = /[\p{L}\p{M}\p{N}_]/u;
+
+export function tokenize(source: string, fileName?: string): readonly Token[] {
+  const tokens: Token[] = [];
+  let offset = 0;
+  let line = 1;
+  let column = 1;
+
+  const location = (): SourceLocation => ({ line, column, offset });
+  const current = (): string | undefined => source[offset];
+  const advance = (): string => {
+    const character = source[offset] as string;
+    offset += 1;
+    if (character === "\n") {
+      line += 1;
+      column = 1;
+    } else {
+      column += 1;
+    }
+    return character;
+  };
+
+  while (offset < source.length) {
+    const character = current() as string;
+    if (/\s/u.test(character)) {
+      advance();
+      continue;
+    }
+
+    const start = location();
+    const simpleTokens: Readonly<Record<string, TokenType>> = {
+      "(": TokenType.LeftParen,
+      ")": TokenType.RightParen,
+      "{": TokenType.LeftBrace,
+      "}": TokenType.RightBrace,
+      "=": TokenType.Equals,
+    };
+    const simpleType = simpleTokens[character];
+    if (simpleType !== undefined) {
+      tokens.push({ type: simpleType, lexeme: advance(), location: start });
+      continue;
+    }
+
+    if (character === '"') {
+      advance();
+      let value = "";
+      while (current() !== '"') {
+        if (current() === undefined) {
+          throw new KwechiriError("Eriri ederede emechighị. (Unterminated string.)", start, fileName);
+        }
+        if (current() === "\n") {
+          throw new KwechiriError("Eriri ederede enweghị ike ịgafe ahịrị. (A string cannot cross a line.)", start, fileName);
+        }
+        value += advance();
+      }
+      advance();
+      tokens.push({
+        type: TokenType.String,
+        lexeme: source.slice(start.offset, offset),
+        literal: value,
+        location: start,
+      });
+      continue;
+    }
+
+    if (identifierStart.test(character)) {
+      let value = advance();
+      while (current() !== undefined && identifierContinue.test(current() as string)) {
+        value += advance();
+      }
+      tokens.push({
+        type: keywords.has(value) ? TokenType.Keyword : TokenType.Identifier,
+        lexeme: value,
+        location: start,
+      });
+      continue;
+    }
+
+    throw new KwechiriError(`Akara a amaghị: "${character}". (Unknown character.)`, start, fileName);
+  }
+
+  tokens.push({ type: TokenType.EndOfFile, lexeme: "", location: location() });
+  return tokens;
+}

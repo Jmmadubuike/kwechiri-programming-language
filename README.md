@@ -96,3 +96,6 @@ See the [Milestone 1](docs/language-spec/milestone-1.md),
 currently supported language surface.
 
 The project license has not yet been selected by the project owner.
+
+For the completed milestones, remaining roadmap, pending decisions, and exact
+resume point, see [Project status and remaining roadmap](docs/roadmap/PROJECT-STATUS.md).

@@ -23,6 +23,16 @@ nsonaazụ = (10 + 20) * 2
 bipụta(nsonaazụ)
 ```
 
+Conditions require explicit boolean expressions:
+
+```kwe
+ọ bụrụ (afọ >= 18) {
+    bipụta("Okenye")
+} ọzọ {
+    bipụta("Nwatakịrị")
+}
+```
+
 ## Development
 
 Requires Node.js 20 or newer.
@@ -42,7 +52,8 @@ kwechiri hello.kwe
 
 See the [Milestone 1](docs/language-spec/milestone-1.md),
 [Milestone 2](docs/language-spec/milestone-2.md), and
-[Milestone 3](docs/language-spec/milestone-3.md) specifications for the
+[Milestone 3](docs/language-spec/milestone-3.md), and
+[Milestone 4](docs/language-spec/milestone-4.md) specifications for the
 currently supported language surface.
 
 The project license has not yet been selected by the project owner.

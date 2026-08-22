@@ -49,4 +49,45 @@ describe("compiler", () => {
     expect(javaScript).toContain("function _kweDivide");
     expect(() => executeJavaScript(javaScript)).toThrow(/Division by zero/);
   });
+
+  it("compiles strict comparisons and conditional branches", () => {
+    const source = 'afọ = 36\nọ bụrụ (afọ >= 18) { ọkwa = "Okenye" } ọzọ { ọkwa = "Nwatakịrị" }\nbipụta(ọkwa)';
+    expect(compile(source)).toBe(
+      'let _kwe0 = 36;\nlet _kwe1;\nif ((_kwe0 >= 18)) {\n  _kwe1 = "Okenye";\n} else {\n  _kwe1 = "Nwatakịrị";\n}\nconsole.log(_kwe1);\n',
+    );
+  });
+
+  it("requires a boolean condition", () => {
+    expect(() => compile('ọ bụrụ (1) { bipụta("mba") }', "conditions.kwe")).toThrow(
+      /conditions\.kwe:1:9: Ọnọdụ ga-abụ eziokwu maọbụ ụgha/,
+    );
+  });
+
+  it("rejects ordering comparisons between strings", () => {
+    expect(() => compile('bipụta("a" < "b")', "conditions.kwe")).toThrow(
+      /Ntụnyere "<" chọrọ ọnụọgụ abụọ/,
+    );
+  });
+
+  it("does not expose a variable created on only one branch", () => {
+    expect(() => compile('ọ bụrụ (eziokwu) { aha = "Uche" }\nbipụta(aha)', "conditions.kwe")).toThrow(
+      /Enweghị ike ịchọta mgbanwe "aha"/,
+    );
+  });
+
+  it("rejects incompatible variable types across branches", () => {
+    expect(() => compile('ọ bụrụ (eziokwu) { uru = 1 } ọzọ { uru = "otu" }', "conditions.kwe")).toThrow(
+      /Ụdị mgbanwe "uru" adabaghị n'alaka abụọ/,
+    );
+  });
+
+  it("uses strict equality when operand types differ", () => {
+    expect(compile('bipụta(1 == "1")')).toBe('console.log((1 === "1"));\n');
+  });
+
+  it("preserves the implicit unchanged path when ọzọ is omitted", () => {
+    expect(() => compile('uru = 1\nọ bụrụ (eziokwu) { uru = "otu" }', "conditions.kwe")).toThrow(
+      /Ụdị mgbanwe "uru" adabaghị n'alaka abụọ/,
+    );
+  });
 });

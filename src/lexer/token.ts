@@ -14,6 +14,12 @@ export enum TokenType {
   Minus = "Minus",
   Star = "Star",
   Slash = "Slash",
+  EqualEqual = "EqualEqual",
+  BangEqual = "BangEqual",
+  Less = "Less",
+  LessEqual = "LessEqual",
+  Greater = "Greater",
+  GreaterEqual = "GreaterEqual",
   EndOfFile = "EndOfFile",
 }
 

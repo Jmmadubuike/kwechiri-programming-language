@@ -4,14 +4,19 @@ export interface ResolvedProgram {
   readonly statements: readonly ResolvedStatement[];
 }
 
-export type ResolvedStatement = ResolvedPrintStatement | ResolvedVariableAssignment;
-export type ValueType = "string" | "number";
+export type ResolvedStatement =
+  | ResolvedPrintStatement
+  | ResolvedVariableAssignment
+  | ResolvedConditionalStatement;
+export type ValueType = "string" | "number" | "boolean";
 export type ResolvedExpression =
   | ResolvedStringLiteral
   | ResolvedNumberLiteral
   | ResolvedVariableReference
   | ResolvedUnaryExpression
-  | ResolvedBinaryExpression;
+  | ResolvedBinaryExpression
+  | ResolvedBooleanLiteral
+  | ResolvedComparisonExpression;
 
 export interface ResolvedPrintStatement {
   readonly kind: "PrintStatement";
@@ -57,4 +62,26 @@ export interface ResolvedBinaryExpression {
   readonly left: ResolvedExpression;
   readonly right: ResolvedExpression;
   readonly valueType: "number";
+}
+
+export interface ResolvedBooleanLiteral {
+  readonly kind: "BooleanLiteral";
+  readonly value: boolean;
+  readonly valueType: "boolean";
+}
+
+export interface ResolvedComparisonExpression {
+  readonly kind: "ComparisonExpression";
+  readonly operator: "==" | "!=" | "<" | "<=" | ">" | ">=";
+  readonly left: ResolvedExpression;
+  readonly right: ResolvedExpression;
+  readonly valueType: "boolean";
+}
+
+export interface ResolvedConditionalStatement {
+  readonly kind: "ConditionalStatement";
+  readonly condition: ResolvedExpression;
+  readonly thenBranch: readonly ResolvedStatement[];
+  readonly elseBranch?: readonly ResolvedStatement[];
+  readonly hoistedDeclarations: readonly string[];
 }

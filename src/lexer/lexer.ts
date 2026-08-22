@@ -1,7 +1,7 @@
 import { KwechiriError, type SourceLocation } from "../errors/kwechiri-error.js";
 import { TokenType, type Token } from "./token.js";
 
-const keywords = new Set(["bipụta"]);
+const keywords = new Set(["bipụta", "ọ", "bụrụ", "ọzọ", "eziokwu", "ụgha"]);
 const identifierStart = /[\p{L}_]/u;
 const identifierContinue = /[\p{L}\p{M}\p{N}_]/u;
 
@@ -33,6 +33,20 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
     }
 
     const start = location();
+    const twoCharacterTokens: Readonly<Record<string, TokenType>> = {
+      "==": TokenType.EqualEqual,
+      "!=": TokenType.BangEqual,
+      "<=": TokenType.LessEqual,
+      ">=": TokenType.GreaterEqual,
+    };
+    const pair = source.slice(offset, offset + 2);
+    const pairType = twoCharacterTokens[pair];
+    if (pairType !== undefined) {
+      advance();
+      advance();
+      tokens.push({ type: pairType, lexeme: pair, location: start });
+      continue;
+    }
     const simpleTokens: Readonly<Record<string, TokenType>> = {
       "(": TokenType.LeftParen,
       ")": TokenType.RightParen,
@@ -43,6 +57,8 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
       "-": TokenType.Minus,
       "*": TokenType.Star,
       "/": TokenType.Slash,
+      "<": TokenType.Less,
+      ">": TokenType.Greater,
     };
     const simpleType = simpleTokens[character];
     if (simpleType !== undefined) {

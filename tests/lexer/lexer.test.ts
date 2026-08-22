@@ -48,4 +48,23 @@ describe("tokenize", () => {
       TokenType.EndOfFile,
     ]);
   });
+
+  it("tokenizes condition keywords, booleans, and comparisons", () => {
+    const tokens = tokenize("ọ bụrụ (eziokwu != ụgha) { afọ <= 18 }");
+    expect(tokens.map((token) => token.type)).toEqual([
+      TokenType.Keyword,
+      TokenType.Keyword,
+      TokenType.LeftParen,
+      TokenType.Keyword,
+      TokenType.BangEqual,
+      TokenType.Keyword,
+      TokenType.RightParen,
+      TokenType.LeftBrace,
+      TokenType.Identifier,
+      TokenType.LessEqual,
+      TokenType.Number,
+      TokenType.RightBrace,
+      TokenType.EndOfFile,
+    ]);
+  });
 });

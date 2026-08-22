@@ -5,14 +5,16 @@ export interface Program {
   readonly statements: readonly Statement[];
 }
 
-export type Statement = PrintStatement | VariableAssignment;
+export type Statement = PrintStatement | VariableAssignment | ConditionalStatement;
 
 export type Expression =
   | StringLiteral
   | NumberLiteral
   | VariableReference
   | UnaryExpression
-  | BinaryExpression;
+  | BinaryExpression
+  | BooleanLiteral
+  | ComparisonExpression;
 
 export interface PrintStatement {
   readonly kind: "PrintStatement";
@@ -39,6 +41,12 @@ export interface NumberLiteral {
   readonly location: SourceLocation;
 }
 
+export interface BooleanLiteral {
+  readonly kind: "BooleanLiteral";
+  readonly value: boolean;
+  readonly location: SourceLocation;
+}
+
 export interface VariableReference {
   readonly kind: "VariableReference";
   readonly name: string;
@@ -57,5 +65,21 @@ export interface BinaryExpression {
   readonly operator: "+" | "-" | "*" | "/";
   readonly left: Expression;
   readonly right: Expression;
+  readonly location: SourceLocation;
+}
+
+export interface ComparisonExpression {
+  readonly kind: "ComparisonExpression";
+  readonly operator: "==" | "!=" | "<" | "<=" | ">" | ">=";
+  readonly left: Expression;
+  readonly right: Expression;
+  readonly location: SourceLocation;
+}
+
+export interface ConditionalStatement {
+  readonly kind: "ConditionalStatement";
+  readonly condition: Expression;
+  readonly thenBranch: readonly Statement[];
+  readonly elseBranch?: readonly Statement[];
   readonly location: SourceLocation;
 }

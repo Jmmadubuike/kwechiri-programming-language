@@ -39,6 +39,12 @@ At the end of Milestone 9, the complete local gate passed with 55 automated
 tests, TypeScript type checking, build validation, CLI success probes, and
 located runtime-error probes.
 
+Before Milestone 10, repository stabilization established concise governance,
+documentation indexes, a consolidated current specification, foundational
+ADRs, linting, strict source/test type checking, explicit Vitest configuration,
+EditorConfig, and Node 20/24 GitHub Actions CI. The local canonical gate passes.
+The new CI workflow is not confirmed remotely until its first GitHub run.
+
 ## Completed milestones
 
 ### Milestone 0 — Foundation
@@ -255,15 +261,18 @@ the appropriate owner decision and milestone placement.
 ### Engineering and operations
 
 - choose and add a license
-- reduce `AGENTS.md` to a concise operational map
-- finish the planned documentation hierarchy
-- establish linting
-- establish continuous integration
-- add cross-platform verification
-- define supported Node.js versions
+- add formal tutorials beyond the executable examples
+- add remaining architecture topic documents
+- add cross-platform verification beyond Linux CI
+- finalize the supported Node.js policy beyond the current `>=20` declaration
 - audit bilingual diagnostic consistency
 - decide npm publication and package ownership
 - define release and changelog procedures
+
+The npm package remains technically publishable. No publication safeguard was
+added because choosing whether the package should be private is a public-package
+policy decision requiring owner approval. Do not publish while licensing and
+publication policy remain undecided.
 
 ## Session-start checklist
 
@@ -283,5 +292,7 @@ Every future development session should:
 ## Exact resume point
 
 Unless the project owner changes priorities, the next session should begin by
-asking for approval of the Milestone 10 CLI contract above. After approval,
-implement only Milestone 10 and do not begin the standard library automatically.
+reviewing and approving the repository-stabilization changes. After
+stabilization is accepted, request explicit approval of the Milestone 10 CLI
+contract above. Implement only Milestone 10 after that approval and do not begin
+the standard library automatically.

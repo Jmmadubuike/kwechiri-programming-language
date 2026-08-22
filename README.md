@@ -1,101 +1,93 @@
 # Kwechiri
 
-Kwechiri is an Igbo-first programming language. Its initial compiler is written
-in TypeScript and targets JavaScript running on Node.js.
+Kwechiri is an Igbo-first programming language designed to make programming
+more accessible to Igbo speakers while maintaining a coherent, professional
+language and compiler architecture.
 
-The current development milestone supports output and mutable variables:
+The compiler is currently implemented in TypeScript, generates JavaScript, and
+uses an injected Kwechiri runtime with Node.js as its first host. Kwechiri source
+files use the `.kwe` extension.
 
-```kwe
-bipụta("Ndewo Ụwa!")
-```
+## Current status
 
-```kwe
-aha = "Uche"
-afọ = 36
-bipụta(aha)
-bipụta(afọ)
-```
+Language Milestones 0–9 are complete. The implemented language includes:
 
-Arithmetic expressions support `+`, `-`, `*`, `/`, grouping, and unary minus:
+- Unicode Igbo identifiers and located diagnostics
+- strings, numbers, booleans, variables, arithmetic, and comparisons
+- `bipụta`, `ọ bụrụ`/`ọzọ`, and `mgbe`
+- named `ọrụ` functions with `laghachi`
+- homogeneous arrays and typed objects
+- named relative modules using `webata`, `bupụ`, and `site na`
+- an explicit runtime boundary with a Node.js implementation
 
-```kwe
-nsonaazụ = (10 + 20) * 2
-bipụta(nsonaazụ)
-```
+Milestone 10, the professional CLI, is pending. Commands proposed for that
+milestone are not implemented or advertised as available here.
 
-Conditions require explicit boolean expressions:
-
-```kwe
-ọ bụrụ (afọ >= 18) {
-    bipụta("Okenye")
-} ọzọ {
-    bipụta("Nwatakịrị")
-}
-```
-
-Pre-condition loops use `mgbe`:
-
-```kwe
-ọnụọgụ = 1
-mgbe (ọnụọgụ <= 5) {
-    bipụta(ọnụọgụ)
-    ọnụọgụ = ọnụọgụ + 1
-}
-```
-
-Functions use `ọrụ` and return values with `laghachi`:
-
-```kwe
-ọrụ gbakọọ(a, b) {
-    laghachi a + b
-}
-nsonaazụ = gbakọọ(10, 20)
-```
-
-Collections use familiar punctuation with strict Kwechiri semantics:
-
-```kwe
-ahaNdị = ["Uche", "Ada", "Obi"]
-mmadụ = { aha: ahaNdị[0], afọ: 36 }
-bipụta(mmadụ.aha)
-```
-
-Named modules use `webata`, `bupụ`, and `site na`:
-
-```kwe
-webata { gbakọọ, pi } site na "./mgbakọ.kwe"
-bipụta(gbakọọ(pi, 2))
-```
-
-## Development
+## Quick start
 
 Requires Node.js 20 or newer.
 
 ```sh
 npm install
-npm run check
+npm run build
 node dist/cli/index.js hello.kwe
 ```
 
-After installing the package globally or linking it with `npm link`, the same
-program can be run as:
+Expected output:
+
+```text
+Ndewo Ụwa!
+```
+
+After linking the package locally with `npm link`, the existing compatible
+command is:
 
 ```sh
 kwechiri hello.kwe
 ```
 
-See the [Milestone 1](docs/language-spec/milestone-1.md),
-[Milestone 2](docs/language-spec/milestone-2.md), and
-[Milestone 3](docs/language-spec/milestone-3.md), and
-[Milestone 4](docs/language-spec/milestone-4.md), and
-[Milestone 5](docs/language-spec/milestone-5.md), and
-[Milestone 6](docs/language-spec/milestone-6.md), and
-[Milestone 7](docs/language-spec/milestone-7.md), and
-[Milestone 8](docs/language-spec/milestone-8.md), and
-[Milestone 9](docs/language-spec/milestone-9.md) specifications for the
-currently supported language surface.
+## Example
 
-The project license has not yet been selected by the project owner.
+```kwe
+ọrụ gbakọọ(a, b) {
+    laghachi a + b
+}
 
-For the completed milestones, remaining roadmap, pending decisions, and exact
-resume point, see [Project status and remaining roadmap](docs/roadmap/PROJECT-STATUS.md).
+nsonaazụ = gbakọọ(10, 20)
+ọ bụrụ (nsonaazụ >= 30) {
+    bipụta("Nsonaazụ zuru oke")
+}
+```
+
+Additional executable examples are available in [`examples/`](examples/).
+
+## Development
+
+Install the locked dependencies and run the canonical quality gate:
+
+```sh
+npm ci
+npm run check
+```
+
+The gate covers linting, strict source and test type checking, all tests, and a
+production build. See the [development workflow](docs/development/workflow.md)
+and [testing guide](docs/development/testing.md).
+
+## Documentation
+
+- [Documentation index](docs/README.md)
+- [Current language specification](docs/language-spec/README.md)
+- [Architecture index](docs/architecture/README.md)
+- [Design-decision index](docs/design-decisions/README.md)
+- [Project status and roadmap](docs/roadmap/PROJECT-STATUS.md)
+- [Recorded technical debt](docs/roadmap/technical-debt.md)
+
+Historical `milestone-*.md` files remain available as incremental records and
+may be superseded by the current topic-oriented specification and later ADRs.
+
+## License and publication
+
+The project owner has not selected a license. No license is granted or implied
+by this repository, and the package must not be published until licensing and
+publication policy receive explicit owner approval.

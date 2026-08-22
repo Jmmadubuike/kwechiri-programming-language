@@ -31,4 +31,22 @@ describe("compiler", () => {
       /variables\.kwe:1:7: Enweghị ike ịchọta mgbanwe "aha"/,
     );
   });
+
+  it("honors grouping, precedence, and unary minus", () => {
+    expect(compile("nsonaazụ = (10 + 20) * 2 - -5\nbipụta(nsonaazụ)")).toBe(
+      "let _kwe0 = (((10 + 20) * 2) - (-5));\nconsole.log(_kwe0);\n",
+    );
+  });
+
+  it("rejects strings in arithmetic expressions", () => {
+    expect(() => compile('aha = "Uche"\nbipụta(aha + 1)', "expressions.kwe")).toThrow(
+      /expressions\.kwe:2:12: Akara "\+" chọrọ ọnụọgụ abụọ/,
+    );
+  });
+
+  it("emits an explicit division-by-zero guard", () => {
+    const javaScript = compile("bipụta(10 / 0)");
+    expect(javaScript).toContain("function _kweDivide");
+    expect(() => executeJavaScript(javaScript)).toThrow(/Division by zero/);
+  });
 });

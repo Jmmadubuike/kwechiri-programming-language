@@ -10,6 +10,10 @@ export enum TokenType {
   LeftBrace = "LeftBrace",
   RightBrace = "RightBrace",
   Equals = "Equals",
+  Plus = "Plus",
+  Minus = "Minus",
+  Star = "Star",
+  Slash = "Slash",
   EndOfFile = "EndOfFile",
 }
 

@@ -33,4 +33,19 @@ describe("tokenize", () => {
   it("reports the source location of an unterminated string", () => {
     expect(() => tokenize('\n bipụta("Ndewo')).toThrow(/2:9/);
   });
+
+  it("tokenizes arithmetic operators", () => {
+    expect(tokenize("1 + 2 - 3 * 4 / 5").map((token) => token.type)).toEqual([
+      TokenType.Number,
+      TokenType.Plus,
+      TokenType.Number,
+      TokenType.Minus,
+      TokenType.Number,
+      TokenType.Star,
+      TokenType.Number,
+      TokenType.Slash,
+      TokenType.Number,
+      TokenType.EndOfFile,
+    ]);
+  });
 });

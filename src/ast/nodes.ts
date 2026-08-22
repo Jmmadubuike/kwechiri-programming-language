@@ -7,7 +7,12 @@ export interface Program {
 
 export type Statement = PrintStatement | VariableAssignment;
 
-export type Expression = StringLiteral | NumberLiteral | VariableReference;
+export type Expression =
+  | StringLiteral
+  | NumberLiteral
+  | VariableReference
+  | UnaryExpression
+  | BinaryExpression;
 
 export interface PrintStatement {
   readonly kind: "PrintStatement";
@@ -37,5 +42,20 @@ export interface NumberLiteral {
 export interface VariableReference {
   readonly kind: "VariableReference";
   readonly name: string;
+  readonly location: SourceLocation;
+}
+
+export interface UnaryExpression {
+  readonly kind: "UnaryExpression";
+  readonly operator: "-";
+  readonly operand: Expression;
+  readonly location: SourceLocation;
+}
+
+export interface BinaryExpression {
+  readonly kind: "BinaryExpression";
+  readonly operator: "+" | "-" | "*" | "/";
+  readonly left: Expression;
+  readonly right: Expression;
   readonly location: SourceLocation;
 }

@@ -32,4 +32,32 @@ describe("Kwechiri CLI", () => {
     },
     15_000,
   );
+
+  it(
+    "runs examples/expressions.kwe",
+    async () => {
+      const { stdout, stderr } = await execFileAsync(
+        process.execPath,
+        ["dist/cli/index.js", "examples/expressions.kwe"],
+        { encoding: "utf8" },
+      );
+      expect(stdout.trim().split(/\r?\n/u)).toEqual(["60", "15", "-3"]);
+      expect(stderr).toBe("");
+    },
+    15_000,
+  );
+
+  it(
+    "reports division by zero as a Kwechiri CLI error",
+    async () => {
+      await expect(
+        execFileAsync(process.execPath, ["dist/cli/index.js", "tests/fixtures/division-by-zero.kwe"], {
+          encoding: "utf8",
+        }),
+      ).rejects.toMatchObject({
+        stderr: expect.stringContaining("KWECHIRI ERROR\nEnweghị ike ikewa site na efu."),
+      });
+    },
+    15_000,
+  );
 });

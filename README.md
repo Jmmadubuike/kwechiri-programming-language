@@ -16,6 +16,13 @@ bipụta(aha)
 bipụta(afọ)
 ```
 
+Arithmetic expressions support `+`, `-`, `*`, `/`, grouping, and unary minus:
+
+```kwe
+nsonaazụ = (10 + 20) * 2
+bipụta(nsonaazụ)
+```
+
 ## Development
 
 Requires Node.js 20 or newer.
@@ -33,8 +40,9 @@ program can be run as:
 kwechiri hello.kwe
 ```
 
-See the [Milestone 1](docs/language-spec/milestone-1.md) and
-[Milestone 2](docs/language-spec/milestone-2.md) specifications for the
+See the [Milestone 1](docs/language-spec/milestone-1.md),
+[Milestone 2](docs/language-spec/milestone-2.md), and
+[Milestone 3](docs/language-spec/milestone-3.md) specifications for the
 currently supported language surface.
 
 The project license has not yet been selected by the project owner.

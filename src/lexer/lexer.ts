@@ -39,6 +39,10 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
       "{": TokenType.LeftBrace,
       "}": TokenType.RightBrace,
       "=": TokenType.Equals,
+      "+": TokenType.Plus,
+      "-": TokenType.Minus,
+      "*": TokenType.Star,
+      "/": TokenType.Slash,
     };
     const simpleType = simpleTokens[character];
     if (simpleType !== undefined) {

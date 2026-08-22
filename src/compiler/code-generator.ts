@@ -4,6 +4,9 @@ function generateExpression(expression: ResolvedExpression): string {
   if (expression.kind === "StringLiteral") return JSON.stringify(expression.value);
   if (expression.kind === "NumberLiteral" || expression.kind === "BooleanLiteral") return String(expression.value);
   if (expression.kind === "VariableReference") return expression.generatedName;
+  if (expression.kind === "CallExpression") {
+    return `${expression.generatedName}(${expression.arguments.map(generateExpression).join(", ")})`;
+  }
   if (expression.kind === "UnaryExpression") return `(-${generateExpression(expression.operand)})`;
   const left = generateExpression(expression.left);
   const right = generateExpression(expression.right);
@@ -19,6 +22,7 @@ function generateExpression(expression: ResolvedExpression): string {
 }
 
 function containsDivision(expression: ResolvedExpression): boolean {
+  if (expression.kind === "CallExpression") return expression.arguments.some(containsDivision);
   if (expression.kind === "BinaryExpression" || expression.kind === "ComparisonExpression") {
     return expression.kind === "BinaryExpression" && expression.operator === "/"
       || containsDivision(expression.left)
@@ -28,6 +32,7 @@ function containsDivision(expression: ResolvedExpression): boolean {
 }
 
 function statementContainsDivision(statement: ResolvedStatement): boolean {
+  if (statement.kind === "ReturnStatement") return containsDivision(statement.value);
   if (statement.kind === "LoopStatement") {
     return containsDivision(statement.condition) || statement.body.some(statementContainsDivision);
   }
@@ -46,6 +51,9 @@ function generateStatements(statements: readonly ResolvedStatement[], indentatio
     }
     if (statement.kind === "VariableAssignment") {
       return [`${indentation}${statement.declaration ? "let " : ""}${statement.generatedName} = ${generateExpression(statement.value)};`];
+    }
+    if (statement.kind === "ReturnStatement") {
+      return [`${indentation}return ${generateExpression(statement.value)};`];
     }
 
     if (statement.kind === "LoopStatement") {
@@ -71,8 +79,16 @@ function generateStatements(statements: readonly ResolvedStatement[], indentatio
 }
 
 export function generateJavaScript(program: ResolvedProgram): string {
-  const divisionHelper = program.statements.some(statementContainsDivision)
+  const usesDivision = program.statements.some(statementContainsDivision)
+    || program.functions.some((function_) => function_.body.some(statementContainsDivision));
+  const divisionHelper = usesDivision
     ? 'function _kweDivide(left, right) {\n  if (right === 0) throw new Error("Enweghị ike ikewa site na efu. (Division by zero.)");\n  return left / right;\n}\n'
     : "";
-  return `${divisionHelper}${generateStatements(program.statements).join("\n")}\n`;
+  const functions = program.functions.flatMap((function_) => [
+    `function ${function_.generatedName}(${function_.parameters.join(", ")}) {`,
+    ...generateStatements(function_.body, "  "),
+    "}",
+  ]);
+  const sections = [functions.join("\n"), generateStatements(program.statements).join("\n")].filter(Boolean);
+  return `${divisionHelper}${sections.join("\n")}\n`;
 }

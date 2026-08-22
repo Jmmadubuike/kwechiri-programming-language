@@ -88,4 +88,18 @@ describe("Kwechiri CLI", () => {
     },
     15_000,
   );
+
+  it(
+    "runs examples/functions.kwe",
+    async () => {
+      const { stdout, stderr } = await execFileAsync(
+        process.execPath,
+        ["dist/cli/index.js", "examples/functions.kwe"],
+        { encoding: "utf8" },
+      );
+      expect(stdout.trim()).toBe("30");
+      expect(stderr).toBe("");
+    },
+    15_000,
+  );
 });

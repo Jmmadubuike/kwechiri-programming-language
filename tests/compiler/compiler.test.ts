@@ -114,4 +114,51 @@ describe("compiler", () => {
       /Ụdị mgbanwe "uru" ga-anọ otu n'ime `mgbe`/,
     );
   });
+
+  it("compiles a declared function and call with safe names", () => {
+    const source = "ọrụ gbakọọ(a, b) { laghachi a + b }\nnsonaazụ = gbakọọ(10, 20)\nbipụta(nsonaazụ)";
+    expect(compile(source)).toBe(
+      "function _kweFn0(_kweP0_0, _kweP0_1) {\n  return (_kweP0_0 + _kweP0_1);\n}\nlet _kwe0 = _kweFn0(10, 20);\nconsole.log(_kwe0);\n",
+    );
+  });
+
+  it("rejects calls before declaration", () => {
+    expect(() => compile("bipụta(gbakọọ(1, 2))\nọrụ gbakọọ(a, b) { laghachi a + b }", "functions.kwe")).toThrow(
+      /Function must be declared before use/,
+    );
+  });
+
+  it("rejects incorrect argument counts", () => {
+    expect(() => compile("ọrụ gbakọọ(a, b) { laghachi a + b }\nbipụta(gbakọọ(1))", "functions.kwe")).toThrow(
+      /Wrong argument count/,
+    );
+  });
+
+  it("rejects captures of program variables", () => {
+    expect(() => compile("uru = 10\nọrụ nweta() { laghachi uru }\nbipụta(nweta())", "functions.kwe")).toThrow(
+      /Undefined variable/,
+    );
+  });
+
+  it("requires every function path to return", () => {
+    expect(() => compile("ọrụ họrọ(x) { ọ bụrụ (x > 0) { laghachi x } }\nbipụta(họrọ(1))", "functions.kwe")).toThrow(
+      /Every path must return/,
+    );
+  });
+
+  it("rejects recursion in Milestone 6", () => {
+    expect(() => compile("ọrụ kpọọ(x) { laghachi kpọọ(x) }\nbipụta(kpọọ(1))", "functions.kwe")).toThrow(
+      /Recursion akwadoghị/,
+    );
+  });
+
+  it("checks argument types against parameter use", () => {
+    expect(() => compile('ọrụ gbakọọ(a, b) { laghachi a + b }\nbipụta(gbakọọ("otu", "abụọ"))', "functions.kwe")).toThrow(
+      /Arithmetic requires two numbers/,
+    );
+  });
+
+  it("does not invent argument types for an uncalled function", () => {
+    expect(() => compile('ọrụ họrọ(x) { ọ bụrụ (x) { laghachi "ee" } ọzọ { laghachi "mba" } }')).not.toThrow();
+  });
 });

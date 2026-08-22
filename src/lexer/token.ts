@@ -20,6 +20,7 @@ export enum TokenType {
   LessEqual = "LessEqual",
   Greater = "Greater",
   GreaterEqual = "GreaterEqual",
+  Comma = "Comma",
   EndOfFile = "EndOfFile",
 }
 

@@ -5,7 +5,13 @@ export interface Program {
   readonly statements: readonly Statement[];
 }
 
-export type Statement = PrintStatement | VariableAssignment | ConditionalStatement | LoopStatement;
+export type Statement =
+  | PrintStatement
+  | VariableAssignment
+  | ConditionalStatement
+  | LoopStatement
+  | FunctionDeclaration
+  | ReturnStatement;
 
 export type Expression =
   | StringLiteral
@@ -14,7 +20,8 @@ export type Expression =
   | UnaryExpression
   | BinaryExpression
   | BooleanLiteral
-  | ComparisonExpression;
+  | ComparisonExpression
+  | CallExpression;
 
 export interface PrintStatement {
   readonly kind: "PrintStatement";
@@ -88,5 +95,26 @@ export interface LoopStatement {
   readonly kind: "LoopStatement";
   readonly condition: Expression;
   readonly body: readonly Statement[];
+  readonly location: SourceLocation;
+}
+
+export interface FunctionDeclaration {
+  readonly kind: "FunctionDeclaration";
+  readonly name: string;
+  readonly parameters: readonly string[];
+  readonly body: readonly Statement[];
+  readonly location: SourceLocation;
+}
+
+export interface ReturnStatement {
+  readonly kind: "ReturnStatement";
+  readonly value: Expression;
+  readonly location: SourceLocation;
+}
+
+export interface CallExpression {
+  readonly kind: "CallExpression";
+  readonly callee: string;
+  readonly arguments: readonly Expression[];
   readonly location: SourceLocation;
 }

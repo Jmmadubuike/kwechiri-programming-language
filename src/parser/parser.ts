@@ -26,6 +26,19 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
     }
     if (token.type === TokenType.Identifier) {
       current += 1;
+      if (peek().type === TokenType.LeftParen) {
+        current += 1;
+        const arguments_: Expression[] = [];
+        if (peek().type !== TokenType.RightParen) {
+          do {
+            arguments_.push(parseExpression());
+            if (peek().type !== TokenType.Comma) break;
+            current += 1;
+          } while (true);
+        }
+        consume(TokenType.RightParen, 'A tụrụ anya ")" mgbe argument gasịrị.');
+        return { kind: "CallExpression", callee: token.lexeme, arguments: arguments_, location: token.location };
+      }
       return { kind: "VariableReference", name: token.lexeme, location: token.location };
     }
     if (token.type === TokenType.Keyword && (token.lexeme === "eziokwu" || token.lexeme === "ụgha")) {
@@ -145,6 +158,23 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
     }
 
     const keyword = consume(TokenType.Keyword, 'A tụrụ anya "bipụta", "ọ bụrụ", maọbụ aha mgbanwe.');
+    if (keyword.lexeme === "ọrụ") {
+      const name = consume(TokenType.Identifier, 'A tụrụ anya aha ọrụ. (Expected a function name.)');
+      consume(TokenType.LeftParen, 'A tụrụ anya "(" mgbe aha ọrụ gasịrị.');
+      const parameters: string[] = [];
+      if (peek().type !== TokenType.RightParen) {
+        do {
+          parameters.push(consume(TokenType.Identifier, "A tụrụ anya aha parameter.").lexeme);
+          if (peek().type !== TokenType.Comma) break;
+          current += 1;
+        } while (true);
+      }
+      consume(TokenType.RightParen, 'A tụrụ anya ")" mgbe parameter gasịrị.');
+      return { kind: "FunctionDeclaration", name: name.lexeme, parameters, body: parseBlock(), location: keyword.location };
+    }
+    if (keyword.lexeme === "laghachi") {
+      return { kind: "ReturnStatement", value: parseExpression(), location: keyword.location };
+    }
     if (keyword.lexeme === "ọ") {
       const bụrụ = consume(TokenType.Keyword, 'A tụrụ anya "bụrụ" mgbe "ọ" gasịrị.');
       if (bụrụ.lexeme !== "bụrụ") {

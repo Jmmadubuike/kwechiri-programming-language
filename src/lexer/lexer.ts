@@ -1,7 +1,7 @@
 import { KwechiriError, type SourceLocation } from "../errors/kwechiri-error.js";
 import { TokenType, type Token } from "./token.js";
 
-const keywords = new Set(["bipụta", "ọ", "bụrụ", "ọzọ", "eziokwu", "ụgha", "mgbe"]);
+const keywords = new Set(["bipụta", "ọ", "bụrụ", "ọzọ", "eziokwu", "ụgha", "mgbe", "ọrụ", "laghachi"]);
 const identifierStart = /[\p{L}_]/u;
 const identifierContinue = /[\p{L}\p{M}\p{N}_]/u;
 
@@ -59,6 +59,7 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
       "/": TokenType.Slash,
       "<": TokenType.Less,
       ">": TokenType.Greater,
+      ",": TokenType.Comma,
     };
     const simpleType = simpleTokens[character];
     if (simpleType !== undefined) {

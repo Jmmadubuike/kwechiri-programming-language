@@ -71,4 +71,11 @@ describe("tokenize", () => {
   it("recognizes the mgbe loop keyword", () => {
     expect(tokenize("mgbe")[0]).toMatchObject({ type: TokenType.Keyword, lexeme: "mgbe" });
   });
+
+  it("recognizes function keywords and commas", () => {
+    const tokens = tokenize("ọrụ gbakọọ(a, b) { laghachi a }");
+    expect(tokens[0]).toMatchObject({ type: TokenType.Keyword, lexeme: "ọrụ" });
+    expect(tokens.some((token) => token.type === TokenType.Comma)).toBe(true);
+    expect(tokens.find((token) => token.lexeme === "laghachi")?.type).toBe(TokenType.Keyword);
+  });
 });

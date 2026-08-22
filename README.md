@@ -43,6 +43,15 @@ mgbe (ọnụọgụ <= 5) {
 }
 ```
 
+Functions use `ọrụ` and return values with `laghachi`:
+
+```kwe
+ọrụ gbakọọ(a, b) {
+    laghachi a + b
+}
+nsonaazụ = gbakọọ(10, 20)
+```
+
 ## Development
 
 Requires Node.js 20 or newer.
@@ -64,7 +73,8 @@ See the [Milestone 1](docs/language-spec/milestone-1.md),
 [Milestone 2](docs/language-spec/milestone-2.md), and
 [Milestone 3](docs/language-spec/milestone-3.md), and
 [Milestone 4](docs/language-spec/milestone-4.md), and
-[Milestone 5](docs/language-spec/milestone-5.md) specifications for the
+[Milestone 5](docs/language-spec/milestone-5.md), and
+[Milestone 6](docs/language-spec/milestone-6.md) specifications for the
 currently supported language surface.
 
 The project license has not yet been selected by the project owner.

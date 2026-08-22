@@ -1,6 +1,7 @@
 import type { SourceLocation } from "../errors/kwechiri-error.js";
 
 export interface ResolvedProgram {
+  readonly functions: readonly ResolvedFunctionDeclaration[];
   readonly statements: readonly ResolvedStatement[];
 }
 
@@ -8,7 +9,8 @@ export type ResolvedStatement =
   | ResolvedPrintStatement
   | ResolvedVariableAssignment
   | ResolvedConditionalStatement
-  | ResolvedLoopStatement;
+  | ResolvedLoopStatement
+  | ResolvedReturnStatement;
 export type ValueType = "string" | "number" | "boolean";
 export type ResolvedExpression =
   | ResolvedStringLiteral
@@ -17,7 +19,8 @@ export type ResolvedExpression =
   | ResolvedUnaryExpression
   | ResolvedBinaryExpression
   | ResolvedBooleanLiteral
-  | ResolvedComparisonExpression;
+  | ResolvedComparisonExpression
+  | ResolvedCallExpression;
 
 export interface ResolvedPrintStatement {
   readonly kind: "PrintStatement";
@@ -90,5 +93,23 @@ export interface ResolvedConditionalStatement {
 export interface ResolvedLoopStatement {
   readonly kind: "LoopStatement";
   readonly condition: ResolvedExpression;
+  readonly body: readonly ResolvedStatement[];
+}
+
+export interface ResolvedReturnStatement {
+  readonly kind: "ReturnStatement";
+  readonly value: ResolvedExpression;
+}
+
+export interface ResolvedCallExpression {
+  readonly kind: "CallExpression";
+  readonly generatedName: string;
+  readonly arguments: readonly ResolvedExpression[];
+  readonly valueType: ValueType;
+}
+
+export interface ResolvedFunctionDeclaration {
+  readonly generatedName: string;
+  readonly parameters: readonly string[];
   readonly body: readonly ResolvedStatement[];
 }

@@ -14,9 +14,21 @@ describe("compiler", () => {
     log.mockRestore();
   });
 
-  it("rejects language behavior outside Milestone 1", () => {
-    expect(() => compile('aha = "Uche"', "variables.kwe")).toThrow(
-      /variables\.kwe:1:1: A tụrụ anya "bipụta"/,
+  it("compiles declarations, reassignment, and Unicode names safely", () => {
+    expect(compile('class = "Uche"\nafọ = 36\nclass = afọ\nbipụta(class)')).toBe(
+      'let _kwe0 = "Uche";\nlet _kwe1 = 36;\n_kwe0 = _kwe1;\nconsole.log(_kwe0);\n',
+    );
+  });
+
+  it("rejects a variable read before its first assignment", () => {
+    expect(() => compile('bipụta(aha)', "variables.kwe")).toThrow(
+      /variables\.kwe:1:8: Enweghị ike ịchọta mgbanwe "aha"/,
+    );
+  });
+
+  it("does not make a variable visible within its first assignment", () => {
+    expect(() => compile("aha = aha", "variables.kwe")).toThrow(
+      /variables\.kwe:1:7: Enweghị ike ịchọta mgbanwe "aha"/,
     );
   });
 });

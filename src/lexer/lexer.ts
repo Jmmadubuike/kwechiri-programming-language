@@ -68,6 +68,26 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
       continue;
     }
 
+    if (/\d/u.test(character)) {
+      let value = advance();
+      while (current() !== undefined && /\d/u.test(current() as string)) {
+        value += advance();
+      }
+      if (current() === "." && source[offset + 1] !== undefined && /\d/u.test(source[offset + 1] as string)) {
+        value += advance();
+        while (current() !== undefined && /\d/u.test(current() as string)) {
+          value += advance();
+        }
+      }
+      tokens.push({
+        type: TokenType.Number,
+        lexeme: value,
+        literal: Number(value),
+        location: start,
+      });
+      continue;
+    }
+
     if (identifierStart.test(character)) {
       let value = advance();
       while (current() !== undefined && identifierContinue.test(current() as string)) {

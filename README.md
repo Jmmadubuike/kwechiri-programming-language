@@ -3,10 +3,17 @@
 Kwechiri is an Igbo-first programming language. Its initial compiler is written
 in TypeScript and targets JavaScript running on Node.js.
 
-The current development milestone supports one complete program:
+The current development milestone supports output and mutable variables:
 
 ```kwe
 bipụta("Ndewo Ụwa!")
+```
+
+```kwe
+aha = "Uche"
+afọ = 36
+bipụta(aha)
+bipụta(afọ)
 ```
 
 ## Development
@@ -26,7 +33,8 @@ program can be run as:
 kwechiri hello.kwe
 ```
 
-See [the Milestone 1 specification](docs/language-spec/milestone-1.md) for the
+See the [Milestone 1](docs/language-spec/milestone-1.md) and
+[Milestone 2](docs/language-spec/milestone-2.md) specifications for the
 currently supported language surface.
 
 The project license has not yet been selected by the project owner.

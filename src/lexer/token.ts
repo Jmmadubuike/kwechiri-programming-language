@@ -4,6 +4,7 @@ export enum TokenType {
   Identifier = "Identifier",
   Keyword = "Keyword",
   String = "String",
+  Number = "Number",
   LeftParen = "LeftParen",
   RightParen = "RightParen",
   LeftBrace = "LeftBrace",
@@ -15,6 +16,6 @@ export enum TokenType {
 export interface Token {
   readonly type: TokenType;
   readonly lexeme: string;
-  readonly literal?: string;
+  readonly literal?: string | number;
   readonly location: SourceLocation;
 }

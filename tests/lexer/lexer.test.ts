@@ -14,16 +14,20 @@ describe("tokenize", () => {
   });
 
   it("recognizes Unicode Igbo identifiers and foundational punctuation", () => {
-    const tokens = tokenize('ụbọchị = "Mọnde" {}');
+    const tokens = tokenize('ụbọchị = "Mọnde" afọ = 36.5 {}');
     expect(tokens.map((token) => token.type)).toEqual([
       TokenType.Identifier,
       TokenType.Equals,
       TokenType.String,
+      TokenType.Identifier,
+      TokenType.Equals,
+      TokenType.Number,
       TokenType.LeftBrace,
       TokenType.RightBrace,
       TokenType.EndOfFile,
     ]);
     expect(tokens[0]?.lexeme).toBe("ụbọchị");
+    expect(tokens[5]?.literal).toBe(36.5);
   });
 
   it("reports the source location of an unterminated string", () => {

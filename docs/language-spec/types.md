@@ -15,8 +15,12 @@ Kwechiri does not perform implicit conversion for arithmetic or conditions.
 Ordering requires numbers. Equality compares value and type for supported
 primitive values. Collection equality is not defined.
 
-Function parameter types are checked from actual calls against their use, and
-return types are inferred for reachable functions.
+The first successfully analyzed call establishes one inferred parameter
+signature for a function, and every later call must match it exactly. Return
+types are inferred from reachable returns after that signature is established.
+This is single-signature inference, not generics or overload specialization.
+Uncalled functions receive eager type-independent structural validation, but no
+parameter types are invented for parameter-dependent expressions.
 
 Kwechiri has no implicit truthiness. Logical operators require Booleans.
 

@@ -16,7 +16,9 @@ inside a `mgbe` body is unavailable after the loop because the loop may execute
 zero times.
 
 Function parameters and assignments are local to that function and cannot
-capture program variables.
+capture module variables. A parameter or local may reuse a module-level name
+because these scopes are isolated. Nested control-flow blocks do not introduce
+general shadowing.
 
-**Status: Undecided** — immutable declarations, explicit declaration syntax,
-general block scope, and shadowing.
+**Status: Undecided** — immutable declarations and explicit declaration syntax.
+General block shadowing is deferred beyond 1.0.

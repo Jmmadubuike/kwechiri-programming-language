@@ -21,6 +21,7 @@ decision and a new or amended record.
 | [ADR-014](ADR-014-lexical-foundations.md) | Comments, escapes, and NFC name identity |
 | [ADR-015](ADR-015-core-values-and-logic.md) | Absence, Boolean display, and logical operators |
 | [ADR-016](ADR-016-collection-semantics.md) | Collection typing, mutation, identity, and display |
+| [ADR-017](ADR-017-function-semantics.md) | Pre-1.0 function analysis, typing, scope, and exclusions |
 
 ADR-014 settles the normalization and ASCII-alias questions left open by
 ADR-012. It does not settle the final identifier code-point profile.

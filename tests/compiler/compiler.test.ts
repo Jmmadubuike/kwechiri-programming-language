@@ -134,6 +134,9 @@ describe("compiler", () => {
     expect(() => compile("ọrụ gbakọọ(a, b) { laghachi a + b }\nbipụta(gbakọọ(1))", "functions.kwe")).toThrow(
       /Wrong argument count/,
     );
+    expect(() => compile("ọrụ gbakọọ(a, b) { laghachi a + b }\nbipụta(gbakọọ(1, 2, 3))", "functions.kwe")).toThrow(
+      /Wrong argument count/,
+    );
   });
 
   it("rejects captures of program variables", () => {
@@ -162,6 +165,58 @@ describe("compiler", () => {
 
   it("does not invent argument types for an uncalled function", () => {
     expect(() => compile('ọrụ họrọ(x) { ọ bụrụ (x) { laghachi "ee" } ọzọ { laghachi "mba" } }')).not.toThrow();
+  });
+
+  it("eagerly rejects type-independent errors in uncalled functions", () => {
+    expect(() => compile("ọrụ nwalee() { laghachi amaghi }", "functions.kwe")).toThrow(/Undefined variable/);
+    expect(() => compile("ọrụ kpọọ() { laghachi kpọọ() }", "functions.kwe")).toThrow(/Recursion akwadoghị/);
+    expect(() => compile("ọrụ nwalee(x, x) { laghachi x }", "functions.kwe")).toThrow(/Duplicate parameter/);
+    expect(() => compile("ọrụ mbụ() { laghachi 1 }\nọrụ abụọ() { laghachi mbụ(1) }", "functions.kwe")).toThrow(
+      /Wrong argument count/,
+    );
+  });
+
+  it("requires every function declaration to be at module top level", () => {
+    expect(() => compile("ọrụ elu() { ọrụ ime() { laghachi 1 } laghachi 1 }", "functions.kwe")).toThrow(
+      /Functions must be declared at module top level/,
+    );
+    expect(() => compile("ọ bụrụ (eziokwu) { ọrụ ime() { laghachi 1 } }", "functions.kwe")).toThrow(
+      /Functions must be declared at module top level/,
+    );
+    expect(() => compile("mgbe (ụgha) { ọrụ ime() { laghachi 1 } }", "functions.kwe")).toThrow(
+      /Functions must be declared at module top level/,
+    );
+  });
+
+  it("rejects unreachable same-block statements after laghachi", () => {
+    expect(() => compile('ọrụ nwalee() { laghachi 1 bipụta("never") }', "functions.kwe")).toThrow(
+      /Unreachable statement after return/,
+    );
+    expect(() => compile("ọrụ nwalee(x) { ọ bụrụ (x) { laghachi 1 } ọzọ { laghachi 2 } laghachi 3 }", "functions.kwe")).toThrow(
+      /Unreachable statement after return/,
+    );
+    expect(() => compile('ọrụ nwalee(x) { ọ bụrụ (x) { laghachi efu } bipụta("reachable") }\nbipụta(nwalee(eziokwu))')).not.toThrow();
+  });
+
+  it("establishes one inferred parameter signature per function", () => {
+    expect(() => compile('ọrụ identity(x) { laghachi x }\na = identity(1)\nb = identity("otu")', "functions.kwe")).toThrow(
+      /Function calls must use one parameter signature/,
+    );
+    expect(() => compile("ọrụ mbụ(x) { laghachi x[0] }\na = mbụ([1])\nb = mbụ([2, 3])")).not.toThrow();
+  });
+
+  it("keeps function scope isolated while allowing module-name reuse", () => {
+    const source = "uru = 10\nọrụ nwalee(uru) { nkeọzọ = uru + 1 laghachi nkeọzọ }\nbipụta(nwalee(20))\nbipụta(uru)";
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile(source));
+    expect(log.mock.calls.map(([value]) => value)).toEqual([21, 10]);
+    log.mockRestore();
+    expect(() => compile("uru = 10\nọrụ nwalee() { laghachi uru }", "functions.kwe")).toThrow(/Undefined variable/);
+  });
+
+  it("keeps first-class functions and default parameters unsupported", () => {
+    expect(() => compile("ọrụ nye() { laghachi nye }", "functions.kwe")).toThrow(/Undefined variable/);
+    expect(() => compile('ọrụ kelee(aha = "Enyi") { laghachi aha }', "functions.kwe")).toThrow();
   });
 
   it("compiles arrays, objects, indexing, and property access", () => {

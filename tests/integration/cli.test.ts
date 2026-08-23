@@ -23,6 +23,26 @@ afterEach(() => {
 });
 
 describe("Kwechiri CLI integration", () => {
+  it("applies one inferred signature to imported functions", () => {
+    const directory = temporaryDirectory();
+    writeFileSync(join(directory, "identity.kwe"), "bupụ ọrụ identity(x) { laghachi x }", "utf8");
+    writeFileSync(
+      join(directory, "main.kwe"),
+      'webata { identity } site na "./identity.kwe"\nbipụta(identity(1))\nbipụta(identity(2))',
+      "utf8",
+    );
+    expect(runCli([join(directory, "main.kwe")])).toEqual({ status: 0, stdout: "1\n2\n", stderr: "" });
+
+    writeFileSync(
+      join(directory, "invalid.kwe"),
+      'webata { identity } site na "./identity.kwe"\na = identity(1)\nb = identity("otu")',
+      "utf8",
+    );
+    const incompatible = runCli(["check", join(directory, "invalid.kwe")]);
+    expect(incompatible.status).toBe(1);
+    expect(incompatible.stderr).toContain("Function calls must use one parameter signature");
+  });
+
   it("preserves mutable collection identity across module imports while keeping bindings read-only", () => {
     const directory = temporaryDirectory();
     writeFileSync(

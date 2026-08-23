@@ -43,8 +43,10 @@ and consequences; they do not authorize unresolved future features.
 - [Current project status](roadmap/PROJECT-STATUS.md)
 - [Recorded technical debt](roadmap/technical-debt.md)
 
-Milestones 0–10 are complete. Milestone 10 was certified and closed at
-`60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Milestone 11 has not begun.
+Milestones 0–10 and the post-milestone Lexical Foundations, Core Values & Logic,
+and Collections phases are closed. Collections was certified and closed at
+`cf0ef1e831e4e938ecc4161506fffe528eb681fb`. Functions is the current approved
+pre-1.0 implementation batch; Milestone 11 has not begun.
 
 ## 7. Tutorials
 

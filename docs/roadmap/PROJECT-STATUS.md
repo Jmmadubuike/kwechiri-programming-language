@@ -7,10 +7,12 @@ Current implemented milestone: Milestone 10 — Professional CLI
 Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
 closed at `f248fe0f9c6b561d8c2e73a317aee3c103f24512`; Core Values & Logic certified
-and closed at `4f57130e58f961684a2b76f8b6e605f5eb86d263`.
+and closed at `4f57130e58f961684a2b76f8b6e605f5eb86d263`; Collections certified and
+closed at `cf0ef1e831e4e938ecc4161506fffe528eb681fb`.
 
-Current post-milestone work: Collections implemented locally and awaiting owner
-review and certification.
+Current post-milestone work: the approved Functions pre-1.0 foundation batch is
+implemented locally and awaiting owner review and certification. Control Flow
+and Modules batches have not begun.
 
 Next roadmap milestone: Milestone 11 — Standard library (not begun or authorized)
 
@@ -124,6 +126,12 @@ Completed and governed by ADR-008:
 - `laghachi`
 - local-only scope and guaranteed returns
 - no recursion, closures, defaults, or nested functions yet
+
+The approved pre-1.0 Functions batch now adds eager structural validation,
+module-top-level-only declarations, one inferred signature per function,
+explicit recursion and first-class-function exclusions, and same-block
+unreachable-return diagnostics. It is awaiting owner review and certification;
+the historical Milestone 6 record remains unchanged.
 
 ### Milestone 7 — Collections
 
@@ -277,7 +285,8 @@ the appropriate owner decision and milestone placement.
 - typed empty-array construction
 - explicit collection comparison and copying operations
 - computed properties, spread syntax, and collection methods
-- recursion, closures, default parameters, and anonymous functions
+- recursion, closures, nested/first-class functions, default parameters,
+  annotations, and generics are deferred beyond 1.0
 - module aliases, re-exports, wildcard imports, packages, and remote modules
 
 ### Engineering and operations
@@ -313,6 +322,7 @@ Every future development session should:
 
 ## Exact resume point
 
-The approved Collections implementation is awaiting owner review and a separate
-final certification. Do not begin the Functions packet or the standard library
-until each receives its own approved contract.
+Collections is closed at `cf0ef1e831e4e938ecc4161506fffe528eb681fb`.
+The approved Functions batch is implemented locally and awaiting owner review
+and certification. Do not begin Control Flow, Modules, or the Standard Library
+until the required preceding batch has been certified and closed.

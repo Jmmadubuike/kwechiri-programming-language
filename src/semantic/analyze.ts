@@ -14,7 +14,8 @@ interface FunctionInfo {
   readonly generatedName: string;
   resolved?: ResolvedFunctionDeclaration;
   analyzing: boolean;
-  readonly signatures: Map<string, ValueType>;
+  parameterTypes?: readonly ValueType[];
+  returnType?: ValueType;
 }
 
 export function analyze(program: Program, fileName?: string): ResolvedProgram {
@@ -61,8 +62,129 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       declaration: statement,
       generatedName: `_kweFn${functionCount++}`,
       analyzing: false,
-      signatures: new Map(),
     });
+  }
+
+  const nestedFunctionError = (statement: FunctionDeclaration): never => {
+    throw new KwechiriError(
+      "Enweghị ike ịkọwa ọrụ n'ime block ọzọ. (Functions must be declared at module top level.)",
+      statement.location,
+      fileName,
+    );
+  };
+
+  const validateTopLevelFunctionPlacement = (statements: readonly Statement[], topLevel: boolean): void => {
+    for (const statement of statements) {
+      if (statement.kind === "FunctionDeclaration") {
+        if (!topLevel) nestedFunctionError(statement);
+        continue;
+      }
+      if (statement.kind === "ConditionalStatement") {
+        validateTopLevelFunctionPlacement(statement.thenBranch, false);
+        if (statement.elseBranch !== undefined) validateTopLevelFunctionPlacement(statement.elseBranch, false);
+      } else if (statement.kind === "LoopStatement") {
+        validateTopLevelFunctionPlacement(statement.body, false);
+      }
+    }
+  };
+
+  function validateExpressionStructure(expression: Expression, symbols: ReadonlySet<string>, functionName: string): void {
+    if (expression.kind === "StringLiteral" || expression.kind === "NumberLiteral"
+      || expression.kind === "BooleanLiteral" || expression.kind === "AbsenceLiteral") return;
+    if (expression.kind === "VariableReference") {
+      if (!symbols.has(expression.name)) {
+        throw new KwechiriError(`Enweghị ike ịchọta mgbanwe "${expression.name}". (Undefined variable.)`, expression.location, fileName);
+      }
+      return;
+    }
+    if (expression.kind === "CallExpression") {
+      const called = functions.get(expression.callee);
+      if (expression.callee === functionName) {
+        throw new KwechiriError(`Recursion akwadoghị maka ọrụ "${functionName}".`, expression.location, fileName);
+      }
+      if (called === undefined || called.declaration.location.offset >= expression.location.offset) {
+        throw new KwechiriError(`A kọwaghị ọrụ "${expression.callee}" tupu ojiji ya. (Function must be declared before use.)`, expression.location, fileName);
+      }
+      if (expression.arguments.length !== called.declaration.parameters.length) {
+        throw new KwechiriError(
+          `Ọrụ "${expression.callee}" chọrọ argument ${called.declaration.parameters.length}, mana enwetara ${expression.arguments.length}. (Wrong argument count.)`,
+          expression.location,
+          fileName,
+        );
+      }
+      for (const argument of expression.arguments) validateExpressionStructure(argument, symbols, functionName);
+      return;
+    }
+    if (expression.kind === "UnaryExpression") {
+      validateExpressionStructure(expression.operand, symbols, functionName);
+      return;
+    }
+    if (expression.kind === "BinaryExpression" || expression.kind === "ComparisonExpression" || expression.kind === "LogicalExpression") {
+      validateExpressionStructure(expression.left, symbols, functionName);
+      validateExpressionStructure(expression.right, symbols, functionName);
+      return;
+    }
+    if (expression.kind === "ArrayLiteral") {
+      for (const element of expression.elements) validateExpressionStructure(element, symbols, functionName);
+      return;
+    }
+    if (expression.kind === "ObjectLiteral") {
+      for (const field of expression.fields) validateExpressionStructure(field.value, symbols, functionName);
+      return;
+    }
+    if (expression.kind === "IndexExpression") {
+      validateExpressionStructure(expression.collection, symbols, functionName);
+      validateExpressionStructure(expression.index, symbols, functionName);
+      return;
+    }
+    validateExpressionStructure(expression.object, symbols, functionName);
+  }
+
+  function validateBlockStructure(source: readonly Statement[], initial: ReadonlySet<string>, functionName: string): {
+    readonly symbols: Set<string>;
+    readonly alwaysReturns: boolean;
+  } {
+    const symbols = new Set(initial);
+    let alwaysReturns = false;
+    for (const statement of source) {
+      if (alwaysReturns) {
+        throw new KwechiriError("Okwu a agaghị eru n'ihi `laghachi`. (Unreachable statement after return.)", statement.location, fileName);
+      }
+      if (statement.kind === "FunctionDeclaration") nestedFunctionError(statement);
+      if (statement.kind === "ReturnStatement") {
+        validateExpressionStructure(statement.value, symbols, functionName);
+        alwaysReturns = true;
+      } else if (statement.kind === "PrintStatement") {
+        validateExpressionStructure(statement.value, symbols, functionName);
+      } else if (statement.kind === "VariableAssignment") {
+        validateExpressionStructure(statement.value, symbols, functionName);
+        symbols.add(statement.name);
+      } else if (statement.kind === "IndexAssignment") {
+        validateExpressionStructure(statement.collection, symbols, functionName);
+        validateExpressionStructure(statement.index, symbols, functionName);
+        validateExpressionStructure(statement.value, symbols, functionName);
+      } else if (statement.kind === "PropertyAssignment") {
+        validateExpressionStructure(statement.object, symbols, functionName);
+        validateExpressionStructure(statement.value, symbols, functionName);
+      } else if (statement.kind === "LoopStatement") {
+        validateExpressionStructure(statement.condition, symbols, functionName);
+        validateBlockStructure(statement.body, symbols, functionName);
+      } else if (statement.kind === "ConditionalStatement") {
+        validateExpressionStructure(statement.condition, symbols, functionName);
+        const thenResult = validateBlockStructure(statement.thenBranch, symbols, functionName);
+        const elseResult = statement.elseBranch === undefined
+          ? { symbols: new Set(symbols), alwaysReturns: false }
+          : validateBlockStructure(statement.elseBranch, symbols, functionName);
+        for (const name of thenResult.symbols) if (elseResult.symbols.has(name)) symbols.add(name);
+        alwaysReturns = statement.elseBranch !== undefined && thenResult.alwaysReturns && elseResult.alwaysReturns;
+      }
+    }
+    return { symbols, alwaysReturns };
+  }
+
+  validateTopLevelFunctionPlacement(program.statements, true);
+  for (const info of functions.values()) {
+    validateBlockStructure(info.declaration.body, new Set(info.declaration.parameters), info.declaration.name);
   }
 
   const generatedNameFor = (name: string): string => {
@@ -272,10 +394,19 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
   };
 
   const analyzeFunction = (info: FunctionInfo, parameterTypes: readonly ValueType[]): ValueType => {
-    const signature = JSON.stringify(parameterTypes);
-    const cached = info.signatures.get(signature);
-    if (cached !== undefined) return cached;
     if (info.analyzing) throw new KwechiriError(`Recursion akwadoghị maka ọrụ "${info.declaration.name}".`, info.declaration.location, fileName);
+    if (info.parameterTypes !== undefined) {
+      const matches = info.parameterTypes.length === parameterTypes.length
+        && info.parameterTypes.every((type, index) => type === parameterTypes[index]);
+      if (!matches) {
+        throw new KwechiriError(
+          `Ụdị argument ọrụ "${info.declaration.name}" adabaghị na signature mbụ ya. (Function calls must use one parameter signature.)`,
+          info.declaration.location,
+          fileName,
+        );
+      }
+      return info.returnType as ValueType;
+    }
     info.analyzing = true;
     try {
       const symbols = new Map<string, SymbolInfo>();
@@ -288,12 +419,13 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       }
       const returnType = (result.returnTypes[0] ?? fallthroughType) as ValueType;
       if (result.returnTypes.some((type) => type !== returnType)) throw new KwechiriError(`Ụdị nloghachi ọrụ "${info.declaration.name}" adabaghị. (Return types differ.)`, info.declaration.location, fileName);
-      info.signatures.set(signature, returnType);
       const body = result.alwaysReturns ? result.statements : [
         ...result.statements,
         { kind: "ReturnStatement", value: { kind: "AbsenceLiteral", valueType: "absence" } } as const,
       ];
-      info.resolved ??= { generatedName: info.generatedName, parameters, body };
+      info.parameterTypes = [...parameterTypes];
+      info.returnType = returnType;
+      info.resolved = { generatedName: info.generatedName, parameters, body };
       return returnType;
     } finally { info.analyzing = false; }
   };

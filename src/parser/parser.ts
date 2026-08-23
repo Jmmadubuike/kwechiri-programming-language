@@ -278,6 +278,16 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
     if (identity(keyword) === "laghachi") {
       return { kind: "ReturnStatement", value: parseExpression(), location: keyword.location };
     }
+    if (identity(keyword) === "kwụsị") {
+      return { kind: "BreakStatement", location: keyword.location };
+    }
+    if (identity(keyword) === "gaa") {
+      const next = consume(TokenType.Keyword, 'A tụrụ anya "n\'ihu" mgbe "gaa" gasịrị. (Expected "n\'ihu" after "gaa".)');
+      if (identity(next) !== "n'ihu") {
+        throw new KwechiriError('A tụrụ anya "gaa n\'ihu". (Expected "gaa n\'ihu".)', next.location, fileName);
+      }
+      return { kind: "ContinueStatement", location: keyword.location };
+    }
     if (identity(keyword) === "ọ") {
       const bụrụ = consume(TokenType.Keyword, 'A tụrụ anya "bụrụ" mgbe "ọ" gasịrị.');
       if (identity(bụrụ) !== "bụrụ") {

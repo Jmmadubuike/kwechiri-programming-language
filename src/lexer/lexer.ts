@@ -1,7 +1,7 @@
 import { KwechiriError, type SourceLocation } from "../errors/kwechiri-error.js";
 import { TokenType, type Token } from "./token.js";
 
-const keywords = new Set(["bipụta", "ọ", "bụrụ", "ọzọ", "eziokwu", "ụgha", "efu", "mgbe", "ọrụ", "laghachi", "webata", "bupụ", "site", "na", "maọbụ", "bụghị"]);
+const keywords = new Set(["bipụta", "ọ", "bụrụ", "ọzọ", "eziokwu", "ụgha", "efu", "mgbe", "ọrụ", "laghachi", "kwụsị", "gaa", "n'ihu", "webata", "bupụ", "site", "na", "maọbụ", "bụghị"]);
 const identifierStart = /[\p{L}_]/u;
 const identifierContinue = /[\p{L}\p{M}\p{N}_]/u;
 
@@ -141,6 +141,12 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
         literal: Number(value),
         location: start,
       });
+      continue;
+    }
+
+    if (source.startsWith("n'ihu", offset) && !identifierContinue.test(source[offset + 5] ?? "")) {
+      for (let index = 0; index < 5; index += 1) advance();
+      tokens.push({ type: TokenType.Keyword, lexeme: "n'ihu", canonicalLexeme: "n'ihu", location: start });
       continue;
     }
 

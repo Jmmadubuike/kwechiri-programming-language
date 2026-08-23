@@ -79,6 +79,19 @@ describe("tokenize", () => {
     expect(tokens.find((token) => token.lexeme === "laghachi")?.type).toBe(TokenType.Keyword);
   });
 
+  it("recognizes approved loop-control vocabulary with NFC identity", () => {
+    const rawBreak = "kwụsị".normalize("NFD");
+    const tokens = tokenize(`${rawBreak} gaa n'ihu`);
+    expect(tokens.slice(0, 3).map((token) => ({ type: token.type, identity: token.canonicalLexeme }))).toEqual([
+      { type: TokenType.Keyword, identity: "kwụsị" },
+      { type: TokenType.Keyword, identity: "gaa" },
+      { type: TokenType.Keyword, identity: "n'ihu" },
+    ]);
+    expect(tokenize("Kwụsị")[0]?.type).toBe(TokenType.Identifier);
+    expect(tokenize("maka")[0]?.type).toBe(TokenType.Identifier);
+    expect(() => tokenize("n'aha")).toThrow(/Unknown character/);
+  });
+
   it("tokenizes collection punctuation", () => {
     const types = tokenize('[1, 2] { aha: "Uche" }.aha').map((token) => token.type);
     expect(types).toContain(TokenType.LeftBracket);

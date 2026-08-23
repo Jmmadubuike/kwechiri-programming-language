@@ -1,7 +1,8 @@
 # Syntax overview
 
-Current top-level statements are variable assignment, `bipụta`, conditions,
-loops, function declarations, and module declarations. Expressions include
+Current statements are variable assignment, `bipụta`, conditions, loops,
+`kwụsị`, `gaa n'ihu`, returns, function declarations, and module declarations.
+Function declarations remain module-top-level only. Expressions include
 literals, variable and property access, array indexing, function calls,
 arithmetic, comparisons, logical operators, grouping, arrays, and objects.
 
@@ -21,5 +22,6 @@ topic specifications define the currently implemented subset.
 Core value and logical vocabulary includes `efu`, `eziokwu`, `ụgha`, `na`,
 `maọbụ`, and the multiword unary operator `ọ bụghị`. Line comments use `//`.
 
-**Status: Undecided** — additional loop forms, break/continue, and all later
-syntax listed in the roadmap.
+Loop-control vocabulary includes `kwụsị` and the multiword statement
+`gaa n'ihu`. Both require an enclosing loop. `maka` and additional loop forms
+remain deferred.

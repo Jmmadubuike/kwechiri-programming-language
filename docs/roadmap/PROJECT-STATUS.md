@@ -8,11 +8,12 @@ Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
 closed at `f248fe0f9c6b561d8c2e73a317aee3c103f24512`; Core Values & Logic certified
 and closed at `4f57130e58f961684a2b76f8b6e605f5eb86d263`; Collections certified and
-closed at `cf0ef1e831e4e938ecc4161506fffe528eb681fb`.
+closed at `cf0ef1e831e4e938ecc4161506fffe528eb681fb`; Functions certified and closed
+at `c27d353e7589cf541f0054958c33f72c4803389b`.
 
-Current post-milestone work: the approved Functions pre-1.0 foundation batch is
-implemented locally and awaiting owner review and certification. Control Flow
-and Modules batches have not begun.
+Current post-milestone work: the approved Control Flow pre-1.0 foundation batch
+is implemented locally and awaiting owner review and certification. Modules has
+not begun.
 
 Next roadmap milestone: Milestone 11 — Standard library (not begun or authorized)
 
@@ -40,6 +41,7 @@ Kwechiri currently supports:
 - strict comparisons and boolean conditions
 - `ọ bụrụ` and optional `ọzọ`
 - `mgbe` loops
+- nearest-loop `kwụsị` and `gaa n'ihu`
 - `ọrụ` functions, parameters, calls, and `laghachi`
 - homogeneous arrays and typed objects
 - recursively structural array types independent of length
@@ -127,11 +129,20 @@ Completed and governed by ADR-008:
 - local-only scope and guaranteed returns
 - no recursion, closures, defaults, or nested functions yet
 
-The approved pre-1.0 Functions batch now adds eager structural validation,
+The certified pre-1.0 Functions batch adds eager structural validation,
 module-top-level-only declarations, one inferred signature per function,
 explicit recursion and first-class-function exclusions, and same-block
-unreachable-return diagnostics. It is awaiting owner review and certification;
-the historical Milestone 6 record remains unchanged.
+unreachable-return diagnostics. It was closed at
+`c27d353e7589cf541f0054958c33f72c4803389b`; the historical Milestone 6 record
+remains unchanged.
+
+### Pre-1.0 Control Flow
+
+The approved Control Flow batch adds nearest-loop `kwụsị` and `gaa n'ihu`,
+controlled invalid-placement diagnostics, and same-block reachability errors.
+It preserves strict `mgbe` conditions and the established flow-based binding
+model. It is implemented locally and awaiting owner review and certification.
+Modules remains the next batch, and Milestone 11 remains unstarted.
 
 ### Milestone 7 — Collections
 
@@ -281,7 +292,7 @@ the appropriate owner decision and milestone placement.
 ### Language design
 
 - multiline strings
-- `kwụsị`, `gaa n'ihu`, and `maka`
+- `maka` and collection iteration syntax
 - typed empty-array construction
 - explicit collection comparison and copying operations
 - computed properties, spread syntax, and collection methods
@@ -322,7 +333,7 @@ Every future development session should:
 
 ## Exact resume point
 
-Collections is closed at `cf0ef1e831e4e938ecc4161506fffe528eb681fb`.
-The approved Functions batch is implemented locally and awaiting owner review
-and certification. Do not begin Control Flow, Modules, or the Standard Library
-until the required preceding batch has been certified and closed.
+Functions is closed at `c27d353e7589cf541f0054958c33f72c4803389b`.
+The approved Control Flow batch is implemented locally and awaiting owner review
+and certification. Do not begin Modules or the Standard Library until the
+required preceding batch has been certified and closed.

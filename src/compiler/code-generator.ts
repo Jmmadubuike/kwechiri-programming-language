@@ -33,6 +33,8 @@ function generateStatements(statements: readonly ResolvedStatement[], indentatio
     if (statement.kind === "IndexAssignment") return [`${indentation}_kweRuntime.setIndex(${generateExpression(statement.collection)}, ${generateExpression(statement.index)}, ${generateExpression(statement.value)}, ${locationCode(statement.location)});`];
     if (statement.kind === "PropertyAssignment") return [`${indentation}${generateExpression(statement.object)}[${JSON.stringify(statement.property)}] = ${generateExpression(statement.value)};`];
     if (statement.kind === "ReturnStatement") return [`${indentation}return ${generateExpression(statement.value)};`];
+    if (statement.kind === "BreakStatement") return [`${indentation}break;`];
+    if (statement.kind === "ContinueStatement") return [`${indentation}continue;`];
     if (statement.kind === "LoopStatement") return [`${indentation}while (${generateExpression(statement.condition)}) {`, ...generateStatements(statement.body, `${indentation}  `), `${indentation}}`];
     const lines = statement.hoistedDeclarations.map((name) => `${indentation}let ${name};`);
     lines.push(`${indentation}if (${generateExpression(statement.condition)}) {`, ...generateStatements(statement.thenBranch, `${indentation}  `));

@@ -56,10 +56,10 @@ Milestone files are historical incremental records and may be superseded by
 later approved decisions. Current topic-oriented specifications and ADRs govern
 current behaviour. If documents conflict, stop and report the conflict.
 
-Milestones 0–10 are complete. Collections was certified, committed, and closed
-at `cf0ef1e831e4e938ecc4161506fffe528eb681fb`. The approved Functions batch is
-the current pre-1.0 foundation work. Milestone 11 must not begin without a
-separately approved contract.
+Milestones 0–10 are complete. Functions was certified, committed, and closed at
+`c27d353e7589cf541f0054958c33f72c4803389b`. The approved Control Flow batch is
+the current pre-1.0 foundation work. Modules has not begun, and Milestone 11
+must not begin without a separately approved contract.
 
 ## Engineering workflow
 

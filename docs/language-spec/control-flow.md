@@ -19,5 +19,20 @@ Boolean.
 be boolean. Existing loop-carried variables may be updated but must retain
 their value type. Names first assigned in the body remain local to that body.
 
-**Status: Undecided** — `maka`, `kwụsị`, `gaa n'ihu`,
-infinite-loop shorthand, and general block-local shadowing.
+`kwụsị` exits the nearest enclosing loop. `gaa n'ihu` continues at the next
+iteration of the nearest enclosing loop. Both are valid only inside loops,
+including conditions nested inside a loop, and neither targets an outer loop
+when a nearer loop exists. `kwụsị` does not exit a function. `laghachi` remains
+distinct: it exits the entire current function even from nested loops.
+
+An unconditional `laghachi`, `kwụsị`, or `gaa n'ihu` makes following statements
+in the same block unreachable, which is a semantic error. A transfer in only a
+conditional path does not by itself make subsequent statements unreachable.
+
+Control-flow blocks retain the flow-based binding model. Existing bindings stay
+the same bindings. A same-type name introduced in both conditional branches may
+be available afterward; one-branch and loop-created names are not. General
+block shadowing is not supported.
+
+**Deferred beyond 1.0** — `maka`, collection iteration syntax, infinite-loop
+shorthand, labeled loop control, and general block-local shadowing.

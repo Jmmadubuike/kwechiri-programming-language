@@ -8,6 +8,7 @@ interface BlockResult {
   readonly symbols: Map<string, SymbolInfo>;
   readonly returnTypes: readonly ValueType[];
   readonly alwaysReturns: boolean;
+  readonly alwaysTransfers: boolean;
 }
 interface FunctionInfo {
   readonly declaration: FunctionDeclaration;
@@ -140,20 +141,32 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
     validateExpressionStructure(expression.object, symbols, functionName);
   }
 
-  function validateBlockStructure(source: readonly Statement[], initial: ReadonlySet<string>, functionName: string): {
+  function validateBlockStructure(source: readonly Statement[], initial: ReadonlySet<string>, functionName: string, loopDepth = 0): {
     readonly symbols: Set<string>;
     readonly alwaysReturns: boolean;
+    readonly alwaysTransfers: boolean;
   } {
     const symbols = new Set(initial);
     let alwaysReturns = false;
+    let alwaysTransfers = false;
     for (const statement of source) {
-      if (alwaysReturns) {
-        throw new KwechiriError("Okwu a agaghị eru n'ihi `laghachi`. (Unreachable statement after return.)", statement.location, fileName);
+      if (alwaysTransfers) {
+        const message = alwaysReturns
+          ? "Okwu a agaghị eru n'ihi `laghachi`. (Unreachable statement after return.)"
+          : "Okwu a agaghị eru mgbe njikwa kwụsịrị. (Unreachable statement after control transfer.)";
+        throw new KwechiriError(message, statement.location, fileName);
       }
       if (statement.kind === "FunctionDeclaration") nestedFunctionError(statement);
       if (statement.kind === "ReturnStatement") {
         validateExpressionStructure(statement.value, symbols, functionName);
         alwaysReturns = true;
+        alwaysTransfers = true;
+      } else if (statement.kind === "BreakStatement" || statement.kind === "ContinueStatement") {
+        if (loopDepth === 0) {
+          const word = statement.kind === "BreakStatement" ? "kwụsị" : "gaa n'ihu";
+          throw new KwechiriError(`"${word}" ga-adị n'ime loop. (Loop control is only valid inside a loop.)`, statement.location, fileName);
+        }
+        alwaysTransfers = true;
       } else if (statement.kind === "PrintStatement") {
         validateExpressionStructure(statement.value, symbols, functionName);
       } else if (statement.kind === "VariableAssignment") {
@@ -168,18 +181,19 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
         validateExpressionStructure(statement.value, symbols, functionName);
       } else if (statement.kind === "LoopStatement") {
         validateExpressionStructure(statement.condition, symbols, functionName);
-        validateBlockStructure(statement.body, symbols, functionName);
+        validateBlockStructure(statement.body, symbols, functionName, loopDepth + 1);
       } else if (statement.kind === "ConditionalStatement") {
         validateExpressionStructure(statement.condition, symbols, functionName);
-        const thenResult = validateBlockStructure(statement.thenBranch, symbols, functionName);
+        const thenResult = validateBlockStructure(statement.thenBranch, symbols, functionName, loopDepth);
         const elseResult = statement.elseBranch === undefined
-          ? { symbols: new Set(symbols), alwaysReturns: false }
-          : validateBlockStructure(statement.elseBranch, symbols, functionName);
+          ? { symbols: new Set(symbols), alwaysReturns: false, alwaysTransfers: false }
+          : validateBlockStructure(statement.elseBranch, symbols, functionName, loopDepth);
         for (const name of thenResult.symbols) if (elseResult.symbols.has(name)) symbols.add(name);
         alwaysReturns = statement.elseBranch !== undefined && thenResult.alwaysReturns && elseResult.alwaysReturns;
+        alwaysTransfers = statement.elseBranch !== undefined && thenResult.alwaysTransfers && elseResult.alwaysTransfers;
       }
     }
-    return { symbols, alwaysReturns };
+    return { symbols, alwaysReturns, alwaysTransfers };
   }
 
   validateTopLevelFunctionPlacement(program.statements, true);
@@ -290,13 +304,19 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
     return { ...statement, hoistedDeclarations: statement.hoistedDeclarations.filter((item) => item !== name), thenBranch: statement.thenBranch.map((child) => promoteDeclaration(child, name)), ...(statement.elseBranch === undefined ? {} : { elseBranch: statement.elseBranch.map((child) => promoteDeclaration(child, name)) }) };
   };
 
-  const resolveBlock = (source: readonly Statement[], initial: ReadonlyMap<string, SymbolInfo>, allowReturn: boolean): BlockResult => {
+  const resolveBlock = (source: readonly Statement[], initial: ReadonlyMap<string, SymbolInfo>, allowReturn: boolean, loopDepth = 0): BlockResult => {
     const symbols = new Map(initial);
     const statements: ResolvedStatement[] = [];
     const returnTypes: ValueType[] = [];
     let alwaysReturns = false;
+    let alwaysTransfers = false;
     for (const statement of source) {
-      if (alwaysReturns) break;
+      if (alwaysTransfers) {
+        const message = alwaysReturns
+          ? "Okwu a agaghị eru n'ihi `laghachi`. (Unreachable statement after return.)"
+          : "Okwu a agaghị eru mgbe njikwa kwụsịrị. (Unreachable statement after control transfer.)";
+        throw new KwechiriError(message, statement.location, fileName);
+      }
       if (statement.kind === "FunctionDeclaration") {
         if (allowReturn) throw new KwechiriError("Enweghị ike ịkọwa ọrụ n'ime ọrụ ọzọ. (Nested functions are unsupported.)", statement.location, fileName);
         continue;
@@ -307,6 +327,16 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
         statements.push({ kind: "ReturnStatement", value });
         returnTypes.push(value.valueType);
         alwaysReturns = true;
+        alwaysTransfers = true;
+        continue;
+      }
+      if (statement.kind === "BreakStatement" || statement.kind === "ContinueStatement") {
+        if (loopDepth === 0) {
+          const word = statement.kind === "BreakStatement" ? "kwụsị" : "gaa n'ihu";
+          throw new KwechiriError(`"${word}" ga-adị n'ime loop. (Loop control is only valid inside a loop.)`, statement.location, fileName);
+        }
+        statements.push({ kind: statement.kind });
+        alwaysTransfers = true;
         continue;
       }
       if (statement.kind === "PrintStatement") {
@@ -356,7 +386,7 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       if (statement.kind === "LoopStatement") {
         const condition = resolveExpression(statement.condition, symbols);
         if (condition.valueType !== "boolean") throw new KwechiriError("Ọnọdụ `mgbe` ga-abụ eziokwu maọbụ ụgha. (A loop condition must be boolean.)", statement.condition.location, fileName);
-        const body = resolveBlock(statement.body, symbols, allowReturn);
+        const body = resolveBlock(statement.body, symbols, allowReturn, loopDepth + 1);
         for (const [name, symbol] of symbols) {
           const after = body.symbols.get(name);
           if (after !== undefined && after.valueType !== symbol.valueType) throw new KwechiriError(`Ụdị mgbanwe "${name}" ga-anọ otu n'ime ` + "`mgbe`" + ". (Loop variable type must remain stable.)", statement.location, fileName);
@@ -367,8 +397,10 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       }
       const condition = resolveExpression(statement.condition, symbols);
       if (condition.valueType !== "boolean") throw new KwechiriError("Ọnọdụ ga-abụ eziokwu maọbụ ụgha. (A condition must be boolean.)", statement.condition.location, fileName);
-      const thenResult = resolveBlock(statement.thenBranch, symbols, allowReturn);
-      const elseResult = statement.elseBranch === undefined ? { statements: [], symbols: new Map(symbols), returnTypes: [], alwaysReturns: false } : resolveBlock(statement.elseBranch, symbols, allowReturn);
+      const thenResult = resolveBlock(statement.thenBranch, symbols, allowReturn, loopDepth);
+      const elseResult = statement.elseBranch === undefined
+        ? { statements: [], symbols: new Map(symbols), returnTypes: [], alwaysReturns: false, alwaysTransfers: false }
+        : resolveBlock(statement.elseBranch, symbols, allowReturn, loopDepth);
       const merged = new Map(symbols);
       const hoisted: string[] = [];
       let thenStatements = [...thenResult.statements];
@@ -388,9 +420,10 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       statements.push({ kind: "ConditionalStatement", condition, thenBranch: thenStatements, ...(statement.elseBranch === undefined ? {} : { elseBranch: elseStatements }), hoistedDeclarations: hoisted });
       returnTypes.push(...thenResult.returnTypes, ...elseResult.returnTypes);
       alwaysReturns = thenResult.alwaysReturns && statement.elseBranch !== undefined && elseResult.alwaysReturns;
+      alwaysTransfers = thenResult.alwaysTransfers && statement.elseBranch !== undefined && elseResult.alwaysTransfers;
       symbols.clear(); for (const [name, symbol] of merged) symbols.set(name, symbol);
     }
-    return { statements, symbols, returnTypes, alwaysReturns };
+    return { statements, symbols, returnTypes, alwaysReturns, alwaysTransfers };
   };
 
   const analyzeFunction = (info: FunctionInfo, parameterTypes: readonly ValueType[]): ValueType => {

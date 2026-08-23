@@ -13,7 +13,9 @@ export type Statement =
   | ConditionalStatement
   | LoopStatement
   | FunctionDeclaration
-  | ReturnStatement;
+  | ReturnStatement
+  | BreakStatement
+  | ContinueStatement;
 
 export type Expression =
   | StringLiteral
@@ -146,6 +148,16 @@ export interface FunctionDeclaration {
 export interface ReturnStatement {
   readonly kind: "ReturnStatement";
   readonly value: Expression;
+  readonly location: SourceLocation;
+}
+
+export interface BreakStatement {
+  readonly kind: "BreakStatement";
+  readonly location: SourceLocation;
+}
+
+export interface ContinueStatement {
+  readonly kind: "ContinueStatement";
   readonly location: SourceLocation;
 }
 

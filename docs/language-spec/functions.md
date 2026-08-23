@@ -35,6 +35,10 @@ return type. All reachable concrete returns must agree on one type. Explicit
 `laghachi efu` is valid, and `laghachi` exits the entire function. A statement
 unconditionally following a return in the same block is an error.
 
+This remains true inside conditions and loops: `laghachi` exits the function,
+whereas `kwụsị` exits only the nearest loop and `gaa n'ihu` continues only that
+loop.
+
 Duplicate function names and parameter names are errors. Direct recursion,
 mutual recursion, and recursive module dependency graphs are unsupported.
 Functions are not first-class values: they cannot be assigned, passed, or

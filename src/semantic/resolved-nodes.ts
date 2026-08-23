@@ -12,7 +12,9 @@ export type ResolvedStatement =
   | ResolvedPropertyAssignment
   | ResolvedConditionalStatement
   | ResolvedLoopStatement
-  | ResolvedReturnStatement;
+  | ResolvedReturnStatement
+  | ResolvedBreakStatement
+  | ResolvedContinueStatement;
 export type ValueType = string;
 export type ResolvedExpression =
   | ResolvedStringLiteral
@@ -138,6 +140,14 @@ export interface ResolvedLoopStatement {
 export interface ResolvedReturnStatement {
   readonly kind: "ReturnStatement";
   readonly value: ResolvedExpression;
+}
+
+export interface ResolvedBreakStatement {
+  readonly kind: "BreakStatement";
+}
+
+export interface ResolvedContinueStatement {
+  readonly kind: "ContinueStatement";
 }
 
 export interface ResolvedCallExpression {

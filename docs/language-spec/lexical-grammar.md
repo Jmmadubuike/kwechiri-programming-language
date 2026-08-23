@@ -9,7 +9,9 @@ braces, brackets, comma, colon, and dot.
 
 Identifiers begin with a Unicode letter or `_` and continue with Unicode
 letters, combining marks, numbers, or `_`. Approved multiword forms such as
-`ọ bụrụ` and `site na` are parsed from their component keyword tokens.
+`ọ bụrụ`, `gaa n'ihu`, and `site na` are parsed from their component keyword
+tokens. The apostrophe-bearing `n'ihu` component is recognized only as the
+approved keyword; this does not expand the ordinary identifier grammar.
 
 Outside strings, `//` begins a single-line comment. It may immediately follow
 another token, produces no tokens, and continues through the character before
@@ -28,5 +30,9 @@ Exponent notation and numeric separators are unsupported.
 Keywords and identifier names use NFC for lexical identity while tokens retain
 their original source spelling and original offsets. The lexer does not
 normalize the complete source text.
+
+`kwụsị`, `gaa`, and `n'ihu` are reserved control-flow vocabulary. Keywords
+remain case-sensitive, and no ASCII aliases exist. `maka` is not reserved by
+this Control Flow contract.
 
 **Status: Undecided** — multiline strings and numeric extensions.

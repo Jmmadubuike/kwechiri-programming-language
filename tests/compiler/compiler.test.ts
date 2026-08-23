@@ -111,6 +111,109 @@ describe("compiler", () => {
     );
   });
 
+  it("executes kwụsị at the nearest enclosing loop", () => {
+    const source = [
+      "outer = 0",
+      "hits = 0",
+      "mgbe (outer < 3) {",
+      "  outer = outer + 1",
+      "  inner = 0",
+      "  mgbe (inner < 3) {",
+      "    inner = inner + 1",
+      "    hits = hits + 1",
+      "    ọ bụrụ (inner == 1) { kwụsị }",
+      "  }",
+      "}",
+      "bipụta(outer)",
+      "bipụta(hits)",
+    ].join("\n");
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile(source));
+    expect(log.mock.calls.map(([value]) => value)).toEqual([3, 3]);
+    log.mockRestore();
+  });
+
+  it("executes simple unconditional break and continue statements", () => {
+    const source = [
+      "breakCount = 0",
+      "mgbe (eziokwu) { breakCount = breakCount + 1 kwụsị }",
+      "continueCount = 0",
+      "mgbe (continueCount < 3) { continueCount = continueCount + 1 gaa n'ihu }",
+      "bipụta(breakCount)",
+      "bipụta(continueCount)",
+    ].join("\n");
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile(source));
+    expect(log.mock.calls.map(([value]) => value)).toEqual([1, 3]);
+    log.mockRestore();
+  });
+
+  it("executes gaa n'ihu at the nearest enclosing loop", () => {
+    const source = [
+      "outer = 0",
+      "hits = 0",
+      "mgbe (outer < 2) {",
+      "  outer = outer + 1",
+      "  inner = 0",
+      "  mgbe (inner < 3) {",
+      "    inner = inner + 1",
+      "    ọ bụrụ (inner == 2) { gaa n'ihu }",
+      "    hits = hits + 1",
+      "  }",
+      "}",
+      "bipụta(outer)",
+      "bipụta(hits)",
+    ].join("\n");
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile(source));
+    expect(log.mock.calls.map(([value]) => value)).toEqual([2, 4]);
+    log.mockRestore();
+  });
+
+  it("rejects loop control outside loops with located diagnostics", () => {
+    expect(() => compile("kwụsị", "control.kwe")).toThrow(/control\.kwe:1:1:.*Loop control is only valid inside a loop/);
+    expect(() => compile("gaa n'ihu", "control.kwe")).toThrow(/control\.kwe:1:1:.*Loop control is only valid inside a loop/);
+    expect(() => compile("ọrụ f() { kwụsị }", "control.kwe")).toThrow(/Loop control is only valid inside a loop/);
+  });
+
+  it("rejects malformed multiword continue syntax", () => {
+    expect(() => compile("gaa bipụta(1)", "control.kwe")).toThrow(/Expected "gaa n'ihu"/);
+    expect(() => compile("gaa", "control.kwe")).toThrow(/Expected "n'ihu" after "gaa"/);
+  });
+
+  it("rejects unreachable same-block statements after loop control", () => {
+    expect(() => compile('mgbe (eziokwu) { kwụsị bipụta("never") }', "control.kwe")).toThrow(
+      /Unreachable statement after control transfer/,
+    );
+    expect(() => compile('mgbe (eziokwu) { gaa n\'ihu bipụta("never") }', "control.kwe")).toThrow(
+      /Unreachable statement after control transfer/,
+    );
+  });
+
+  it("keeps statements reachable after conditional loop control", () => {
+    expect(() => compile('x = 0\nmgbe (x < 2) { x = x + 1 ọ bụrụ (x == 1) { kwụsị } bipụta("reachable") }')).not.toThrow();
+    expect(() => compile('x = 0\nmgbe (x < 2) { x = x + 1 ọ bụrụ (x == 1) { gaa n\'ihu } bipụta("reachable") }')).not.toThrow();
+  });
+
+  it("keeps laghachi distinct from nearest-loop control", () => {
+    const source = [
+      "ọrụ find() {",
+      "  outer = 0",
+      "  mgbe (outer < 2) {",
+      "    outer = outer + 1",
+      "    inner = 0",
+      "    mgbe (inner < 2) { inner = inner + 1 laghachi 7 }",
+      "  }",
+      "  laghachi 0",
+      "}",
+      "bipụta(find())",
+    ].join("\n");
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile(source));
+    expect(log).toHaveBeenCalledWith(7);
+    log.mockRestore();
+  });
+
   it("rejects loop-carried type changes", () => {
     expect(() => compile('uru = 1\nmgbe (ụgha) { uru = "otu" }', "loops.kwe")).toThrow(
       /Ụdị mgbanwe "uru" ga-anọ otu n'ime `mgbe`/,

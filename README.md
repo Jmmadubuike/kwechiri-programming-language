@@ -15,7 +15,7 @@ The implemented language includes:
 
 - Unicode Igbo identifiers and located diagnostics
 - strings, numbers, booleans, variables, arithmetic, and comparisons
-- `bipụta`, `ọ bụrụ`/`ọzọ`, and `mgbe`
+- `bipụta`, `ọ bụrụ`/`ọzọ`, `mgbe`, `kwụsị`, and `gaa n'ihu`
 - named `ọrụ` functions with `laghachi`
 - homogeneous arrays and typed objects
 - named relative modules using `webata`, `bupụ`, and `site na`

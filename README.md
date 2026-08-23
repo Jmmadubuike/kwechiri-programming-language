@@ -10,7 +10,9 @@ files use the `.kwe` extension.
 
 ## Current status
 
-Language Milestones 0–9 and the Milestone 10 professional CLI are implemented.
+Language Milestones 0–10 and the post-milestone Lexical Foundations, Core
+Values & Logic, Collections, Functions, and Control Flow phases are closed.
+The approved Modules Hardening phase is active; Milestone 11 has not started.
 The implemented language includes:
 
 - Unicode Igbo identifiers and located diagnostics

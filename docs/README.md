@@ -44,9 +44,10 @@ and consequences; they do not authorize unresolved future features.
 - [Recorded technical debt](roadmap/technical-debt.md)
 
 Milestones 0–10 and the post-milestone Lexical Foundations, Core Values & Logic,
-Collections, and Functions phases are closed. Functions was certified and
-closed at `c27d353e7589cf541f0054958c33f72c4803389b`. Control Flow is the current
-approved pre-1.0 implementation batch; Modules and Milestone 11 have not begun.
+Collections, Functions, and Control Flow phases are closed. Functions closed at
+`c27d353e7589cf541f0054958c33f72c4803389b`, and Control Flow closed at
+`ce14e04c56271b756742d29a57cb717ec0e27803`. Modules Hardening is the current
+approved pre-1.0 implementation batch; Milestone 11 has not begun.
 
 ## 7. Tutorials
 

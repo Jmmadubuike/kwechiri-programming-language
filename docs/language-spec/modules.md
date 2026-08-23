@@ -1,23 +1,39 @@
 # Modules
 
 Named imports use `webata { ... } site na "./file.kwe"`. Declarations are
-exported with `bupụ`.
+exported with `bupụ`. Imports must precede all other statements.
 
-Imports must precede other statements, are read-only, and use relative `.kwe`
-paths within the entry project directory. Modules initialize once in dependency
-order. Private declarations are namespaced. Duplicate imports/exports, missing
-exports, path escape, missing files, and circular dependencies are errors.
+Import paths must be relative and have an explicit lowercase `.kwe` extension.
+Absolute paths, bare specifiers, directory imports, extensionless paths, and
+remote paths are invalid. A `../` segment is valid only when its canonical
+target remains within the canonical entry directory.
 
-Top-level module output is allowed and runs once.
+The loader uses canonical filesystem identity for containment and caching. One
+physical canonical file is one module instance per program graph, even when
+normalized path variants or supported symlink aliases name it differently.
+Each module initializes once, after its dependencies. Direct and indirect
+cycles are rejected; partially initialized cyclic bindings do not exist.
 
-Imported and exported bindings may carry any implemented value, including
-`efu`. Because `efu`, `maọbụ`, and `bụghị` are reserved vocabulary, they cannot
-serve as binding names. The existing contextual `site na` grammar is unchanged.
+Top-level module output is allowed and runs once. Only explicitly `bupụ`
+declarations are visible to importers; all other top-level variables and
+functions remain private.
 
-An imported binding cannot be rebound. Imported arrays and objects are not
-transitively immutable, however: their existing elements or properties may be
-mutated under ordinary collection type and bounds rules. Imports and exports do
-not copy collections, so shared identity is preserved across modules.
+Imported bindings are read-only, including primitive, function, and collection
+bindings. Imported arrays and objects are not deeply immutable: existing
+elements and properties may be mutated under ordinary collection type and
+bounds rules. Imports and exports do not copy collections, so shared identity
+and mutations are visible across the graph.
 
-**Status: Undecided** — aliases, wildcard imports, re-exports, packages, remote
-modules, dynamic imports, and cross-project resolution.
+An imported name cannot also be declared as a local variable or function,
+exported as a conflicting local declaration, or imported again. These rules use
+the same NFC, case-sensitive binding identity as the rest of the language.
+
+There is no dedicated re-export or barrel-module syntax. Forwarding requires an
+ordinary explicit local declaration or wrapper where current language rules
+permit it. Import aliases remain deferred pending owner approval of exact
+grammar and Igbo terminology. Bare specifiers are reserved for a future package
+system; packages, wildcard imports, remote modules, dynamic imports, and
+cross-project resolution are unsupported.
+
+Module path strings and filenames are not NFC-normalized. Canonical filesystem
+identity is separate from Kwechiri identifier normalization.

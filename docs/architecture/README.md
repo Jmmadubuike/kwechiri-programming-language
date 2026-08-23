@@ -19,6 +19,8 @@ Current documents:
 
 - [Milestone 1 architecture](milestone-1.md) — historical initial slice
 - [Runtime architecture](runtime.md) — current runtime boundary
+- [Module graph architecture](modules.md) — canonical resolution, identity,
+  caching, ordering, and cycles
 - [CLI architecture](cli.md) — command parsing, orchestration, output, and exits
 
 Architecture documentation still needed:
@@ -28,7 +30,6 @@ Architecture documentation still needed:
 - parser and AST
 - semantic analysis and type representation
 - code generation
-- module graph loading
 - diagnostics and source locations
 
 These gaps do not authorize internal refactoring. Recorded architectural debt

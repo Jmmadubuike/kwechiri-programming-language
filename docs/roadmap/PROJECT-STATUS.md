@@ -9,11 +9,11 @@ Certification state: Milestone 10 certified and closed at
 closed at `f248fe0f9c6b561d8c2e73a317aee3c103f24512`; Core Values & Logic certified
 and closed at `4f57130e58f961684a2b76f8b6e605f5eb86d263`; Collections certified and
 closed at `cf0ef1e831e4e938ecc4161506fffe528eb681fb`; Functions certified and closed
-at `c27d353e7589cf541f0054958c33f72c4803389b`.
+at `c27d353e7589cf541f0054958c33f72c4803389b`; Control Flow certified and
+closed at `ce14e04c56271b756742d29a57cb717ec0e27803`.
 
-Current post-milestone work: the approved Control Flow pre-1.0 foundation batch
-is implemented locally and awaiting owner review and certification. Modules has
-not begun.
+Current post-milestone work: Modules Hardening is the approved active pre-1.0
+foundation batch.
 
 Next roadmap milestone: Milestone 11 — Standard library (not begun or authorized)
 
@@ -138,11 +138,21 @@ remains unchanged.
 
 ### Pre-1.0 Control Flow
 
-The approved Control Flow batch adds nearest-loop `kwụsị` and `gaa n'ihu`,
+The Control Flow batch adds nearest-loop `kwụsị` and `gaa n'ihu`,
 controlled invalid-placement diagnostics, and same-block reachability errors.
 It preserves strict `mgbe` conditions and the established flow-based binding
-model. It is implemented locally and awaiting owner review and certification.
-Modules remains the next batch, and Milestone 11 remains unstarted.
+model. It was certified and closed at
+`ce14e04c56271b756742d29a57cb717ec0e27803`.
+
+### Pre-1.0 Modules Hardening
+
+Status: active, implemented locally, and awaiting owner review.
+
+The approved batch adds canonical filesystem containment and identity,
+once-only dependency-first execution, cycle-chain diagnostics, consistent
+import/local collision rejection, explicit-export visibility, and shared
+mutable imported collections. Import aliases, dedicated re-exports, packages,
+and Milestone 11 remain unstarted.
 
 ### Milestone 7 — Collections
 
@@ -334,6 +344,6 @@ Every future development session should:
 ## Exact resume point
 
 Functions is closed at `c27d353e7589cf541f0054958c33f72c4803389b`.
-The approved Control Flow batch is implemented locally and awaiting owner review
-and certification. Do not begin Modules or the Standard Library until the
-required preceding batch has been certified and closed.
+Control Flow is closed at `ce14e04c56271b756742d29a57cb717ec0e27803`.
+Modules Hardening is active and awaiting owner review. Do not begin Milestone 11
+until Modules is certified and closed and a separate contract is approved.

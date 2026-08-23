@@ -10,6 +10,13 @@ division by zero, and dynamic index failures are diagnosed by their responsible
 compiler or runtime layer. Raw JavaScript errors should not define language
 behaviour.
 
+Controlled module diagnostics cover invalid path forms and extensions, missing
+imports or exports, canonical paths outside the entry root (including symlink
+escapes), duplicate imports or exports, imported/local name collisions,
+read-only imported-binding reassignment, and direct or indirect cycles. Cycle
+diagnostics include the dependency chain where available. Requested raw module
+path spelling is retained in path diagnostics where practical.
+
 `kwụsị` and `gaa n'ihu` outside loops are located semantic errors. A statement
 unconditionally following `laghachi`, `kwụsị`, or `gaa n'ihu` in the same block
 is an unreachable-code error. Malformed `gaa n'ihu` syntax is a controlled

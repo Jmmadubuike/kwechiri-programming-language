@@ -245,13 +245,19 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
   const parseStatement = (): Statement => {
     if (peek().type === TokenType.Identifier) {
       const name = consume(TokenType.Identifier, "A tụrụ anya aha mgbanwe.");
+      const target = parsePostfix({ kind: "VariableReference", name: identity(name), location: name.location });
       consume(TokenType.Equals, 'A tụrụ anya "=" mgbe aha mgbanwe gasịrị.');
-      return {
-        kind: "VariableAssignment",
-        name: identity(name),
-        value: parseExpression(),
-        location: name.location,
-      };
+      const value = parseExpression();
+      if (target.kind === "VariableReference") {
+        return { kind: "VariableAssignment", name: target.name, value, location: name.location };
+      }
+      if (target.kind === "IndexExpression") {
+        return { kind: "IndexAssignment", collection: target.collection, index: target.index, value, location: target.location };
+      }
+      if (target.kind === "PropertyAccessExpression") {
+        return { kind: "PropertyAssignment", object: target.object, property: target.property, value, location: target.location };
+      }
+      throw new KwechiriError("Ebumnuche assignment adịghị mma. (Invalid assignment target.)", name.location, fileName);
     }
 
     const keyword = consume(TokenType.Keyword, 'A tụrụ anya "bipụta", "ọ bụrụ", maọbụ aha mgbanwe.');

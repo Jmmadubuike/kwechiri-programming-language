@@ -11,6 +11,7 @@ describe("Kwechiri runtime", () => {
       print,
       divide: (left, right) => left / right,
       index: (collection, index) => collection[index],
+      setIndex: (collection, index, value) => { collection[index] = value; },
     };
     executeJavaScript(compile('bipụta("Ndewo")'), "hello.kwe", runtime);
     expect(print).toHaveBeenCalledWith("Ndewo", { line: 1, column: 1, offset: 0 });
@@ -48,5 +49,18 @@ describe("Kwechiri runtime", () => {
       "efu",
       '{"ezi":eziokwu,"ihe":[efu,ụgha]}',
     ]);
+  });
+
+  it("mutates only valid existing array indexes", () => {
+    const runtime = new NodeKwechiriRuntime("mutation.kwe", () => undefined);
+    const location = { line: 2, column: 4, offset: 12 };
+    const values: unknown[] = [1, 2];
+    runtime.setIndex(values, 1, 10, location);
+    expect(values).toEqual([1, 10]);
+    for (const index of [-1, 0.5, 2, Number.POSITIVE_INFINITY]) {
+      expect(() => runtime.setIndex(values, index, 3, location)).toThrowError(
+        expect.objectContaining<Partial<KwechiriRuntimeError>>({ category: "INDEX_OUT_OF_RANGE", location }),
+      );
+    }
   });
 });

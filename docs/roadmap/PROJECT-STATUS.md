@@ -6,10 +6,11 @@ Current implemented milestone: Milestone 10 — Professional CLI
 
 Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
-closed at `f248fe0f9c6b561d8c2e73a317aee3c103f24512`.
+closed at `f248fe0f9c6b561d8c2e73a317aee3c103f24512`; Core Values & Logic certified
+and closed at `4f57130e58f961684a2b76f8b6e605f5eb86d263`.
 
-Current post-milestone work: Core Values & Logic implemented locally and
-awaiting owner review and certification.
+Current post-milestone work: Collections implemented locally and awaiting owner
+review and certification.
 
 Next roadmap milestone: Milestone 11 — Standard library (not begun or authorized)
 
@@ -39,6 +40,9 @@ Kwechiri currently supports:
 - `mgbe` loops
 - `ọrụ` functions, parameters, calls, and `laghachi`
 - homogeneous arrays and typed objects
+- recursively structural array types independent of length
+- type-safe existing-element and existing-property mutation
+- collection reference identity without implicit copying
 - checked array indexing and object property access
 - named multi-file modules using `webata`, `bupụ`, and `site na`
 - an explicit Kwechiri runtime boundary with a Node.js implementation
@@ -270,8 +274,8 @@ the appropriate owner decision and milestone placement.
 
 - multiline strings
 - `kwụsị`, `gaa n'ihu`, and `maka`
-- empty arrays
-- collection equality and mutation
+- typed empty-array construction
+- explicit collection comparison and copying operations
 - computed properties, spread syntax, and collection methods
 - recursion, closures, default parameters, and anonymous functions
 - module aliases, re-exports, wildcard imports, packages, and remote modules
@@ -309,6 +313,6 @@ Every future development session should:
 
 ## Exact resume point
 
-The approved Core Values & Logic implementation is awaiting owner review and a
-separate final certification. Do not begin the next design packet or the
-standard library until each receives its own approved contract.
+The approved Collections implementation is awaiting owner review and a separate
+final certification. Do not begin the Functions packet or the standard library
+until each receives its own approved contract.

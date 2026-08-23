@@ -30,9 +30,18 @@ export class NodeKwechiriRuntime implements KwechiriRuntime {
   }
 
   public index(collection: readonly unknown[], index: number, location: SourceLocation): unknown {
-    if (!Number.isInteger(index) || index < 0 || index >= collection.length) {
+    this.assertValidIndex(collection, index, location);
+    return collection[index];
+  }
+
+  public setIndex(collection: unknown[], index: number, value: unknown, location: SourceLocation): void {
+    this.assertValidIndex(collection, index, location);
+    collection[index] = value;
+  }
+
+  private assertValidIndex(collection: readonly unknown[], index: number, location: SourceLocation): void {
+    if (!Number.isFinite(index) || !Number.isInteger(index) || index < 0 || index >= collection.length) {
       throw new KwechiriRuntimeError("Index ndepụta gafere oke. (Array index out of range.)", "INDEX_OUT_OF_RANGE", location, this.fileName);
     }
-    return collection[index];
   }
 }

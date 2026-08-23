@@ -8,6 +8,8 @@ export interface Program {
 export type Statement =
   | PrintStatement
   | VariableAssignment
+  | IndexAssignment
+  | PropertyAssignment
   | ConditionalStatement
   | LoopStatement
   | FunctionDeclaration
@@ -38,6 +40,22 @@ export interface PrintStatement {
 export interface VariableAssignment {
   readonly kind: "VariableAssignment";
   readonly name: string;
+  readonly value: Expression;
+  readonly location: SourceLocation;
+}
+
+export interface IndexAssignment {
+  readonly kind: "IndexAssignment";
+  readonly collection: Expression;
+  readonly index: Expression;
+  readonly value: Expression;
+  readonly location: SourceLocation;
+}
+
+export interface PropertyAssignment {
+  readonly kind: "PropertyAssignment";
+  readonly object: Expression;
+  readonly property: string;
   readonly value: Expression;
   readonly location: SourceLocation;
 }

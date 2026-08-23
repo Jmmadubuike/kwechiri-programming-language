@@ -20,6 +20,9 @@ Unary operators associate right. Arithmetic, `na`, and `maọbụ` associate lef
 
 Expressions may contain literals, variables, calls, array indexes, object
 properties, arrays, and objects. Division by zero is a located runtime error.
+Array indexes must be finite, non-negative integers within bounds. Collection
+equality and inequality are errors even when both operands are aliases of the
+same collection.
 
 **Status: Undecided** — modulo, exponentiation, implicit conversion, string
-concatenation, and collection equality.
+concatenation, and future explicit collection comparison operations.

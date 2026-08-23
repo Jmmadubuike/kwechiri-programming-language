@@ -2,7 +2,7 @@ import type { Expression, FunctionDeclaration, Program, Statement } from "../ast
 import { KwechiriError } from "../errors/kwechiri-error.js";
 import type { ResolvedExpression, ResolvedFunctionDeclaration, ResolvedProgram, ResolvedStatement, ValueType } from "./resolved-nodes.js";
 
-interface SymbolInfo { readonly generatedName: string; readonly valueType: ValueType }
+interface SymbolInfo { readonly generatedName: string; readonly valueType: ValueType; readonly knownLength?: number }
 interface BlockResult {
   readonly statements: readonly ResolvedStatement[];
   readonly symbols: Map<string, SymbolInfo>;
@@ -22,10 +22,32 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
   const functions = new Map<string, FunctionInfo>();
   let functionCount = 0;
   const isCollection = (type: ValueType): boolean => type.startsWith("array|") || type.startsWith("object|");
-  const arrayType = (element: ValueType, length: number): ValueType => `array|${JSON.stringify({ element, length })}`;
+  const arrayType = (element: ValueType): ValueType => `array|${JSON.stringify({ element })}`;
   const objectType = (fields: Readonly<Record<string, ValueType>>): ValueType => `object|${JSON.stringify(fields)}`;
-  const collectionData = (type: ValueType): { element?: ValueType; length?: number; [key: string]: unknown } =>
-    JSON.parse(type.slice(type.indexOf("|") + 1)) as { element?: ValueType; length?: number; [key: string]: unknown };
+  const collectionData = (type: ValueType): { element?: ValueType; [key: string]: unknown } =>
+    JSON.parse(type.slice(type.indexOf("|") + 1)) as { element?: ValueType; [key: string]: unknown };
+  const knownLengthOf = (expression: ResolvedExpression): number | undefined => {
+    if (expression.kind === "ArrayLiteral") return expression.elements.length;
+    if (expression.kind === "VariableReference" || expression.kind === "CallExpression") return expression.knownLength;
+    return undefined;
+  };
+  const staticIndexValue = (expression: Expression): number | undefined => {
+    if (expression.kind === "NumberLiteral") return expression.value;
+    if (expression.kind === "UnaryExpression" && expression.operator === "-" && expression.operand.kind === "NumberLiteral") {
+      return -expression.operand.value;
+    }
+    return undefined;
+  };
+  const validateIndex = (source: Expression, resolved: ResolvedExpression, knownLength: number | undefined, location: Expression["location"]): void => {
+    if (resolved.valueType !== "number") {
+      throw new KwechiriError("Index ndepụta ga-abụ ọnụọgụ. (Array index must be a number.)", location, fileName);
+    }
+    const value = staticIndexValue(source);
+    if (value !== undefined
+      && (!Number.isFinite(value) || !Number.isInteger(value) || value < 0 || (knownLength !== undefined && value >= knownLength))) {
+      throw new KwechiriError("Index ndepụta gafere oke. (Array index out of range.)", location, fileName);
+    }
+  };
 
   for (const statement of program.statements) {
     if (statement.kind !== "FunctionDeclaration") continue;
@@ -61,7 +83,7 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       const elements = expression.elements.map((element) => resolveExpression(element, symbols));
       const elementType = elements[0]?.valueType as ValueType;
       if (elements.some((element) => element.valueType !== elementType)) throw new KwechiriError("Ihe niile dị na ndepụta ga-enwe otu ụdị. (Array elements must share a type.)", expression.location, fileName);
-      return { kind: "ArrayLiteral", elements, valueType: arrayType(elementType, elements.length) };
+      return { kind: "ArrayLiteral", elements, valueType: arrayType(elementType) };
     }
     if (expression.kind === "ObjectLiteral") {
       const names = expression.fields.map((field) => field.name);
@@ -74,11 +96,8 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       const collection = resolveExpression(expression.collection, symbols);
       const index = resolveExpression(expression.index, symbols);
       if (!collection.valueType.startsWith("array|")) throw new KwechiriError("Enwere ike iji index naanị na ndepụta. (Indexing requires an array.)", expression.location, fileName);
-      if (index.valueType !== "number") throw new KwechiriError("Index ndepụta ga-abụ ọnụọgụ. (Array index must be a number.)", expression.location, fileName);
       const data = collectionData(collection.valueType);
-      if (expression.index.kind === "NumberLiteral" && (!Number.isInteger(expression.index.value) || expression.index.value < 0 || expression.index.value >= (data.length as number))) {
-        throw new KwechiriError("Index ndepụta gafere oke. (Array index out of range.)", expression.location, fileName);
-      }
+      validateIndex(expression.index, index, knownLengthOf(collection), expression.location);
       return { kind: "IndexExpression", collection, index, valueType: data.element as ValueType, location: expression.location };
     }
     if (expression.kind === "PropertyAccessExpression") {
@@ -134,7 +153,13 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
     }
     const symbol = symbols.get(expression.name);
     if (symbol === undefined) throw new KwechiriError(`Enweghị ike ịchọta mgbanwe "${expression.name}". (Undefined variable.)`, expression.location, fileName);
-    return { kind: "VariableReference", generatedName: symbol.generatedName, location: expression.location, valueType: symbol.valueType };
+    return {
+      kind: "VariableReference",
+      generatedName: symbol.generatedName,
+      location: expression.location,
+      valueType: symbol.valueType,
+      ...(symbol.knownLength === undefined ? {} : { knownLength: symbol.knownLength }),
+    };
   };
 
   const promoteDeclaration = (statement: ResolvedStatement, name: string): ResolvedStatement => {
@@ -171,7 +196,39 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
         const existing = symbols.get(statement.name);
         const generatedName = existing?.generatedName ?? generatedNameFor(statement.name);
         statements.push({ kind: "VariableAssignment", generatedName, declaration: existing === undefined, value });
-        symbols.set(statement.name, { generatedName, valueType: value.valueType });
+        const knownLength = knownLengthOf(value);
+        symbols.set(statement.name, { generatedName, valueType: value.valueType, ...(knownLength === undefined ? {} : { knownLength }) });
+        continue;
+      }
+      if (statement.kind === "IndexAssignment") {
+        const collection = resolveExpression(statement.collection, symbols);
+        if (!collection.valueType.startsWith("array|")) {
+          throw new KwechiriError("Enwere ike ịgbanwe index naanị na ndepụta. (Index assignment requires an array.)", statement.location, fileName);
+        }
+        const index = resolveExpression(statement.index, symbols);
+        validateIndex(statement.index, index, knownLengthOf(collection), statement.location);
+        const value = resolveExpression(statement.value, symbols);
+        const elementType = collectionData(collection.valueType).element;
+        if (value.valueType !== elementType) {
+          throw new KwechiriError("Ụdị uru ọhụrụ ga-adaba n'ụdị ihe ndepụta. (Assigned value must match the array element type.)", statement.location, fileName);
+        }
+        statements.push({ kind: "IndexAssignment", collection, index, value, location: statement.location });
+        continue;
+      }
+      if (statement.kind === "PropertyAssignment") {
+        const object = resolveExpression(statement.object, symbols);
+        if (!object.valueType.startsWith("object|")) {
+          throw new KwechiriError("Ịgbanwe property chọrọ object. (Property assignment requires an object.)", statement.location, fileName);
+        }
+        const propertyType = collectionData(object.valueType)[statement.property];
+        if (typeof propertyType !== "string") {
+          throw new KwechiriError(`Property "${statement.property}" adịghị. (Missing property.)`, statement.location, fileName);
+        }
+        const value = resolveExpression(statement.value, symbols);
+        if (value.valueType !== propertyType) {
+          throw new KwechiriError("Ụdị uru ọhụrụ ga-adaba n'ụdị property. (Assigned value must match the property type.)", statement.location, fileName);
+        }
+        statements.push({ kind: "PropertyAssignment", object, property: statement.property, value });
         continue;
       }
       if (statement.kind === "LoopStatement") {
@@ -198,7 +255,8 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
         const elseSymbol = elseResult.symbols.get(name);
         if (elseSymbol === undefined) continue;
         if (thenSymbol.valueType !== elseSymbol.valueType) throw new KwechiriError(`Ụdị mgbanwe "${name}" adabaghị n'alaka abụọ. (Branch variable types differ.)`, statement.location, fileName);
-        merged.set(name, thenSymbol);
+        const knownLength = thenSymbol.knownLength === elseSymbol.knownLength ? thenSymbol.knownLength : undefined;
+        merged.set(name, { generatedName: thenSymbol.generatedName, valueType: thenSymbol.valueType, ...(knownLength === undefined ? {} : { knownLength }) });
         if (!symbols.has(name)) {
           hoisted.push(thenSymbol.generatedName);
           thenStatements = thenStatements.map((child) => promoteDeclaration(child, thenSymbol.generatedName));

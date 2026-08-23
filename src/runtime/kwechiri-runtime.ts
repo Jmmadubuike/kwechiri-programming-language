@@ -18,4 +18,5 @@ export interface KwechiriRuntime {
   print(value: unknown, location: SourceLocation): void;
   divide(left: number, right: number, location: SourceLocation): number;
   index(collection: readonly unknown[], index: number, location: SourceLocation): unknown;
+  setIndex(collection: unknown[], index: number, value: unknown, location: SourceLocation): void;
 }

@@ -8,6 +8,10 @@ arithmetic, comparisons, logical operators, grouping, arrays, and objects.
 Blocks use `{ ... }`. Parentheses group expressions and enclose conditions and
 function arguments. Statements do not require semicolons.
 
+Assignments may target a variable, an existing array index, or an existing
+object property. Index and property assignment preserve collection type and do
+not add or remove collection members.
+
 The implemented control words are documented by topic. The canonical output
 operation is `bipụta`.
 

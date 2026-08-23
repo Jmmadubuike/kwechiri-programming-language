@@ -17,5 +17,9 @@ return type. Explicit `laghachi efu` is valid.
 
 Duplicate function names and parameter names are errors.
 
+Arrays and objects are passed and returned by reference. Calls and returns do
+not implicitly copy collections, so mutation through a parameter or returned
+alias is observable through other aliases.
+
 **Status: Undecided** — recursion, closures, default parameters, anonymous or
 nested functions, and overloading.

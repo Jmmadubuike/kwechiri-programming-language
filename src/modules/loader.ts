@@ -119,7 +119,9 @@ export async function loadModuleGraph(entryPath: string): Promise<string> {
     for (let index = 0; index < tokens.length - 1; index += 1) {
       const token = tokens[index];
       const next = tokens[index + 1];
-      if (token?.type === TokenType.Identifier && (next?.type === TokenType.Equals || (tokens[index - 1]?.canonicalLexeme === "ọrụ"))) {
+      if (token?.type === TokenType.Identifier
+        && ((next?.type === TokenType.Equals && tokens[index - 1]?.type !== TokenType.Dot)
+          || (tokens[index - 1]?.canonicalLexeme === "ọrụ"))) {
         locals.add(token.canonicalLexeme ?? token.lexeme);
       }
     }

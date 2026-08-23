@@ -8,6 +8,8 @@ export interface ResolvedProgram {
 export type ResolvedStatement =
   | ResolvedPrintStatement
   | ResolvedVariableAssignment
+  | ResolvedIndexAssignment
+  | ResolvedPropertyAssignment
   | ResolvedConditionalStatement
   | ResolvedLoopStatement
   | ResolvedReturnStatement;
@@ -41,6 +43,21 @@ export interface ResolvedVariableAssignment {
   readonly value: ResolvedExpression;
 }
 
+export interface ResolvedIndexAssignment {
+  readonly kind: "IndexAssignment";
+  readonly collection: ResolvedExpression;
+  readonly index: ResolvedExpression;
+  readonly value: ResolvedExpression;
+  readonly location: SourceLocation;
+}
+
+export interface ResolvedPropertyAssignment {
+  readonly kind: "PropertyAssignment";
+  readonly object: ResolvedExpression;
+  readonly property: string;
+  readonly value: ResolvedExpression;
+}
+
 export interface ResolvedStringLiteral {
   readonly kind: "StringLiteral";
   readonly value: string;
@@ -58,6 +75,7 @@ export interface ResolvedVariableReference {
   readonly generatedName: string;
   readonly location: SourceLocation;
   readonly valueType: ValueType;
+  readonly knownLength?: number;
 }
 
 export interface ResolvedUnaryExpression {
@@ -127,6 +145,7 @@ export interface ResolvedCallExpression {
   readonly generatedName: string;
   readonly arguments: readonly ResolvedExpression[];
   readonly valueType: ValueType;
+  readonly knownLength?: number;
 }
 
 export interface ResolvedFunctionDeclaration {

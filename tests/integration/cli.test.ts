@@ -23,6 +23,33 @@ afterEach(() => {
 });
 
 describe("Kwechiri CLI integration", () => {
+  it("preserves mutable collection identity across module imports while keeping bindings read-only", () => {
+    const directory = temporaryDirectory();
+    writeFileSync(
+      join(directory, "values.kwe"),
+      'bupụ items = [1, 2]\nbupụ itemsAlias = items\nbupụ person = { aha: "Uche" }\nbupụ personAlias = person',
+      "utf8",
+    );
+    writeFileSync(
+      join(directory, "main.kwe"),
+      'webata { items, itemsAlias, person, personAlias } site na "./values.kwe"\nitems[0] = 10\nperson.aha = "Ada"\nbipụta(itemsAlias)\nbipụta(personAlias)',
+      "utf8",
+    );
+    expect(runCli([join(directory, "main.kwe")])).toEqual({
+      status: 0,
+      stdout: '[10,2]\n{"aha":"Ada"}\n',
+      stderr: "",
+    });
+    writeFileSync(
+      join(directory, "rebind.kwe"),
+      'webata { items } site na "./values.kwe"\nitems = [3, 4]',
+      "utf8",
+    );
+    const rebound = runCli(["check", join(directory, "rebind.kwe")]);
+    expect(rebound.status).toBe(1);
+    expect(rebound.stderr).toContain("Imported bindings are read-only");
+  });
+
   it("imports and exports values containing efu without changing module behavior", () => {
     const directory = temporaryDirectory();
     writeFileSync(join(directory, "value.kwe"), "bupụ ihe = { uru: efu }", "utf8");

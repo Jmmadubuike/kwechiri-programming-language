@@ -179,11 +179,14 @@ describe("compiler", () => {
 
   it("rejects known out-of-range indexes and missing properties", () => {
     expect(() => compile("a = [1, 2]\nbipụta(a[2])")).toThrow(/Array index out of range/);
+    expect(() => compile("a = [1, 2]\nbipụta(a[-1])")).toThrow(/Array index out of range/);
+    expect(() => compile("a = [1, 2]\nbipụta(a[0.5])")).toThrow(/Array index out of range/);
     expect(() => compile('a = { aha: "Uche" }\nbipụta(a.afọ)')).toThrow(/Missing property/);
   });
 
   it("rejects collection equality", () => {
     expect(() => compile("a = [1]\nb = [1]\nbipụta(a == b)")).toThrow(/Collection equality is not yet supported/);
+    expect(() => compile("a = { x: 1 }\nbipụta(a != a)")).toThrow(/Collection equality is not yet supported/);
   });
 
   it("guards dynamic indexes at runtime", () => {
@@ -197,6 +200,117 @@ describe("compiler", () => {
     const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
     executeJavaScript(javaScript);
     expect(log).toHaveBeenCalledWith("[1,2]");
+    log.mockRestore();
+  });
+
+  it("types arrays by recursive element type rather than length", () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile("a = [[1], [2, 3], [4, 5, 6]]\nbipụta(a)"));
+    expect(log).toHaveBeenCalledWith("[[1],[2,3],[4,5,6]]");
+    log.mockRestore();
+    expect(() => compile('a = [[1], ["abụọ", "atọ"]]')).toThrow(/Array elements must share a type/);
+  });
+
+  it("keeps known lengths for static bounds checks without making length a type", () => {
+    expect(() => compile("a = [1]\nb = a\nbipụta(b[1])")).toThrow(/Array index out of range/);
+    expect(() => compile("ọ bụrụ (eziokwu) { a = [1] } ọzọ { a = [2, 3] }\nbipụta(a[0])")).not.toThrow();
+  });
+
+  it("mutates an existing array index through shared aliases", () => {
+    const source = "a = [1, 2]\nb = a\nb[0] = 10\nbipụta(a)";
+    const javaScript = compile(source);
+    expect(javaScript).toContain("_kweRuntime.setIndex(_kwe1, 0, 10");
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(javaScript);
+    expect(log).toHaveBeenCalledWith("[10,2]");
+    log.mockRestore();
+  });
+
+  it("enforces array mutation target, index, bounds, and element type", () => {
+    expect(() => compile("a = 1\na[0] = 2")).toThrow(/Index assignment requires an array/);
+    expect(() => compile('a = [1]\na["0"] = 2')).toThrow(/Array index must be a number/);
+    expect(() => compile("a = [1]\na[-1] = 2")).toThrow(/Array index out of range/);
+    expect(() => compile("a = [1]\na[0.5] = 2")).toThrow(/Array index out of range/);
+    expect(() => compile("a = [1]\na[1] = 2")).toThrow(/Array index out of range/);
+    expect(() => compile('a = [1]\na[0] = "otu"')).toThrow(/must match the array element type/);
+    expect(() => compile("a = [1]\na[0] = efu")).toThrow(/must match the array element type/);
+  });
+
+  it("guards dynamic array mutation indexes at runtime", () => {
+    for (const index of ["-1", "0.5", "2"]) {
+      expect(() => executeJavaScript(compile(`a = [1, 2]\ni = ${index}\na[i] = 3`))).toThrow(/Array index out of range/);
+    }
+  });
+
+  it("mutates existing object properties through aliases without changing shape or type", () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile('a = { aha: "Uche", nested: { afọ: 36 } }\nb = a\nb.aha = "Ada"\nb.nested.afọ = 37\nbipụta(a)'));
+    expect(log).toHaveBeenCalledWith('{"aha":"Ada","nested":{"afọ":37}}');
+    log.mockRestore();
+    expect(() => compile('a = { aha: "Uche" }\na.afọ = 36')).toThrow(/Missing property/);
+    expect(() => compile('a = { aha: "Uche" }\na.aha = 1')).toThrow(/must match the property type/);
+    expect(() => compile('a = { aha: "Uche" }\na.aha = efu')).toThrow(/must match the property type/);
+    expect(() => compile("a = 1\na.aha = 2")).toThrow(/Property assignment requires an object/);
+  });
+
+  it("preserves collection references through function parameters and returns", () => {
+    const source = [
+      "ọrụ gbanwee(x) { x[0] = 7 laghachi x }",
+      "a = [1, 2]",
+      "b = gbanwee(a)",
+      "b[1] = 8",
+      "bipụta(a)",
+    ].join("\n");
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile(source));
+    expect(log).toHaveBeenCalledWith("[7,8]");
+    log.mockRestore();
+  });
+
+  it("accepts different array lengths through the same element-typed function signature", () => {
+    const source = [
+      "ọrụ mbụ(x) { laghachi x[0] }",
+      "bipụta(mbụ([1]))",
+      "bipụta(mbụ([2, 3]))",
+    ].join("\n");
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile(source));
+    expect(log.mock.calls.map(([value]) => value)).toEqual([1, 2]);
+    log.mockRestore();
+  });
+
+  it("preserves object identity through function parameters and returns", () => {
+    const source = [
+      "ọrụ nye(x) { laghachi x }",
+      'a = { aha: "Uche" }',
+      "b = nye(a)",
+      'b.aha = "Ada"',
+      "bipụta(a)",
+    ].join("\n");
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile(source));
+    expect(log).toHaveBeenCalledWith('{"aha":"Ada"}');
+    log.mockRestore();
+  });
+
+  it("supports empty fixed-shape objects without treating them as dictionaries", () => {
+    expect(() => compile("a = {}\nbipụta(a.missing)")).toThrow(/Missing property/);
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile("bipụta({})"));
+    expect(log).toHaveBeenCalledWith("{}");
+    log.mockRestore();
+  });
+
+  it("rejects NFC-equivalent duplicate and reserved object properties", () => {
+    const decomposed = "ụbọchị".normalize("NFD");
+    expect(() => compile(`a = { ụbọchị: 1, ${decomposed}: 2 }`)).toThrow(/Duplicate object property/);
+    for (const property of ["efu", "maọbụ", "bụghị"]) expect(() => compile(`a = { ${property}: 1 }`)).toThrow();
+  });
+
+  it("uses the exact compact Kwechiri collection display format", () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile('bipụta({ flags: [eziokwu, ụgha], absent: efu, text: "Ada\\nObi" })'));
+    expect(log).toHaveBeenCalledWith('{"flags":[eziokwu,ụgha],"absent":efu,"text":"Ada\\nObi"}');
     log.mockRestore();
   });
 

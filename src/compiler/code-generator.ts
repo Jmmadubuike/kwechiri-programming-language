@@ -30,6 +30,8 @@ function generateStatements(statements: readonly ResolvedStatement[], indentatio
   return statements.flatMap((statement): string[] => {
     if (statement.kind === "PrintStatement") return [`${indentation}_kweRuntime.print(${generateExpression(statement.value)}, ${locationCode(statement.location)});`];
     if (statement.kind === "VariableAssignment") return [`${indentation}${statement.declaration ? "let " : ""}${statement.generatedName} = ${generateExpression(statement.value)};`];
+    if (statement.kind === "IndexAssignment") return [`${indentation}_kweRuntime.setIndex(${generateExpression(statement.collection)}, ${generateExpression(statement.index)}, ${generateExpression(statement.value)}, ${locationCode(statement.location)});`];
+    if (statement.kind === "PropertyAssignment") return [`${indentation}${generateExpression(statement.object)}[${JSON.stringify(statement.property)}] = ${generateExpression(statement.value)};`];
     if (statement.kind === "ReturnStatement") return [`${indentation}return ${generateExpression(statement.value)};`];
     if (statement.kind === "LoopStatement") return [`${indentation}while (${generateExpression(statement.condition)}) {`, ...generateStatements(statement.body, `${indentation}  `), `${indentation}}`];
     const lines = statement.hoistedDeclarations.map((name) => `${indentation}let ${name};`);

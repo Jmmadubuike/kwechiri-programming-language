@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     clearMocks: true,
     environment: "node",
+    fileParallelism: false,
     include: ["tests/**/*.test.ts"],
     testTimeout: 15_000,
   },

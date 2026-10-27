@@ -1,8 +1,9 @@
 # Kwechiri project status and remaining roadmap
 
-Last updated: 2026-08-23
+Last updated: 2026-10-27
 Current version: `0.1.0-development`  
-Current implemented milestone: Milestone 10 — Professional CLI
+Current completed batch: Milestone 11 Batch 11A — Standard Library string
+predicates
 
 Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
@@ -11,12 +12,13 @@ and closed at `4f57130e58f961684a2b76f8b6e605f5eb86d263`; Collections certified 
 closed at `cf0ef1e831e4e938ecc4161506fffe528eb681fb`; Functions certified and closed
 at `c27d353e7589cf541f0054958c33f72c4803389b`; Control Flow certified and
 closed at `ce14e04c56271b756742d29a57cb717ec0e27803`; Modules certified and closed
-at `67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`.
+at `67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`; Milestone 11 Batch 11A
+certified and closed at `d147ccf2f84ee36261b97b4dca602d95ad34304a`.
 
-The pre-1.0 Language Foundations phase is closed. Current work is Milestone 11
-Batch 11A — Standard Library architecture and string predicates.
+The pre-1.0 Language Foundations phase is closed. Milestone 11 Batch 11A is
+closed; later Standard Library batches remain unauthorized.
 
-Current roadmap milestone: Milestone 11 — Standard Library, Batch 11A active
+Current roadmap milestone: Milestone 11 — Standard Library, Batch 11A closed
 
 ## Purpose
 
@@ -50,6 +52,8 @@ Kwechiri currently supports:
 - collection reference identity without implicit copying
 - checked array indexing and object property access
 - named multi-file modules using `webata`, `bupụ`, and `site na`
+- explicit `kwechiri:eriri` imports with `nwereEriri`, `maliteNa`, and
+  `kwụsịNa`
 - an explicit Kwechiri runtime boundary with a Node.js implementation
 - located compile-time and runtime diagnostics
 - the compatible command `kwechiri <file.kwe>`
@@ -244,7 +248,8 @@ linting, strict source/test type checking, a production build, and direct
 
 ### Milestone 11 — Standard Library
 
-Status: active — Batch 11A only.
+Status: Batch 11A certified and closed at
+`d147ccf2f84ee36261b97b4dca602d95ad34304a`.
 
 Batch 11A establishes the reserved `kwechiri:` namespace, explicit imported
 standard functions, an internal signature catalog, portable pure
@@ -256,6 +261,18 @@ implementations, and exactly three provisional string predicates:
 
 Later string operations, numbers, collections, conversions, JSON, I/O, network,
 randomness, and date/time remain unapproved.
+
+Batch 11A certification validation:
+
+- 156 automated tests spanning the compiler, modules, CLI, runtime, and
+  Standard Library
+- positive and negative predicate cases with Unicode, normalization, case, and
+  source-location coverage
+- direct `run`, `check`, and `compile` probes for `kwechiri:eriri`
+- linting, strict source/test type checking, and the production build
+
+The canonical local gate passed. Remote CI has not been verified for this
+commit, and the commit has not been pushed.
 
 ### Milestone 12 — Browser playground
 
@@ -349,5 +366,6 @@ Every future development session should:
 Functions is closed at `c27d353e7589cf541f0054958c33f72c4803389b`.
 Control Flow is closed at `ce14e04c56271b756742d29a57cb717ec0e27803`.
 Modules is closed at `67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`, and the
-pre-1.0 Language Foundations phase is closed. Milestone 11 Batch 11A is active
-and awaiting implementation review. Do not begin later Standard Library batches.
+pre-1.0 Language Foundations phase is closed. Milestone 11 Batch 11A is closed
+at `d147ccf2f84ee36261b97b4dca602d95ad34304a`. Do not begin later Standard
+Library batches without a separately approved contract.

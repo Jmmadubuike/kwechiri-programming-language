@@ -1,8 +1,9 @@
 # Kwechiri Standard Library
 
-Milestone 11 provides explicitly imported, specified Kwechiri APIs. It is not a
-translation layer over JavaScript. `bipụta` remains a language/runtime built-in;
-other approved APIs live in reserved `kwechiri:` modules.
+Milestone 11 Batch 11A provides explicitly imported, specified Kwechiri APIs.
+It is not a translation layer over JavaScript. `bipụta` remains a
+language/runtime built-in; other approved APIs live in reserved `kwechiri:`
+modules.
 
 Batch 11A contains one module:
 

@@ -13,8 +13,8 @@ files use the `.kwe` extension.
 Language Milestones 0–10 and the post-milestone Lexical Foundations, Core
 Values & Logic, Collections, Functions, and Control Flow phases are closed.
 Modules and the pre-1.0 Language Foundations phase are closed. Milestone 11
-Batch 11A is active and adds the first explicitly imported Standard Library
-module under the reserved `kwechiri:` namespace.
+Batch 11A is certified and closed, adding the first explicitly imported
+Standard Library module under the reserved `kwechiri:` namespace.
 The implemented language includes:
 
 - Unicode Igbo identifiers and located diagnostics
@@ -23,6 +23,7 @@ The implemented language includes:
 - named `ọrụ` functions with `laghachi`
 - homogeneous arrays and typed objects
 - named relative modules using `webata`, `bupụ`, and `site na`
+- three explicit string predicates imported from `kwechiri:eriri`
 - an explicit runtime boundary with a Node.js implementation
 
 ## Quick start

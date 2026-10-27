@@ -49,7 +49,9 @@ Collections, Functions, Control Flow, and Modules phases are closed. Functions c
 `c27d353e7589cf541f0054958c33f72c4803389b`, and Control Flow closed at
 `ce14e04c56271b756742d29a57cb717ec0e27803`. Modules closed at
 `67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`, closing the pre-1.0 Language
-Foundations phase. Milestone 11 Batch 11A is active.
+Foundations phase. Milestone 11 Batch 11A was certified and closed at
+`d147ccf2f84ee36261b97b4dca602d95ad34304a`; later Standard Library batches
+remain unauthorized.
 
 ## 7. Tutorials
 

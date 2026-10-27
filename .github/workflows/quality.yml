@@ -1,4 +1,4 @@
-name: CI
+name: Kwechiri CI
 
 on:
   push:

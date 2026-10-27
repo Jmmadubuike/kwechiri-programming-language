@@ -1,6 +1,6 @@
 # Kwechiri Website and Documentation Foundation Plan
 
-Status: Preview deployed; awaiting domain approval
+Status: Preview verified; awaiting domain approval
 Date: 2026-10-27
 Canonical domain: `kwechiri.dev` (owner-acquired; DNS not yet verified)
 
@@ -35,11 +35,12 @@ Deployment evidence:
 - the GitHub repository is connected for automatic deployments;
 - a protected preview deployment was built successfully before Git linking;
 - a subsequent Git-driven deployment on `main` also built successfully;
+- GitHub Actions run `40602877184` passed both Node.js 20 and Node.js 24;
 - Vercel classifies deployments from `main` as Production-target deployments,
   but no custom domain has been assigned to the project;
 - `kwechiri.dev` is registered in Vercel and remains unassigned.
 
-Remote CI verification and assignment of `kwechiri.dev` remain pending.
+Assignment of `kwechiri.dev` remains pending.
 
 ## Purpose
 

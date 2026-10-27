@@ -1,6 +1,6 @@
 # Kwechiri Website and Documentation Foundation Plan
 
-Status: Implemented locally; awaiting owner review
+Status: Preview deployed; awaiting domain approval
 Date: 2026-10-27
 Canonical domain: `kwechiri.dev` (owner-acquired; DNS not yet verified)
 
@@ -22,14 +22,24 @@ authoritative example.
 
 Local evidence:
 
-- `astro check` reports zero errors, warnings, or hints across 24 files;
+- `astro check` reports zero errors, warnings, or hints across 25 files;
 - the production build generates 13 static pages;
 - 180 internal links were checked with zero broken targets;
 - desktop and narrow mobile renders were inspected directly;
 - the root compiler and website gates pass.
 
-DNS, Vercel deployment, remote site CI, and public launch have not been
-verified or authorized.
+Deployment evidence:
+
+- the Vercel project is `kwechiri-website`;
+- its Git root directory is `website/` and its framework preset is Astro;
+- the GitHub repository is connected for automatic deployments;
+- a protected preview deployment was built successfully before Git linking;
+- a subsequent Git-driven deployment on `main` also built successfully;
+- Vercel classifies deployments from `main` as Production-target deployments,
+  but no custom domain has been assigned to the project;
+- `kwechiri.dev` is registered in Vercel and remains unassigned.
+
+Remote CI verification and assignment of `kwechiri.dev` remain pending.
 
 ## Purpose
 

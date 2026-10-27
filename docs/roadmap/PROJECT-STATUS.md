@@ -348,8 +348,9 @@ The owner approved a separate, documentation-first static website foundation
 under `website/`. It uses Astro, targets `kwechiri.dev`, and does not execute
 code or collect analytics. The foundation is implemented locally and passes its
 Astro check, static build, internal-link audit, and responsive visual review.
-Deployment and public launch remain unverified. Browser execution remains
-Milestone 12.
+Vercel preview and Git-driven deployments are connected and building
+successfully. A custom domain and public launch remain unverified. Browser
+execution remains Milestone 12.
 
 The npm package is temporarily marked private to prevent accidental publication
 during development. Publication remains owner-controlled. Do not remove the

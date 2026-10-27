@@ -1,0 +1,5 @@
+ahaNdị = ["Uche", "Ada", "Obi"]
+mmadụ = { aha: ahaNdị[0], afọ: 36 }
+bipụta(ahaNdị)
+bipụta(mmadụ)
+bipụta(mmadụ.aha)

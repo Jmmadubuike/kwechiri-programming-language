@@ -40,9 +40,11 @@ jobs:
         run: npm run check
 
       - name: Install website dependencies
+        if: matrix.node-version == 24
         run: npm ci --prefix website
 
       - name: Validate website
+        if: matrix.node-version == 24
         run: npm run website:check
 
       - name: Smoke-test existing CLI

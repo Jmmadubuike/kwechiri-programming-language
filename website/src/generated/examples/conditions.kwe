@@ -1,0 +1,7 @@
+afọ = 36
+ọ bụrụ (afọ >= 18) {
+    ọkwa = "Okenye"
+} ọzọ {
+    ọkwa = "Nwatakịrị"
+}
+bipụta(ọkwa)

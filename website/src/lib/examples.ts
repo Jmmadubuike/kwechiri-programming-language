@@ -1,8 +1,8 @@
-import collections from "../../../examples/collections.kwe?raw";
-import conditions from "../../../examples/conditions.kwe?raw";
-import functions from "../../../examples/functions.kwe?raw";
-import hello from "../../../examples/hello.kwe?raw";
-import modules from "../../../examples/modules/main.kwe?raw";
+import collections from "../generated/examples/collections.kwe?raw";
+import conditions from "../generated/examples/conditions.kwe?raw";
+import functions from "../generated/examples/functions.kwe?raw";
+import hello from "../generated/examples/hello.kwe?raw";
+import modules from "../generated/examples/modules-main.kwe?raw";
 
 export interface Example {
   readonly id: string;
@@ -18,7 +18,7 @@ export const examples: readonly Example[] = [
     title: "First program",
     description: "Print a line of text with the language's runtime output function.",
     source: hello.trimEnd(),
-    output: "Ndewo ụwa!",
+    output: "Ndewo Ụwa!",
   },
   {
     id: "functions",

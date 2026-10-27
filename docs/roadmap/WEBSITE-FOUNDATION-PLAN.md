@@ -12,10 +12,13 @@ contract.
 
 ## Implementation status
 
-The static foundation is implemented in `website/` with Astro 6.0.5, the
-Node.js 20-compatible Astro major. It includes the approved route structure,
-responsive styling, repository-sourced examples, sitemap generation, privacy
-copy, and no client-side execution or analytics.
+The static foundation is implemented in `website/` with Astro 6.0.5. The
+website build requires Node.js 22.12 or newer and is validated independently
+from the compiler's Node.js 20 support. It includes the approved route
+structure, responsive styling, verified website snapshots of repository
+examples, sitemap generation, privacy copy, and no client-side execution or
+analytics. A check script fails if a website snapshot drifts from its
+authoritative example.
 
 Local evidence:
 

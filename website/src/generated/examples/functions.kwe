@@ -1,0 +1,6 @@
+ọrụ gbakọọ(a, b) {
+    laghachi a + b
+}
+
+nsonaazụ = gbakọọ(10, 20)
+bipụta(nsonaazụ)

@@ -1,0 +1,28 @@
+---
+interface Props {
+  readonly label?: string;
+  readonly code: string;
+  readonly output?: string;
+  readonly outputLabel?: string;
+}
+
+const {
+  label = "Kwechiri source",
+  code,
+  output,
+  outputLabel = "Output",
+} = Astro.props;
+---
+
+<div class="code-example">
+  <div class="code-example__header">
+    <span class="code-example__label">{label}</span>
+    <span>.kwe</span>
+  </div>
+  <pre><code>{code}</code></pre>
+  {output && (
+    <div class="code-example__output" aria-label={outputLabel}>
+      <span class="visually-hidden">{outputLabel}: </span>{output}
+    </div>
+  )}
+</div>

@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CodeExample from "../components/CodeExample.astro";
+import { SITE } from "../consts";
+import { examples } from "../lib/examples";
+
+const hello = examples.find((example) => example.id === "hello");
+if (hello === undefined) throw new Error("The hello example is required.");
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="shell hero__grid">
+      <div>
+        <p class="eyebrow">Igbo-first by design</p>
+        <h1>Code with a language rooted in Igbo.</h1>
+        <p class="hero__lead">
+          Kwechiri is an Igbo-first programming language with its own syntax,
+          semantics, diagnostics, compiler stages, and growing tooling. It is
+          not JavaScript with translated keywords.
+        </p>
+        <div class="actions">
+          <a class="button" href="/docs/getting-started/">Start with Kwechiri</a>
+          <a class="button button--secondary" href="/why-kwechiri/">Why a new language?</a>
+        </div>
+        <div class="status-strip" aria-label="Project status">
+          <span class="pill">Active development</span>
+          <span><strong>Version</strong> {SITE.version}</span>
+          <span><strong>Current</strong> Standard Library Batch 11A</span>
+        </div>
+      </div>
+      <CodeExample
+        label="First program"
+        code={hello.source}
+        output={hello.output}
+      />
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Language foundations</p>
+          <h2>Built deliberately, one verified layer at a time.</h2>
+        </div>
+        <p>
+          The compiler is implemented in TypeScript and currently targets
+          JavaScript on Node.js. Every advertised feature is covered by the
+          repository's canonical quality gate.
+        </p>
+      </div>
+      <div class="card-grid">
+        <a class="card card--link" href="/why-kwechiri/">
+          <span class="card__number">01</span>
+          <h3>Igbo-first language design</h3>
+          <p>
+            Syntax and terminology should feel natural to Igbo speakers while
+            preserving coherent, teachable programming semantics.
+          </p>
+        </a>
+        <a class="card card--link" href="/docs/language/">
+          <span class="card__number">02</span>
+          <h3>Explicit compiler stages</h3>
+          <p>
+            Lexing, parsing, semantic analysis, code generation, modules, and
+            runtime behavior have distinct responsibilities.
+          </p>
+        </a>
+        <a class="card card--link" href="/roadmap/">
+          <span class="card__number">03</span>
+          <h3>Honest incremental progress</h3>
+          <p>
+            Certified milestones are separated from proposed work and
+            unauthorized future features.
+          </p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell section-heading">
+      <div>
+        <p class="eyebrow">Learn by reading</p>
+        <h2>Start with a program you can verify.</h2>
+      </div>
+      <div>
+        <p>
+          These examples come directly from the repository. Kwechiri runs from
+          the command line today; in-browser execution is future work.
+        </p>
+        <a class="button button--secondary" href="/examples/">Explore examples</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="shell">
+      <div class="callout callout--green">
+        <strong>Current installation is source-based.</strong>
+        Kwechiri is not yet published as a public npm package. The verified
+        getting-started path starts from the repository and requires Node.js 20
+        or newer. <a href="/docs/getting-started/">See the exact steps</a>.
+      </div>
+    </div>
+  </section>
+</BaseLayout>

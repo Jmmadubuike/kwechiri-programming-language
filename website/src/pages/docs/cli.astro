@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DocsNav from "../../components/DocsNav.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
+---
+
+<BaseLayout
+  title="Command line"
+  description="Current Kwechiri run, check, and compile command behavior."
+>
+  <PageIntro
+    eyebrow="Documentation"
+    title="Run, check, or compile."
+    lead="The professional CLI contract distinguishes successful execution, invalid source, usage errors, host failures, and unexpected internal failures."
+  />
+
+  <div class="shell content-layout">
+    <DocsNav />
+    <article class="prose">
+      <h2>Commands</h2>
+      <pre><code>kwechiri &lt;file.kwe&gt;
+kwechiri run &lt;file.kwe&gt;
+kwechiri check &lt;file.kwe&gt;
+kwechiri compile &lt;file.kwe&gt;
+kwechiri compile &lt;file.kwe&gt; --out build/app.js --force
+kwechiri --version
+kwechiri --help</code></pre>
+      <p>
+        The shorthand <code>kwechiri file.kwe</code> is equivalent to
+        <code>run</code>. <code>check</code> validates the module graph without
+        executing. <code>compile</code> writes
+        directly runnable JavaScript without executing it.
+      </p>
+
+      <h2>Exit codes</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Code</th><th>Meaning</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>0</code></td><td>Success</td></tr>
+            <tr><td><code>1</code></td><td>Kwechiri source, semantic, module, or runtime error</td></tr>
+            <tr><td><code>2</code></td><td>Invalid CLI usage</td></tr>
+            <tr><td><code>3</code></td><td>Filesystem or host failure</td></tr>
+            <tr><td><code>4</code></td><td>Unexpected internal failure</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Output safety</h2>
+      <ul>
+        <li>Program output goes to stdout.</li>
+        <li>Diagnostics go to stderr.</li>
+        <li>Compilation refuses to overwrite output without <code>--force</code>.</li>
+        <li>Output compilation does not replace an existing file when compilation fails.</li>
+      </ul>
+
+      <p>
+        Read the
+        <a href={`${SITE.github}/blob/main/docs/language-spec/cli.md`}>full CLI specification</a>
+        for the current contract.
+      </p>
+    </article>
+  </div>
+</BaseLayout>

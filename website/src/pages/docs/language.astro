@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DocsNav from "../../components/DocsNav.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
+---
+
+<BaseLayout
+  title="Language overview"
+  description="A concise overview of currently implemented Kwechiri language behavior."
+>
+  <PageIntro
+    eyebrow="Documentation"
+    title="The language today."
+    lead="This overview names verified capabilities. It does not replace the normative specification or authorize future syntax."
+  />
+
+  <div class="shell content-layout">
+    <DocsNav />
+    <article class="prose">
+      <h2>Current values and expressions</h2>
+      <ul>
+        <li>Strings, numbers, booleans, and explicit <code>efu</code> absence</li>
+        <li>Mutable variables with compile-time undefined-name checks</li>
+        <li>Arithmetic, grouping, unary minus, and strict comparisons</li>
+        <li>Boolean-only logical operators with short-circuit evaluation</li>
+        <li>Homogeneous arrays and typed objects</li>
+      </ul>
+
+      <h2>Control flow and functions</h2>
+      <ul>
+        <li><code>ọ bụrụ</code> conditions with optional <code>ọzọ</code></li>
+        <li><code>mgbe</code> loops with nearest-loop <code>kwụsị</code> and <code>gaa n'ihu</code></li>
+        <li><code>ọrụ</code> declarations, parameters, calls, and <code>laghachi</code></li>
+        <li>One inferred signature per function</li>
+      </ul>
+
+      <h2>Modules</h2>
+      <ul>
+        <li>Named imports and exports using <code>webata</code>, <code>bupụ</code>, and <code>site na</code></li>
+        <li>Canonical relative <code>.kwe</code> paths contained by the project root</li>
+        <li>Dependency-first execution, cycle rejection, and read-only imports</li>
+        <li>Reserved <code>kwechiri:</code> modules for official Standard Library APIs</li>
+      </ul>
+
+      <h2>Runtime and diagnostics</h2>
+      <p>
+        Kwechiri currently generates JavaScript with an injected runtime
+        dependency. Node.js is the first host. Compile-time and runtime errors
+        carry source location and category information.
+      </p>
+
+      <h2>Not implemented or not authorized</h2>
+      <ul>
+        <li>Browser execution and DOM APIs</li>
+        <li>Recursion, closures, and first-class functions before 1.0</li>
+        <li><code>maka</code> collection iteration</li>
+        <li>Collection methods, spread syntax, and computed properties</li>
+        <li>Import aliases, re-exports, packages, and remote modules</li>
+        <li>Public npm publication and 1.0 compatibility guarantees</li>
+      </ul>
+
+      <div class="callout callout--green">
+        <strong>Normative source</strong>
+        Read the
+        <a href={`${SITE.github}/tree/main/docs/language-spec`}>current language specification</a>
+        and
+        <a href={`${SITE.github}/tree/main/docs/design-decisions`}>ADR index</a>
+        for exact behavior and decision history.
+      </div>
+    </article>
+  </div>
+</BaseLayout>

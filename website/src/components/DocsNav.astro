@@ -1,0 +1,18 @@
+---
+const pathname = Astro.url.pathname;
+const docs = [
+  { href: "/docs/", label: "Overview" },
+  { href: "/docs/getting-started/", label: "Getting started" },
+  { href: "/docs/language/", label: "Language" },
+  { href: "/docs/cli/", label: "Command line" },
+  { href: "/docs/standard-library/", label: "Standard Library" },
+] as const;
+---
+
+<nav class="docs-nav" aria-label="Documentation">
+  {docs.map((item) => (
+    <a href={item.href} aria-current={pathname === item.href ? "page" : undefined}>
+      {item.label}
+    </a>
+  ))}
+</nav>

@@ -1,0 +1,76 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CodeExample from "../../components/CodeExample.astro";
+import DocsNav from "../../components/DocsNav.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
+
+const predicateExample = `webata { nwereEriri, maliteNa, kwụsịNa } site na "kwechiri:eriri"
+
+bipụta(nwereEriri("Kwechiri", "chiri"))
+bipụta(maliteNa("Kwechiri", "Kwe"))
+bipụta(kwụsịNa("Kwechiri", "chiri"))`;
+---
+
+<BaseLayout
+  title="Standard Library"
+  description="The first Kwechiri Standard Library module and its provisional string predicates."
+>
+  <PageIntro
+    eyebrow="Documentation"
+    title="Explicit imports, specified behavior."
+    lead="Batch 11A introduced the reserved kwechiri: namespace and one pure string module. Later Standard Library batches are not yet authorized."
+  />
+
+  <div class="shell content-layout">
+    <DocsNav />
+    <article class="prose">
+      <h2><code>kwechiri:eriri</code></h2>
+      <p>
+        The module exports three provisional pre-1.0 predicates. Each accepts
+        two strings and returns a Boolean without mutation, coercion, or
+        normalization.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Function</th><th>Signature</th><th>Meaning</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>nwereEriri</code></td><td><code>(string, string) -&gt; boolean</code></td><td>Contains</td></tr>
+            <tr><td><code>maliteNa</code></td><td><code>(string, string) -&gt; boolean</code></td><td>Starts with</td></tr>
+            <tr><td><code>kwụsịNa</code></td><td><code>(string, string) -&gt; boolean</code></td><td>Ends with</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <CodeExample
+        label="Standard Library"
+        code={predicateExample}
+        output={"eziokwu\neziokwu\neziokwu"}
+      />
+
+      <h2>Exact string behavior</h2>
+      <ul>
+        <li>Matching is case-sensitive and exact.</li>
+        <li>String contents are not normalized.</li>
+        <li>The empty string is contained in every string and is a prefix and suffix of every string.</li>
+        <li>Wrong arity and statically known wrong argument types are located semantic errors.</li>
+      </ul>
+
+      <div class="callout callout--gold">
+        <strong>The names are provisional.</strong>
+        <code>nwereEriri</code>, <code>maliteNa</code>, and
+        <code>kwụsịNa</code> remain subject to the 1.0 terminology review.
+      </div>
+
+      <p>
+        Read the
+        <a href={`${SITE.github}/blob/main/docs/standard-library/README.md`}>Standard Library documentation</a>
+        and
+        <a href={`${SITE.github}/tree/main/docs/design-decisions`}>ADR-020 through ADR-022</a>
+        for the full contract.
+      </p>
+    </article>
+  </div>
+</BaseLayout>

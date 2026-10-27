@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+---
+
+<BaseLayout
+  title="Privacy"
+  description="The initial Kwechiri website's privacy and data-handling boundaries."
+>
+  <PageIntro
+    eyebrow="Privacy"
+    title="No analytics or remote execution."
+    lead="The initial Kwechiri website is static and intentionally collects no visitor account, form, analytics, or submitted-code data."
+  />
+
+  <section class="section">
+    <div class="shell prose">
+      <h2>Data collection</h2>
+      <p>
+        This site does not include accounts, newsletters, contact forms,
+        third-party tracking scripts, advertising, or analytics.
+      </p>
+
+      <h2>Program execution</h2>
+      <p>
+        The site does not execute submitted Kwechiri code. Browser execution is
+        reserved for a future, separately approved playground milestone.
+      </p>
+
+      <h2>Hosting</h2>
+      <p>
+        The production host may process standard request data required to serve
+        and secure the website. Any future analytics, forms, cookies, or
+        third-party data collection require an updated privacy review and owner
+        approval.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

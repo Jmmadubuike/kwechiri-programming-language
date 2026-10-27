@@ -1,0 +1,19 @@
+---
+interface Props {
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly lead: string;
+  readonly meta?: string;
+}
+
+const { eyebrow, title, lead, meta } = Astro.props;
+---
+
+<section class="page-intro">
+  <div class="shell">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+    <p class="page-intro__lead">{lead}</p>
+    {meta && <p class="page-intro__meta">{meta}</p>}
+  </div>
+</section>

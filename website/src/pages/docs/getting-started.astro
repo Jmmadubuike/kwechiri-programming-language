@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CodeExample from "../../components/CodeExample.astro";
+import DocsNav from "../../components/DocsNav.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
+import { examples } from "../../lib/examples";
+
+const hello = examples.find((example) => example.id === "hello");
+if (hello === undefined) throw new Error("The hello example is required.");
+---
+
+<BaseLayout
+  title="Getting started"
+  description="Build Kwechiri from source and run a verified first program."
+>
+  <PageIntro
+    eyebrow="Documentation"
+    title="Build from source."
+    lead="Kwechiri is not yet published as a public npm package. Use the private repository source until packaging and publication policy are approved."
+  />
+
+  <div class="shell content-layout">
+    <DocsNav />
+    <article class="prose">
+      <h2>Requirements</h2>
+      <ul>
+        <li>Git</li>
+        <li>Node.js 20 or newer</li>
+        <li>npm</li>
+      </ul>
+
+      <h2>Clone and build</h2>
+      <pre><code>git clone {SITE.github}.git
+cd kwechiri-programming-language
+npm ci
+npm run check</code></pre>
+      <p>
+        The canonical gate runs linting, strict source and test type checking,
+        all tests, and the production build. Review the
+        <a href={`${SITE.github}/blob/main/docs/development/testing.md`}>testing guide</a>
+        before making changes.
+      </p>
+
+      <h2>Run a program</h2>
+      <CodeExample label="examples/hello.kwe" code={hello.source} output={hello.output} />
+      <pre><code>node dist/cli/index.js examples/hello.kwe</code></pre>
+
+      <h2>Optional local command</h2>
+      <p>Link the local package if you want the <code>kwechiri</code> command available:</p>
+      <pre><code>npm link
+kwechiri examples/hello.kwe</code></pre>
+      <div class="callout callout--gold">
+        <strong>No public package yet.</strong>
+        Do not replace this source-based setup with an npm installation until
+        the project owner approves publication and licensing.
+      </div>
+
+      <h2>Next reading</h2>
+      <p>
+        Continue with <a href="/docs/language/">the language overview</a>, inspect
+        <a href="/examples/">verified examples</a>, or read the
+        <a href={`${SITE.github}/blob/main/docs/language-spec/README.md`}>current normative specification</a>.
+      </p>
+    </article>
+  </div>
+</BaseLayout>

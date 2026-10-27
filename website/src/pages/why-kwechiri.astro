@@ -1,0 +1,82 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CodeExample from "../components/CodeExample.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { SITE } from "../consts";
+import { examples } from "../lib/examples";
+
+const functions = examples.find((example) => example.id === "functions");
+if (functions === undefined) throw new Error("The functions example is required.");
+---
+
+<BaseLayout
+  title="Why Kwechiri"
+  description="Why Kwechiri is designed as an Igbo-first programming language rather than translated JavaScript."
+>
+  <PageIntro
+    eyebrow="Language purpose"
+    title="A language should fit its community."
+    lead="Kwechiri begins from Igbo identity and builds a coherent programming language around it. Translation is not the design model."
+  />
+
+  <section class="section">
+    <div class="shell prose">
+      <h2>Igbo first is a design constraint.</h2>
+      <p>
+        An Igbo-first language should be readable and teachable for Igbo
+        speakers without reducing the engineering quality of the compiler,
+        runtime, diagnostics, or tools. Technical correctness matters when
+        literal translation and coherent semantics conflict.
+      </p>
+      <p>
+        That means Kwechiri owns its language contract: keywords, expression
+        behavior, types, control flow, function semantics, modules, standard
+        APIs, errors, and compatibility policy all belong to Kwechiri rather
+        than to accidental JavaScript behavior.
+      </p>
+
+      <h2>Professional and beginner-friendly are compatible goals.</h2>
+      <div class="definition-grid">
+        <div class="definition">
+          <h3>Clear for learners</h3>
+          <p>
+            Strict types and located diagnostics help a new programmer
+            understand what happened and where.
+          </p>
+        </div>
+        <div class="definition">
+          <h3>Built for real tools</h3>
+          <p>
+            Explicit compiler stages, tests, versioned specifications, and ADRs
+            keep behavior reviewable.
+          </p>
+        </div>
+      </div>
+
+      <h2>Interoperable without surrendering identity.</h2>
+      <p>
+        Kwechiri currently compiles to JavaScript and runs on Node.js through an
+        explicit runtime boundary. That implementation choice preserves a path
+        to modern ecosystems without making JavaScript the language definition.
+      </p>
+
+      <CodeExample
+        label="Functions"
+        code={functions.source}
+        output={functions.output}
+      />
+
+      <h2>What “active development” means.</h2>
+      <p>
+        Some language foundations, modules, and the first Standard Library batch
+        are certified. Browser execution, VS Code support, final terminology,
+        packaging, licensing, and 1.0 compatibility are not complete.
+      </p>
+      <div class="callout callout--gold">
+        <strong>Read the source of truth.</strong>
+        The current specification and decision records live in the repository.
+        <a href={`${SITE.github}/tree/main/docs`}>Browse the documentation on GitHub</a>.
+      </div>
+    </div>
+  </section>
+</BaseLayout>

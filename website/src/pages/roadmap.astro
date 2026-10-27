@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+---
+
+<BaseLayout
+  title="Roadmap"
+  description="Certified Kwechiri milestones, current boundaries, and future roadmap."
+>
+  <PageIntro
+    eyebrow="Project status"
+    title="Progress you can audit."
+    lead="Kwechiri advances through explicit, owner-approved milestones. Future roadmap entries do not authorize implementation by themselves."
+  />
+
+  <section class="section">
+    <div class="shell">
+      <div class="timeline">
+        <article class="timeline__item">
+          <span class="pill">Certified</span>
+          <h2>Language foundations, modules, and Batch 11A</h2>
+          <p>
+            Core values, collections, functions, control flow, module
+            hardening, the runtime boundary, the professional CLI, and the
+            first Standard Library module are closed.
+          </p>
+        </article>
+        <article class="timeline__item">
+          <span class="pill">Next gate</span>
+          <h2>Standard Library Batch 11B</h2>
+          <p>
+            Later Standard Library modules remain unauthorized until a separate
+            contract defines scope, Igbo terminology, semantics, tests, and
+            documentation.
+          </p>
+        </article>
+        <article class="timeline__item">
+          <span class="pill">Proposed</span>
+          <h2>Browser playground</h2>
+          <p>
+            Milestone 12 requires a browser-compatible compiler and runtime,
+            safe isolation, an editor, output, diagnostics, and responsive UI.
+            It is not implemented.
+          </p>
+        </article>
+        <article class="timeline__item">
+          <span class="pill">Deferred</span>
+          <h2>VS Code support and Kwechiri 1.0</h2>
+          <p>
+            Editor integration, final terminology, compatibility policy,
+            licensing, package publication, tutorials, and release procedures
+            remain future work.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="shell prose">
+      <h2>Not a 1.0 release.</h2>
+      <p>
+        The language is under active development. Features described here are
+        not production-compatibility guarantees. The npm package is private and
+        the project has not selected a license.
+      </p>
+      <div class="callout callout--green">
+        <strong>Authoritative roadmap</strong>
+        The repository's
+        <a href="https://github.com/Jmmadubuike/kwechiri-programming-language/blob/main/docs/roadmap/PROJECT-STATUS.md">
+          PROJECT-STATUS.md
+        </a>
+        is the operational source of truth.
+      </div>
+    </div>
+  </section>
+</BaseLayout>

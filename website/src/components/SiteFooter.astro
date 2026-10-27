@@ -1,0 +1,22 @@
+---
+import { SITE } from "../consts";
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <strong>{SITE.name}</strong>
+      <p>
+        An Igbo-first programming language under active development. The site
+        is static, uses no analytics, and does not execute submitted code.
+      </p>
+    </div>
+    <nav class="site-footer__links" aria-label="Footer navigation">
+      <a href="/docs/">Documentation</a>
+      <a href="/roadmap/">Roadmap</a>
+      <a href="/contributing/">Contributing</a>
+      <a href="/privacy/">Privacy</a>
+      <a href={SITE.github}>GitHub</a>
+    </nav>
+  </div>
+</footer>

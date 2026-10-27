@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../../components/PageIntro.astro";
+---
+
+<BaseLayout
+  title="Documentation"
+  description="Current Kwechiri language, CLI, Standard Library, and getting-started documentation."
+>
+  <PageIntro
+    eyebrow="Documentation"
+    title="Learn what exists today."
+    lead="This site summarizes verified Kwechiri behavior. The repository's normative specification and ADRs remain authoritative."
+    meta="Current version: 0.1.0-development"
+  />
+
+  <section class="section">
+    <div class="shell card-grid">
+      <a class="card card--link" href="/docs/getting-started/">
+        <span class="card__number">01</span>
+        <h2>Getting started</h2>
+        <p>Build the compiler from source and run your first <code>.kwe</code> program.</p>
+      </a>
+      <a class="card card--link" href="/docs/language/">
+        <span class="card__number">02</span>
+        <h2>Language</h2>
+        <p>Current values, expressions, control flow, functions, modules, and collections.</p>
+      </a>
+      <a class="card card--link" href="/docs/cli/">
+        <span class="card__number">03</span>
+        <h2>Command line</h2>
+        <p>Run, check, or compile programs with stable exit-code contracts.</p>
+      </a>
+      <a class="card card--link" href="/docs/standard-library/">
+        <span class="card__number">04</span>
+        <h2>Standard Library</h2>
+        <p>The first explicitly imported module and its three provisional predicates.</p>
+      </a>
+      <a class="card card--link" href="/examples/">
+        <span class="card__number">05</span>
+        <h2>Examples</h2>
+        <p>Read tested Kwechiri programs and their expected output.</p>
+      </a>
+      <a class="card card--link" href="/roadmap/">
+        <span class="card__number">06</span>
+        <h2>Roadmap</h2>
+        <p>Certified work, immediate boundaries, and future milestones.</p>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

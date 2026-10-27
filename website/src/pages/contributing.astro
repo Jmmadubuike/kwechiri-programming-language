@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { SITE } from "../consts";
+---
+
+<BaseLayout
+  title="Contributing"
+  description="Contribute to the Kwechiri compiler, documentation, tests, and educational material."
+>
+  <PageIntro
+    eyebrow="Community"
+    title="Make changes that preserve the contract."
+    lead="Kwechiri welcomes focused engineering, documentation, testing, and educational work that respects the approved language scope."
+  />
+
+  <section class="section">
+    <div class="shell prose">
+      <h2>Before changing code</h2>
+      <ol>
+        <li>Read the repository's AGENTS.md and current project status.</li>
+        <li>Inspect the applicable specification, architecture, and ADRs.</li>
+        <li>Confirm that the requested milestone or stabilization scope is approved.</li>
+        <li>Inspect existing work and preserve unrelated changes.</li>
+      </ol>
+
+      <h2>Validation</h2>
+      <pre><code>npm ci
+npm run check
+npm ci --prefix website
+npm run website:check</code></pre>
+      <p>
+        A successful build alone is not enough for user-visible behavior. Add
+        direct CLI, runtime, module, or browser probes when the risk calls for
+        them.
+      </p>
+
+      <h2>Language changes require approval</h2>
+      <p>
+        New syntax, keywords, semantics, public APIs, compatibility changes, and
+        major architecture decisions require the project owner's approval and
+        the appropriate specification or ADR.
+      </p>
+
+      <div class="callout callout--green">
+        <strong>Start with the repository</strong>
+        <a href={SITE.github}>Visit the Kwechiri project on GitHub</a> to inspect
+        issues, source, tests, and developer documentation.
+      </div>
+    </div>
+  </section>
+</BaseLayout>

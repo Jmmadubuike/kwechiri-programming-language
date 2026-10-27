@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+---
+
+<BaseLayout
+  title="About"
+  description="The purpose and governance of the Kwechiri programming language."
+>
+  <PageIntro
+    eyebrow="Project"
+    title="A language with its own identity."
+    lead="Kwechiri is an Igbo-first programming language and educational ecosystem under active development."
+  />
+
+  <section class="section">
+    <div class="shell prose">
+      <h2>Purpose</h2>
+      <p>
+        Kwechiri aims to make programming more accessible to Igbo speakers while
+        maintaining a professional compiler architecture and a path to modern
+        software ecosystems.
+      </p>
+      <p>
+        Its long-term identity includes its own specification, compiler stages,
+        runtime abstractions, Standard Library, tools, documentation, and
+        educational model. The initial TypeScript compiler and JavaScript
+        target are implementation choices, not the language definition.
+      </p>
+
+      <h2>Governance</h2>
+      <p>
+        The human project owner is the final authority for language identity,
+        Igbo terminology, syntax, semantics, public APIs, branding, licensing,
+        compatibility, publication, and releases.
+      </p>
+      <p>
+        Engineering proceeds through explicit milestones. Material language
+        changes require a documented decision, implementation, tests, review,
+        and owner approval before closure.
+      </p>
+
+      <h2>Development status</h2>
+      <p>
+        Kwechiri currently runs on Node.js and has no public package release.
+        Browser execution, editor integration, final terminology, and 1.0
+        compatibility remain future work.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

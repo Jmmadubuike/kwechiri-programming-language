@@ -91,6 +91,14 @@ The gate covers linting, strict source and test type checking, all tests, and a
 production build. See the [development workflow](docs/development/workflow.md)
 and [testing guide](docs/development/testing.md).
 
+The static public website lives in [`website/`](website/). Install its locked
+dependencies and validate it separately:
+
+```sh
+npm ci --prefix website
+npm run website:check
+```
+
 ## Documentation
 
 - [Documentation index](docs/README.md)
@@ -99,6 +107,7 @@ and [testing guide](docs/development/testing.md).
 - [Design-decision index](docs/design-decisions/README.md)
 - [Project status and roadmap](docs/roadmap/PROJECT-STATUS.md)
 - [Recorded technical debt](docs/roadmap/technical-debt.md)
+- [Website foundation plan](docs/roadmap/WEBSITE-FOUNDATION-PLAN.md)
 
 Historical `milestone-*.md` files remain available as incremental records and
 may be superseded by the current topic-oriented specification and later ADRs.

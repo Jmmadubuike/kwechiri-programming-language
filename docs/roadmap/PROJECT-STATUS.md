@@ -271,8 +271,12 @@ Batch 11A certification validation:
 - direct `run`, `check`, and `compile` probes for `kwechiri:eriri`
 - linting, strict source/test type checking, and the production build
 
-The canonical local gate passed. Remote CI has not been verified for this
-commit, and the commit has not been pushed.
+The canonical local gate passed, and the implementation was pushed. Remote CI
+was also retried after re-registering the workflow, but GitHub Actions returned
+`startup_failure` before creating either matrix job, including for an explicit
+manual dispatch. The workflow definition passes independent validation, so
+remote CI remains blocked pending resolution of the repository's GitHub Actions
+infrastructure.
 
 ### Milestone 12 — Browser playground
 

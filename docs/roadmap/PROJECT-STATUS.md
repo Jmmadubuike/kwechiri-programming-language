@@ -1,6 +1,6 @@
 # Kwechiri project status and remaining roadmap
 
-Last updated: 2026-10-27
+Last updated: 2026-10-28
 Current version: `0.1.0-development`  
 Current completed batch: Milestone 11 Batch 11A — Standard Library string
 predicates
@@ -350,7 +350,8 @@ code or collect analytics. The foundation is implemented locally and passes its
 Astro check, static build, internal-link audit, and responsive visual review.
 Vercel preview and Git-driven deployments are connected and building
 successfully; GitHub Actions passes on Node.js 20 and 24. A custom domain and
-public launch remain unverified. Browser execution remains Milestone 12.
+public launch are verified at `https://kwechiri.dev/`. Browser execution remains
+Milestone 12.
 
 The npm package is temporarily marked private to prevent accidental publication
 during development. Publication remains owner-controlled. Do not remove the

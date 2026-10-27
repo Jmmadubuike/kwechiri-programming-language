@@ -1,6 +1,6 @@
 # Kwechiri Website and Documentation Foundation Plan
 
-Status: Preview verified; awaiting domain approval
+Status: Publicly launched and verified
 Date: 2026-10-27
 Canonical domain: `kwechiri.dev` (owner-acquired; DNS not yet verified)
 
@@ -37,10 +37,12 @@ Deployment evidence:
 - a subsequent Git-driven deployment on `main` also built successfully;
 - GitHub Actions run `40602877184` passed both Node.js 20 and Node.js 24;
 - Vercel classifies deployments from `main` as Production-target deployments,
-  but no custom domain has been assigned to the project;
-- `kwechiri.dev` is registered in Vercel and remains unassigned.
-
-Assignment of `kwechiri.dev` remains pending.
+  and `kwechiri.dev` is the production custom domain;
+- both `kwechiri.dev` and `www.kwechiri.dev` are attached and verified;
+- `www.kwechiri.dev` permanently redirects to `kwechiri.dev`;
+- all 13 public routes, `robots.txt`, and both sitemap files return HTTP 200;
+- unknown routes return HTTP 404;
+- HTTPS is active and plain HTTP redirects to HTTPS.
 
 ## Purpose
 

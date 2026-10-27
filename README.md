@@ -101,6 +101,7 @@ npm run website:check
 
 ## Documentation
 
+- [Official website](https://kwechiri.dev/)
 - [Documentation index](docs/README.md)
 - [Current language specification](docs/language-spec/README.md)
 - [Architecture index](docs/architecture/README.md)

@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.kwechiri.dev"
+        }
+      ],
+      "destination": "https://kwechiri.dev/$1",
+      "permanent": true
+    }
+  ]
+}

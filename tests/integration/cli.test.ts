@@ -161,6 +161,27 @@ describe("Kwechiri CLI integration", () => {
     expect(executed.stdout.trim()).toBe("5.14159");
   });
 
+  it("runs, checks, and compiles the official string standard module", () => {
+    const directory = temporaryDirectory();
+    const source = join(directory, "standard.kwe");
+    const output = join(directory, "standard.js");
+    writeFileSync(source, [
+      'webata { nwereEriri, maliteNa, kwụsịNa } site na "kwechiri:eriri"',
+      'bipụta(nwereEriri("Kwechiri", "chiri"))',
+      'bipụta(maliteNa("Kwechiri", "Kwe"))',
+      'bipụta(kwụsịNa("Kwechiri", "chiri"))',
+    ].join("\n"), "utf8");
+    expect(runCli(["run", source])).toEqual({ status: 0, stdout: "eziokwu\neziokwu\neziokwu\n", stderr: "" });
+    expect(runCli(["check", source])).toEqual({ status: 0, stdout: "", stderr: "" });
+    expect(runCli(["compile", source, "--out", output])).toEqual({ status: 0, stdout: "", stderr: "" });
+    const executed = spawnSync(process.execPath, [output], { encoding: "utf8" });
+    expect({ status: executed.status, stdout: executed.stdout, stderr: executed.stderr }).toEqual({
+      status: 0,
+      stdout: "eziokwu\neziokwu\neziokwu\n",
+      stderr: "",
+    });
+  });
+
   it("keeps expected runtime failures concise in directly runnable output", () => {
     const directory = temporaryDirectory();
     const source = join(directory, "runtime.kwe");

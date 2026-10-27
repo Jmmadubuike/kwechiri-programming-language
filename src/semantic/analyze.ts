@@ -1,6 +1,7 @@
 import type { Expression, FunctionDeclaration, Program, Statement } from "../ast/nodes.js";
 import { KwechiriError } from "../errors/kwechiri-error.js";
 import type { ResolvedExpression, ResolvedFunctionDeclaration, ResolvedProgram, ResolvedStatement, ValueType } from "./resolved-nodes.js";
+import type { StandardExportDefinition } from "../standard-library/catalog.js";
 
 interface SymbolInfo { readonly generatedName: string; readonly valueType: ValueType; readonly knownLength?: number }
 interface BlockResult {
@@ -19,7 +20,11 @@ interface FunctionInfo {
   returnType?: ValueType;
 }
 
-export function analyze(program: Program, fileName?: string): ResolvedProgram {
+export function analyze(
+  program: Program,
+  fileName?: string,
+  standardBindings: ReadonlyMap<string, StandardExportDefinition> = new Map(),
+): ResolvedProgram {
   const generatedNames = new Map<string, string>();
   const functions = new Map<string, FunctionInfo>();
   let functionCount = 0;
@@ -99,6 +104,14 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       return;
     }
     if (expression.kind === "CallExpression") {
+      const standard = standardBindings.get(expression.callee);
+      if (standard !== undefined) {
+        if (expression.arguments.length !== standard.arity) {
+          throw new KwechiriError(`Ọrụ "${standard.publicName}" chọrọ argument ${standard.arity}, mana enwetara ${expression.arguments.length}. (Wrong standard-library argument count.)`, expression.location, fileName);
+        }
+        for (const argument of expression.arguments) validateExpressionStructure(argument, symbols, functionName);
+        return;
+      }
       const called = functions.get(expression.callee);
       if (expression.callee === functionName) {
         throw new KwechiriError(`Recursion akwadoghị maka ọrụ "${functionName}".`, expression.location, fileName);
@@ -245,6 +258,26 @@ export function analyze(program: Program, fileName?: string): ResolvedProgram {
       return { kind: "PropertyAccessExpression", object, property: expression.property, valueType };
     }
     if (expression.kind === "CallExpression") {
+      const standard = standardBindings.get(expression.callee);
+      if (standard !== undefined) {
+        const arguments_ = expression.arguments.map((argument) => resolveExpression(argument, symbols));
+        if (arguments_.length !== standard.arity) {
+          throw new KwechiriError(`Ọrụ "${standard.publicName}" chọrọ argument ${standard.arity}, mana enwetara ${arguments_.length}. (Wrong standard-library argument count.)`, expression.location, fileName);
+        }
+        for (const [index, argument] of arguments_.entries()) {
+          const expected = standard.parameterTypes[index];
+          if (argument.valueType !== expected) {
+            throw new KwechiriError(`Argument ${index + 1} nke "${standard.publicName}" ga-abụ ${expected}. (Standard-library argument type mismatch.)`, expression.arguments[index]?.location ?? expression.location, fileName);
+          }
+        }
+        return {
+          kind: "CallExpression",
+          generatedName: expression.callee,
+          arguments: arguments_,
+          valueType: standard.returnType,
+          standardIntrinsic: standard.intrinsic,
+        };
+      }
       const info = functions.get(expression.callee);
       if (info === undefined || info.declaration.location.offset >= expression.location.offset) {
         throw new KwechiriError(`A kọwaghị ọrụ "${expression.callee}" tupu ojiji ya. (Function must be declared before use.)`, expression.location, fileName);

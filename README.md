@@ -12,7 +12,9 @@ files use the `.kwe` extension.
 
 Language Milestones 0–10 and the post-milestone Lexical Foundations, Core
 Values & Logic, Collections, Functions, and Control Flow phases are closed.
-The approved Modules Hardening phase is active; Milestone 11 has not started.
+Modules and the pre-1.0 Language Foundations phase are closed. Milestone 11
+Batch 11A is active and adds the first explicitly imported Standard Library
+module under the reserved `kwechiri:` namespace.
 The implemented language includes:
 
 - Unicode Igbo identifiers and located diagnostics
@@ -104,4 +106,5 @@ may be superseded by the current topic-oriented specification and later ADRs.
 
 The project owner has not selected a license. No license is granted or implied
 by this repository, and the package must not be published until licensing and
-publication policy receive explicit owner approval.
+publication policy receive explicit owner approval. The package is temporarily
+marked private to prevent accidental npm publication during development.

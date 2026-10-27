@@ -58,9 +58,10 @@ current behaviour. If documents conflict, stop and report the conflict.
 
 Milestones 0–10 are complete. Functions was certified and closed at
 `c27d353e7589cf541f0054958c33f72c4803389b`; Control Flow was certified and
-closed at `ce14e04c56271b756742d29a57cb717ec0e27803`. Modules Hardening is the
-current approved pre-1.0 foundation batch. Milestone 11 must not begin without
-a separately approved contract.
+closed at `ce14e04c56271b756742d29a57cb717ec0e27803`. Modules and the pre-1.0
+Language Foundations phase closed at
+`67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`. Milestone 11 Batch 11A is the
+current approved work; later Standard Library batches remain unauthorized.
 
 ## Engineering workflow
 

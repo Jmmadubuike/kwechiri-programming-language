@@ -10,12 +10,13 @@ closed at `f248fe0f9c6b561d8c2e73a317aee3c103f24512`; Core Values & Logic certif
 and closed at `4f57130e58f961684a2b76f8b6e605f5eb86d263`; Collections certified and
 closed at `cf0ef1e831e4e938ecc4161506fffe528eb681fb`; Functions certified and closed
 at `c27d353e7589cf541f0054958c33f72c4803389b`; Control Flow certified and
-closed at `ce14e04c56271b756742d29a57cb717ec0e27803`.
+closed at `ce14e04c56271b756742d29a57cb717ec0e27803`; Modules certified and closed
+at `67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`.
 
-Current post-milestone work: Modules Hardening is the approved active pre-1.0
-foundation batch.
+The pre-1.0 Language Foundations phase is closed. Current work is Milestone 11
+Batch 11A — Standard Library architecture and string predicates.
 
-Next roadmap milestone: Milestone 11 — Standard library (not begun or authorized)
+Current roadmap milestone: Milestone 11 — Standard Library, Batch 11A active
 
 ## Purpose
 
@@ -146,13 +147,15 @@ model. It was certified and closed at
 
 ### Pre-1.0 Modules Hardening
 
-Status: active, implemented locally, and awaiting owner review.
+Status: certified, committed, pushed, and closed at
+`67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`.
 
 The approved batch adds canonical filesystem containment and identity,
 once-only dependency-first execution, cycle-chain diagnostics, consistent
 import/local collision rejection, explicit-export visibility, and shared
 mutable imported collections. Import aliases, dedicated re-exports, packages,
-and Milestone 11 remain unstarted.
+and packages remain unstarted. This closure completes the pre-1.0 Language
+Foundations phase.
 
 ### Milestone 7 — Collections
 
@@ -230,7 +233,8 @@ Certification validation:
 - output overwrite protection tests
 - module-graph checks through `run`, `check`, and `compile`
 
-Milestone 11 has not begun and requires a separate approved contract.
+At Milestone 10 closure, Milestone 11 had not begun and required a separate
+approved contract. Batch 11A has since received that contract.
 
 The Milestone 10 local implementation gate passes with 67 automated tests,
 linting, strict source/test type checking, a production build, and direct
@@ -238,20 +242,20 @@ linting, strict source/test type checking, a production build, and direct
 
 ## Remaining roadmap milestones
 
-### Milestone 11 — Standard library
+### Milestone 11 — Standard Library
 
-Not designed or approved.
+Status: active — Batch 11A only.
 
-Required decisions include:
+Batch 11A establishes the reserved `kwechiri:` namespace, explicit imported
+standard functions, an internal signature catalog, portable pure
+implementations, and exactly three provisional string predicates:
 
-- first standard-library scope
-- canonical Igbo names
-- string, number, boolean, collection, and utility operations
-- pure versus runtime-backed APIs
-- error behavior and documentation structure
+- `nwereEriri`
+- `maliteNa`
+- `kwụsịNa`
 
-Do not add standard-library functions until their terminology and semantics are
-approved.
+Later string operations, numbers, collections, conversions, JSON, I/O, network,
+randomness, and date/time remain unapproved.
 
 ### Milestone 12 — Browser playground
 
@@ -321,10 +325,9 @@ the appropriate owner decision and milestone placement.
 - decide npm publication and package ownership
 - define release and changelog procedures
 
-The npm package remains technically publishable. No publication safeguard was
-added because choosing whether the package should be private is a public-package
-policy decision requiring owner approval. Do not publish while licensing and
-publication policy remain undecided.
+The npm package is temporarily marked private to prevent accidental publication
+during development. Publication remains owner-controlled. Do not remove the
+safeguard or publish while licensing and publication policy remain undecided.
 
 ## Session-start checklist
 
@@ -345,5 +348,6 @@ Every future development session should:
 
 Functions is closed at `c27d353e7589cf541f0054958c33f72c4803389b`.
 Control Flow is closed at `ce14e04c56271b756742d29a57cb717ec0e27803`.
-Modules Hardening is active and awaiting owner review. Do not begin Milestone 11
-until Modules is certified and closed and a separate contract is approved.
+Modules is closed at `67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`, and the
+pre-1.0 Language Foundations phase is closed. Milestone 11 Batch 11A is active
+and awaiting implementation review. Do not begin later Standard Library batches.

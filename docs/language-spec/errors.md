@@ -17,6 +17,11 @@ read-only imported-binding reassignment, and direct or indirect cycles. Cycle
 diagnostics include the dependency chain where available. Requested raw module
 path spelling is retained in path diagnostics where practical.
 
+Standard Library imports diagnose unknown `kwechiri:` modules and exports.
+Cataloged calls diagnose wrong arity and statically known argument-type
+mismatches at their Kwechiri source locations. Pure Batch 11A predicates do not
+expose raw host exceptions.
+
 `kwụsị` and `gaa n'ihu` outside loops are located semantic errors. A statement
 unconditionally following `laghachi`, `kwụsị`, or `gaa n'ihu` in the same block
 is an unreachable-code error. Malformed `gaa n'ihu` syntax is a controlled

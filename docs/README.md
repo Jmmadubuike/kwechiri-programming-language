@@ -42,12 +42,14 @@ and consequences; they do not authorize unresolved future features.
 
 - [Current project status](roadmap/PROJECT-STATUS.md)
 - [Recorded technical debt](roadmap/technical-debt.md)
+- [Standard Library](standard-library/README.md)
 
 Milestones 0–10 and the post-milestone Lexical Foundations, Core Values & Logic,
-Collections, Functions, and Control Flow phases are closed. Functions closed at
+Collections, Functions, Control Flow, and Modules phases are closed. Functions closed at
 `c27d353e7589cf541f0054958c33f72c4803389b`, and Control Flow closed at
-`ce14e04c56271b756742d29a57cb717ec0e27803`. Modules Hardening is the current
-approved pre-1.0 implementation batch; Milestone 11 has not begun.
+`ce14e04c56271b756742d29a57cb717ec0e27803`. Modules closed at
+`67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`, closing the pre-1.0 Language
+Foundations phase. Milestone 11 Batch 11A is active.
 
 ## 7. Tutorials
 

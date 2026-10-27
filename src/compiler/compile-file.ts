@@ -1,6 +1,7 @@
-import { compile } from "./compile.js";
-import { loadModuleGraph } from "../modules/loader.js";
+import { compileWithStandardBindings } from "./compile.js";
+import { loadModuleGraphForCompiler } from "../modules/loader.js";
 
 export async function compileFile(filePath: string): Promise<string> {
-  return compile(await loadModuleGraph(filePath), filePath);
+  const graph = await loadModuleGraphForCompiler(filePath);
+  return compileWithStandardBindings(graph.source, filePath, graph.standardBindings);
 }

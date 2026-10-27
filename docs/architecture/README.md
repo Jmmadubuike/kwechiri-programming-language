@@ -21,6 +21,8 @@ Current documents:
 - [Runtime architecture](runtime.md) — current runtime boundary
 - [Module graph architecture](modules.md) — canonical resolution, identity,
   caching, ordering, and cycles
+- [Standard Library architecture](../standard-library/README.md) — reserved
+  modules, pure APIs, signatures, and diagnostics
 - [CLI architecture](cli.md) — command parsing, orchestration, output, and exits
 
 Architecture documentation still needed:

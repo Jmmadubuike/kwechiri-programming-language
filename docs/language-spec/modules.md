@@ -37,3 +37,10 @@ cross-project resolution are unsupported.
 
 Module path strings and filenames are not NFC-normalized. Canonical filesystem
 identity is separate from Kwechiri identifier normalization.
+
+The `kwechiri:` namespace is an explicit exception to relative filesystem
+resolution and is reserved exclusively for official Standard Library modules.
+These modules are compiler-known identities, not files, packages, npm modules,
+or remote imports. Batch 11A implements only `kwechiri:eriri`. Unknown standard
+modules and exports are errors. Filesystem containment and identity rules remain
+unchanged.

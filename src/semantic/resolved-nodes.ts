@@ -1,4 +1,5 @@
 import type { SourceLocation } from "../errors/kwechiri-error.js";
+import type { StandardIntrinsic } from "../standard-library/catalog.js";
 
 export interface ResolvedProgram {
   readonly functions: readonly ResolvedFunctionDeclaration[];
@@ -156,6 +157,7 @@ export interface ResolvedCallExpression {
   readonly arguments: readonly ResolvedExpression[];
   readonly valueType: ValueType;
   readonly knownLength?: number;
+  readonly standardIntrinsic?: StandardIntrinsic;
 }
 
 export interface ResolvedFunctionDeclaration {

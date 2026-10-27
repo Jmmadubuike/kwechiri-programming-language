@@ -10,6 +10,11 @@ references across that flattened graph; the runtime does not copy or freeze
 them. Module path resolution, containment, caching, and cycle rejection remain
 compiler concerns and do not expand the runtime API.
 
+Pure Standard Library operations use a portable implementation injected beside
+the runtime. They do not expand `KwechiriRuntime` or depend on Node or browser
+capabilities. Compiler-known intrinsic calls target this private implementation
+boundary rather than arbitrary host APIs.
+
 Runtime operations receive original source locations. Failures use
 `KwechiriRuntimeError`, including a stable category, filename, line, column,
 and bilingual message. The compiler therefore defines language intent while

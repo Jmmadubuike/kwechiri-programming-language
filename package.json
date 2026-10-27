@@ -1,6 +1,7 @@
 {
   "name": "kwechiri",
   "version": "0.1.0-development",
+  "private": true,
   "description": "An Igbo-first programming language",
   "type": "module",
   "bin": {

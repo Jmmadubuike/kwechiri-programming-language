@@ -16,6 +16,7 @@ for the current `0.1.0-development` language together with the approved ADRs.
 - [Errors](errors.md)
 - [Runtime behaviour](runtime-behaviour.md)
 - [Command-line interface](cli.md)
+- [Standard Library](../standard-library/README.md)
 
 Files named `milestone-*.md` are historical incremental specifications. They
 show what each milestone introduced and may contain statements superseded by

@@ -1,5 +1,6 @@
 import type { SourceLocation } from "../errors/kwechiri-error.js";
 import type { ResolvedExpression, ResolvedProgram, ResolvedStatement } from "../semantic/resolved-nodes.js";
+import { standardImplementationName } from "../standard-library/standard-library.js";
 
 const locationCode = (location: SourceLocation): string =>
   `{line:${location.line},column:${location.column},offset:${location.offset}}`;
@@ -9,7 +10,12 @@ function generateExpression(expression: ResolvedExpression): string {
   if (expression.kind === "NumberLiteral" || expression.kind === "BooleanLiteral") return String(expression.value);
   if (expression.kind === "AbsenceLiteral") return "null";
   if (expression.kind === "VariableReference") return expression.generatedName;
-  if (expression.kind === "CallExpression") return `${expression.generatedName}(${expression.arguments.map(generateExpression).join(", ")})`;
+  if (expression.kind === "CallExpression") {
+    const callee = expression.standardIntrinsic === undefined
+      ? expression.generatedName
+      : `_kweStandardLibrary.${standardImplementationName(expression.standardIntrinsic)}`;
+    return `${callee}(${expression.arguments.map(generateExpression).join(", ")})`;
+  }
   if (expression.kind === "ArrayLiteral") return `[${expression.elements.map(generateExpression).join(", ")}]`;
   if (expression.kind === "ObjectLiteral") return `{${expression.fields.map((field) => `${JSON.stringify(field.name)}: ${generateExpression(field.value)}`).join(", ")}}`;
   if (expression.kind === "IndexExpression") return `_kweRuntime.index(${generateExpression(expression.collection)}, ${generateExpression(expression.index)}, ${locationCode(expression.location)})`;

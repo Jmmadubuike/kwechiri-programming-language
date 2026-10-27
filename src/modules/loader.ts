@@ -3,10 +3,16 @@ import { dirname, extname, relative, resolve, sep } from "node:path";
 import { KwechiriError } from "../errors/kwechiri-error.js";
 import { tokenize } from "../lexer/lexer.js";
 import { TokenType } from "../lexer/token.js";
+import { standardModule, type StandardExportDefinition } from "../standard-library/catalog.js";
 
 interface ModuleResult {
   readonly source: string;
   readonly exports: ReadonlyMap<string, string>;
+}
+
+export interface LoadedModuleGraph {
+  readonly source: string;
+  readonly standardBindings: ReadonlyMap<string, StandardExportDefinition>;
 }
 
 const importPattern = /^\s*([\p{L}\p{M}_]+)\s*\{([^}]*)\}\s*([\p{L}\p{M}_]+)\s+([\p{L}\p{M}_]+)\s+"([^"]+)"\s*$/u;
@@ -34,14 +40,16 @@ const withoutLineComment = (line: string): string => {
   return line;
 };
 
-export async function loadModuleGraph(entryPath: string): Promise<string> {
+export async function loadModuleGraphForCompiler(entryPath: string): Promise<LoadedModuleGraph> {
   const requestedEntry = resolve(entryPath);
   const entry = await realpath(requestedEntry);
   const root = await realpath(dirname(entry));
   const cache = new Map<string, ModuleResult>();
   const visiting: string[] = [];
   const orderedSources: string[] = [];
+  const standardBindings = new Map<string, StandardExportDefinition>();
   let moduleId = 0;
+  let standardBindingId = 0;
 
   const load = async (filePath: string, rawRequest?: string): Promise<ModuleResult> => {
     const requested = resolve(filePath);
@@ -90,16 +98,31 @@ export async function loadModuleGraph(entryPath: string): Promise<string> {
       if (isImport && importMatch !== null) {
         if (sawBody) throw new KwechiriError("`webata` ga-adị tupu okwu ndị ọzọ. (Imports must come first.)", { line: index + 1, column: 1, offset: 0 }, canonical);
         const request = importMatch[5] as string;
-        if (!request.startsWith("./") && !request.startsWith("../")) throw new KwechiriError("Naanị ụzọ module relative ka akwadoro.", { line: index + 1, column: 1, offset: 0 }, canonical);
-        const dependency = await load(resolve(dirname(canonical), request), request);
+        const requestedStandardModule = request.startsWith("kwechiri:") ? standardModule(request) : undefined;
+        if (request.startsWith("kwechiri:") && requestedStandardModule === undefined) {
+          throw new KwechiriError(`Amaghị standard module "${request}". (Unknown Kwechiri standard module.)`, { line: index + 1, column: 1, offset: 0 }, canonical);
+        }
+        if (requestedStandardModule === undefined && !request.startsWith("./") && !request.startsWith("../")) {
+          throw new KwechiriError("Naanị ụzọ module relative maọbụ `kwechiri:` standard module ka akwadoro.", { line: index + 1, column: 1, offset: 0 }, canonical);
+        }
+        const dependency = requestedStandardModule === undefined
+          ? await load(resolve(dirname(canonical), request), request)
+          : undefined;
         for (const rawName of (importMatch[2] as string).split(",")) {
           const sourceName = rawName.trim();
           const name = identity(sourceName);
           if (!name) continue;
           if (imports.has(name)) throw new KwechiriError(`E webatala "${name}" ugboro abụọ. (Duplicate import.)`, { line: index + 1, column: 1, offset: 0 }, canonical);
-          const internal = dependency.exports.get(name);
-          if (internal === undefined) throw new KwechiriError(`Module ahụ anaghị ebupụ "${name}". (Missing export.)`, { line: index + 1, column: 1, offset: 0 }, canonical);
+          const standardExport = requestedStandardModule?.exports.get(name);
+          const internal = dependency?.exports.get(name) ?? (standardExport === undefined ? undefined : `_kweStd${standardBindingId++}`);
+          if (internal === undefined) {
+            const message = requestedStandardModule === undefined
+              ? `Module ahụ anaghị ebupụ "${name}". (Missing export.)`
+              : `Standard module "${request}" anaghị ebupụ "${name}". (Unknown Kwechiri standard export.)`;
+            throw new KwechiriError(message, { line: index + 1, column: 1, offset: 0 }, canonical);
+          }
           imports.set(name, internal);
+          if (standardExport !== undefined) standardBindings.set(internal, standardExport);
         }
         bodyLines.push("");
         continue;
@@ -167,5 +190,9 @@ export async function loadModuleGraph(entryPath: string): Promise<string> {
   };
 
   await load(entry);
-  return orderedSources.filter(Boolean).join("\n");
+  return { source: orderedSources.filter(Boolean).join("\n"), standardBindings };
+}
+
+export async function loadModuleGraph(entryPath: string): Promise<string> {
+  return (await loadModuleGraphForCompiler(entryPath)).source;
 }

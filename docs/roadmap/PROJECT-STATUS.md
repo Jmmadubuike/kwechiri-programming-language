@@ -271,12 +271,10 @@ Batch 11A certification validation:
 - direct `run`, `check`, and `compile` probes for `kwechiri:eriri`
 - linting, strict source/test type checking, and the production build
 
-The canonical local gate passed, and the implementation was pushed. Remote CI
-was also retried after re-registering the workflow, but GitHub Actions returned
-`startup_failure` before creating either matrix job, including for an explicit
-manual dispatch. The workflow definition passes independent validation, so
-remote CI remains blocked pending resolution of the repository's GitHub Actions
-infrastructure.
+The canonical local gate passed. GitHub Actions run `40557024578` on
+`7f80f6036cb7065553a0a8b278a0cc8241123a9e` also passed both Node.js 20 and
+Node.js 24 jobs, including the canonical quality gate and existing CLI smoke
+test.
 
 ### Milestone 12 — Browser playground
 

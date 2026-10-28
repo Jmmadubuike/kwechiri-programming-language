@@ -15,7 +15,8 @@ Values & Logic, Collections, Functions, and Control Flow phases are closed.
 Modules and the pre-1.0 Language Foundations phase are closed. Milestone 11
 Batch 11A is certified and closed, adding the first explicitly imported
 Standard Library module under the reserved `kwechiri:` namespace. Batch 11B is
-active and adds grapheme-aware string length and exact concatenation.
+certified and closed, adding grapheme-aware string length and exact
+concatenation.
 The implemented language includes:
 
 - Unicode Igbo identifiers and located diagnostics

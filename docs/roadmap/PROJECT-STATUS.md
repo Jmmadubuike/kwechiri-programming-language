@@ -2,9 +2,7 @@
 
 Last updated: 2026-10-28
 Current version: `0.1.0-development`  
-Current completed batch: Milestone 11 Batch 11A — Standard Library string
-predicates
-Current active batch: Milestone 11 Batch 11B — Standard Library string basics
+Current completed batch: Milestone 11 Batch 11B — Standard Library string basics
 
 Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
@@ -14,13 +12,13 @@ closed at `cf0ef1e831e4e938ecc4161506fffe528eb681fb`; Functions certified and cl
 at `c27d353e7589cf541f0054958c33f72c4803389b`; Control Flow certified and
 closed at `ce14e04c56271b756742d29a57cb717ec0e27803`; Modules certified and closed
 at `67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`; Milestone 11 Batch 11A
-certified and closed at `d147ccf2f84ee36261b97b4dca602d95ad34304a`.
+certified and closed at `d147ccf2f84ee36261b97b4dca602d95ad34304a`; Batch 11B
+certified and closed at `8655631f4f9fbb0508447713371e534bee418582`.
 
-The pre-1.0 Language Foundations phase is closed. Milestone 11 Batch 11A is
-closed and Batch 11B is active; later Standard Library batches remain
-unauthorized.
+The pre-1.0 Language Foundations phase is closed. Milestone 11 Batches 11A and
+11B are closed; later Standard Library batches remain unauthorized.
 
-Current roadmap milestone: Milestone 11 — Standard Library, Batch 11B active
+Current roadmap milestone: Milestone 11 — Standard Library, Batch 11B closed
 
 ## Purpose
 
@@ -250,8 +248,9 @@ linting, strict source/test type checking, a production build, and direct
 
 ### Milestone 11 — Standard Library
 
-Status: Batch 11A certified and closed at
-`d147ccf2f84ee36261b97b4dca602d95ad34304a`; Batch 11B active.
+Status: Batches 11A and 11B certified and closed. Batch 11A closed at
+`d147ccf2f84ee36261b97b4dca602d95ad34304a`; Batch 11B closed at
+`8655631f4f9fbb0508447713371e534bee418582`.
 
 Batch 11A establishes the reserved `kwechiri:` namespace, explicit imported
 standard functions, an internal signature catalog, portable pure
@@ -276,11 +275,19 @@ Batch 11A certification validation:
   source-location coverage
 - direct `run`, `check`, and `compile` probes for `kwechiri:eriri`
 - linting, strict source/test type checking, and the production build
+- GitHub Actions run `40557024578` passed on Node.js 20 and Node.js 24 at
+  `7f80f6036cb7065553a0a8b278a0cc8241123a9e`
 
-The canonical local gate passed. GitHub Actions run `40557024578` on
-`7f80f6036cb7065553a0a8b278a0cc8241123a9e` also passed both Node.js 20 and
-Node.js 24 jobs, including the canonical quality gate and existing CLI smoke
-test.
+Batch 11B certification validation:
+
+- 162 automated tests, including grapheme counting for precomposed and
+  decomposed Igbo text, flags, and joined emoji
+- exact raw-string concatenation with case, Unicode, and empty-string coverage
+- located diagnostics for invalid argument counts and types
+- direct CLI `run`, `check`, and `compile` coverage for all five string APIs
+- GitHub Actions run `40607333973` passed on Node.js 20 and Node.js 24
+- compiler, Astro, and Vercel builds passed
+- public Standard Library documentation verified at `kwechiri.dev`
 
 ### Milestone 12 — Browser playground
 
@@ -384,5 +391,6 @@ Functions is closed at `c27d353e7589cf541f0054958c33f72c4803389b`.
 Control Flow is closed at `ce14e04c56271b756742d29a57cb717ec0e27803`.
 Modules is closed at `67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`, and the
 pre-1.0 Language Foundations phase is closed. Milestone 11 Batch 11A is closed
-at `d147ccf2f84ee36261b97b4dca602d95ad34304a`. Batch 11B is active. Do not
-begin later Standard Library batches without a separately approved contract.
+at `d147ccf2f84ee36261b97b4dca602d95ad34304a`; Batch 11B is closed at
+`8655631f4f9fbb0508447713371e534bee418582`. Do not begin later Standard
+Library batches without a separately approved contract.

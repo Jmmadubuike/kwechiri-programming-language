@@ -9,8 +9,8 @@ import PageIntro from "../components/PageIntro.astro";
 >
   <PageIntro
     eyebrow="Privacy"
-    title="No analytics or remote execution."
-    lead="The initial Kwechiri website is static and intentionally collects no visitor account, form, analytics, or submitted-code data."
+    title="Local execution. No analytics."
+    lead="The Kwechiri website collects no visitor account, form, analytics, or uploaded-source data."
   />
 
   <section class="section">
@@ -23,8 +23,13 @@ import PageIntro from "../components/PageIntro.astro";
 
       <h2>Program execution</h2>
       <p>
-        The site does not execute submitted Kwechiri code. Browser execution is
-        reserved for a future, separately approved playground milestone.
+        The playground compiles and executes Kwechiri source in a dedicated
+        worker inside the visitor's browser. Source and output are not uploaded
+        to Kwechiri or a remote execution service.
+      </p>
+      <p>
+        Batch 12A does not save programs, accounts, or share links. Closing or
+        refreshing the page discards the current source.
       </p>
 
       <h2>Hosting</h2>

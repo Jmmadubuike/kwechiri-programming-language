@@ -293,6 +293,19 @@ p {
   background: var(--green-soft);
 }
 
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.button:disabled:hover {
+  background: var(--green);
+}
+
+.button--secondary:disabled:hover {
+  background: transparent;
+}
+
 .status-strip {
   display: flex;
   flex-wrap: wrap;
@@ -549,6 +562,173 @@ pre {
   border-radius: 0.8rem;
 }
 
+.playground {
+  max-width: 84rem;
+}
+
+.playground-toolbar {
+  display: grid;
+  grid-template-columns: auto minmax(12rem, 18rem) 1fr;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.playground-toolbar label {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.playground-toolbar select {
+  min-height: 2.9rem;
+  padding: 0.55rem 2.3rem 0.55rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.playground-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: flex-end;
+}
+
+.playground-actions .button {
+  cursor: pointer;
+}
+
+.playground-shortcut,
+.playground-status,
+.playground-privacy {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.playground-shortcut {
+  margin-block: 0.9rem 1.2rem;
+}
+
+kbd {
+  padding: 0.1rem 0.34rem;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 0.3rem;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.78rem;
+}
+
+.playground-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.playground-panel {
+  display: flex;
+  min-width: 0;
+  min-height: 35rem;
+  overflow: hidden;
+  flex-direction: column;
+  border: 1px solid #284138;
+  border-radius: 1rem;
+  background: var(--code);
+  box-shadow: var(--shadow);
+  color: var(--code-ink);
+}
+
+.playground-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.playground-panel__header h2 {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+
+.playground-panel__header span {
+  color: #b7c7be;
+  font-size: 0.78rem;
+}
+
+#source-editor {
+  width: 100%;
+  min-height: 31rem;
+  resize: vertical;
+  flex: 1;
+  padding: 1.2rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--code-ink);
+  font-family: ui-monospace, SFMono-Regular, "Cascadia Code", Consolas, monospace;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  tab-size: 2;
+}
+
+#source-editor:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: -3px;
+}
+
+.playground-output {
+  min-height: 0;
+  overflow: auto;
+  flex: 1;
+}
+
+.playground-output pre {
+  min-height: 100%;
+  color: var(--code-ink);
+  white-space: pre-wrap;
+}
+
+.playground-output--empty pre::before {
+  color: #8fa299;
+  content: "Program output will appear here.";
+}
+
+.playground-error {
+  padding: 1rem 1.2rem;
+  border-top: 1px solid rgba(255, 173, 139, 0.45);
+  background: rgba(158, 79, 40, 0.24);
+}
+
+.playground-error strong {
+  color: #ffd3bd;
+}
+
+.playground-error p {
+  margin: 0.35rem 0 0;
+  color: #f7e4d9;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.84rem;
+  white-space: pre-wrap;
+}
+
+.playground-status {
+  min-height: 1.5rem;
+  margin-block: 1rem 0;
+  font-weight: 700;
+}
+
+.playground-privacy {
+  max-width: 60rem;
+  margin-top: 0.4rem;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -664,6 +844,22 @@ tr:last-child td {
 
   .card-grid {
     grid-template-columns: 1fr;
+  }
+
+  .playground-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .playground-actions {
+    justify-content: flex-start;
+  }
+
+  .playground-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .playground-panel {
+    min-height: 28rem;
   }
 
   .site-footer__links {

@@ -11,6 +11,7 @@ export const SITE = {
 export const NAV_ITEMS = [
   { href: "/why-kwechiri/", label: "Why Kwechiri" },
   { href: "/tutorials/", label: "Tutorials" },
+  { href: "/playground/", label: "Playground" },
   { href: "/docs/", label: "Docs" },
   { href: "/examples/", label: "Examples" },
   { href: "/roadmap/", label: "Roadmap" },

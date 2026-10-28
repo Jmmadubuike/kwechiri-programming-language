@@ -1,8 +1,14 @@
 # Kwechiri Website and Documentation Foundation Plan
 
-Status: Publicly launched and verified
+Status: Publicly launched and extended by Browser Playground Batch 12A
 Date: 2026-10-27
 Canonical domain: `kwechiri.dev` (owner-acquired; DNS not yet verified)
+
+Batch 12A was separately approved on 2026-10-28 and supersedes this plan's
+initial browser-execution restriction. The playground now runs single-file
+programs locally in the visitor's browser; it does not upload source or add a
+server execution service. See the
+[Batch 12A contract](MILESTONE-12-BROWSER-PLAYGROUND.md).
 
 The owner approved the initial framework, repository location, canonical host,
 static-only scope, and no-analytics/no-remote-execution boundary on
@@ -16,9 +22,9 @@ The static foundation is implemented in `website/` with Astro 6.0.5. The
 website build requires Node.js 22.12 or newer and is validated independently
 from the compiler's Node.js 20 support. It includes the approved route
 structure, responsive styling, verified website snapshots of repository
-examples, sitemap generation, privacy copy, and no client-side execution or
-analytics. A check script fails if a website snapshot drifts from its
-authoritative example.
+examples, sitemap generation, privacy copy, and no analytics. Batch 12A adds
+local Web Worker execution only to the playground route. A check script fails
+if a website snapshot drifts from its authoritative example.
 
 Local evidence:
 
@@ -57,7 +63,8 @@ its tooling is more complete than it is.
 - Kwechiri is pre-1.0 and the npm package is intentionally private.
 - The compiler generates JavaScript that expects an injected runtime.
 - `NodeKwechiriRuntime` is the only implemented runtime adapter.
-- The browser playground is Milestone 12 and is not designed or approved.
+- Browser Playground Batch 12A is approved for one local source file and
+  certified `kwechiri:` imports; filesystem modules remain deferred.
 - Formal tutorials are planned but not yet written.
 - The repository documentation is the source of truth.
 - The project has no selected license or approved publication policy.
@@ -108,11 +115,12 @@ its tooling is more complete than it is.
 | `/roadmap` | Certified milestones, active limits, and future roadmap | Required |
 | `/about` | Project purpose and governance summary | Required |
 | `/contributing` | Development, validation, and contribution entry points | Required |
-| `/playground` | Browser execution environment | Deferred to Milestone 12 |
+| `/playground` | Local single-file browser execution environment | Implemented in Batch 12A |
 | `/blog` | Editorial updates | Not part of the first release |
 
-No route should imply that the playground, tutorials, package installation, or
-1.0 compatibility already exist.
+No route should imply that package installation or 1.0 compatibility already
+exists, or that the playground supports more than its approved local
+single-file boundary.
 
 ## Content rules
 
@@ -200,7 +208,8 @@ logo, typography, and public copy require owner approval. The design should:
 
 ## Security and privacy
 
-- The initial site does not execute user-provided Kwechiri code.
+- The initial static pages do not execute user-provided code. The separately
+  approved Batch 12A playground does so locally in a dedicated browser worker.
 - No compiler output or source is sent to a server for execution.
 - No secrets or private repository tokens belong in the site project.
 - Do not add analytics, third-party tracking, forms, or remote fonts until the
@@ -249,18 +258,18 @@ Approved:
 - Set repository website metadata.
 - Announce only the capabilities that exist and have been verified.
 
-### Future phase — Browser playground
+### Implemented extension — Browser playground
 
-The playground is a separate approved feature after Milestone 12. It must not
-be simulated on the initial site with a misleading editor that cannot execute
-the language.
+Browser Playground Batch 12A is implemented separately from the initial static
+foundation. It compiles and runs one source file locally, does not upload source,
+and does not simulate unsupported filesystem-module or server execution.
 
 ## Acceptance criteria
 
 - All required routes render on mobile and desktop without horizontal overflow.
 - Core documentation and examples work without client-side JavaScript.
 - Every example matches a tested compiler result.
-- No page claims an unavailable installation method, editor, playground, or
+- No page claims an unavailable installation method, editor capability, or
   release status.
 - Navigation, canonical links, sitemap, and redirects are correct.
 - Keyboard navigation, focus visibility, semantic headings, and contrast meet

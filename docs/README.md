@@ -44,6 +44,8 @@ and consequences; they do not authorize unresolved future features.
 - [Recorded technical debt](roadmap/technical-debt.md)
 - [Website and documentation foundation plan](roadmap/WEBSITE-FOUNDATION-PLAN.md)
   — approved static foundation
+- [Browser playground Batch 12A contract](roadmap/MILESTONE-12-BROWSER-PLAYGROUND.md)
+  — approved and implemented
 - [Standard Library](standard-library/README.md)
 
 Milestones 0–10 and the post-milestone Lexical Foundations, Core Values & Logic,

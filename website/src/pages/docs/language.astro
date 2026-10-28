@@ -46,13 +46,15 @@ import { SITE } from "../../consts";
       <h2>Runtime and diagnostics</h2>
       <p>
         Kwechiri currently generates JavaScript with an injected runtime
-        dependency. Node.js is the first host. Compile-time and runtime errors
-        carry source location and category information.
+        dependency. Node.js is the command-line host, and the browser playground
+        provides a worker host for one source file. Compile-time and runtime
+        errors carry source location and category information.
       </p>
 
       <h2>Not implemented or not authorized</h2>
       <ul>
-        <li>Browser execution and DOM APIs</li>
+        <li>Filesystem modules in the browser playground</li>
+        <li>DOM, network, input, and other host APIs</li>
         <li>Recursion, closures, and first-class functions before 1.0</li>
         <li><code>maka</code> collection iteration</li>
         <li>Collection methods, spread syntax, and computed properties</li>

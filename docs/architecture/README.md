@@ -9,7 +9,7 @@ Kwechiri source
   -> semantic analysis and resolved nodes
   -> JavaScript code generation
   -> injected Kwechiri runtime
-  -> Node.js host
+  -> Node.js host or isolated browser worker
 ```
 
 Multi-file compilation first resolves and validates the module graph, then
@@ -19,6 +19,8 @@ Current documents:
 
 - [Milestone 1 architecture](milestone-1.md) — historical initial slice
 - [Runtime architecture](runtime.md) — current runtime boundary
+- [Browser playground architecture](browser-playground.md) — single-source
+  browser compilation, worker isolation, runtime, and limits
 - [Module graph architecture](modules.md) — canonical resolution, identity,
   caching, ordering, and cycles
 - [Standard Library architecture](../standard-library/README.md) — reserved

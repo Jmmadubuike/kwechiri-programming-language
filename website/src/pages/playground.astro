@@ -1,0 +1,88 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+import helloSource from "../generated/examples/hello.kwe?raw";
+---
+
+<BaseLayout
+  title="Playground"
+  description="Write and run a Kwechiri program locally in your browser."
+>
+  <PageIntro
+    eyebrow="Browser playground"
+    title="Try Kwechiri here."
+    lead="Edit a single Kwechiri source file and run it entirely in your browser. Your source is not uploaded."
+    meta="Batch 12A · Single-file programs and kwechiri:eriri"
+  />
+
+  <section class="section">
+    <div class="shell playground">
+      <div class="playground-toolbar">
+        <label for="example-select">Example</label>
+        <select id="example-select">
+          <option value="ndewo">Ndewo Ụwa</option>
+          <option value="variables">Variables and values</option>
+          <option value="decisions">Expressions and decisions</option>
+          <option value="loops">Repetition</option>
+          <option value="functions">Functions</option>
+          <option value="collections">Arrays and objects</option>
+          <option value="strings">Standard Library strings</option>
+        </select>
+        <div class="playground-actions">
+          <button class="button" id="run-source" type="button">Run</button>
+          <button class="button button--secondary" id="cancel-source" type="button">Cancel</button>
+          <button class="button button--secondary" id="reset-source" type="button">Reset</button>
+        </div>
+      </div>
+
+      <p class="playground-shortcut">
+        Run with <kbd>Control</kbd> + <kbd>Enter</kbd> or <kbd>Command</kbd> + <kbd>Enter</kbd>.
+        Source must be 64 KiB or smaller; execution stops after two seconds.
+      </p>
+
+      <div class="playground-grid">
+        <section class="playground-panel" aria-labelledby="editor-heading">
+          <div class="playground-panel__header">
+            <h2 id="editor-heading">Source</h2>
+            <span>playground.kwe</span>
+          </div>
+          <label class="visually-hidden" for="source-editor">Kwechiri source code</label>
+          <textarea
+            id="source-editor"
+            aria-describedby="playground-privacy"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            wrap="off">{helloSource.trimEnd()}</textarea>
+        </section>
+
+        <section class="playground-panel" aria-labelledby="output-heading">
+          <div class="playground-panel__header">
+            <h2 id="output-heading">Output</h2>
+            <span>stays in this browser</span>
+          </div>
+          <div id="output-panel" class="playground-output playground-output--empty">
+            <pre id="playground-output" aria-label="Program output"></pre>
+          </div>
+          <div id="playground-error" class="playground-error" role="alert" hidden>
+            <strong id="playground-error-title"></strong>
+            <p id="playground-error-message"></p>
+          </div>
+        </section>
+      </div>
+
+      <p id="playground-status" class="playground-status" aria-live="polite">Ready.</p>
+      <p id="playground-privacy" class="playground-privacy">
+        Kwechiri is compiled and executed in a dedicated browser worker. Source
+        and output are not sent to this site's host, and the playground does not
+        save them. Filesystem imports are not available here. On supported
+        browsers, the certified <code>kwechiri:eriri</code> module is available.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    import "../scripts/playground";
+  </script>
+</BaseLayout>

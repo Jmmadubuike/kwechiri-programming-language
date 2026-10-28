@@ -18,7 +18,8 @@ certified and closed at `8655631f4f9fbb0508447713371e534bee418582`.
 The pre-1.0 Language Foundations phase is closed. Milestone 11 Batches 11A and
 11B are closed; later Standard Library batches remain unauthorized.
 
-Current roadmap milestone: Milestone 11 — Standard Library, Batch 11B closed
+Current roadmap milestone: Milestone 12 — Browser playground, Batch 12A
+implemented
 
 ## Purpose
 
@@ -54,7 +55,10 @@ Kwechiri currently supports:
 - named multi-file modules using `webata`, `bupụ`, and `site na`
 - explicit `kwechiri:eriri` imports with `nwereEriri`, `maliteNa`, and
   `kwụsịNa`
-- an explicit Kwechiri runtime boundary with a Node.js implementation
+- an explicit Kwechiri runtime boundary with Node.js and browser-worker
+  implementations
+- a local `/playground/` for one source file, certified `kwechiri:` imports,
+  verified examples, and located diagnostics
 - located compile-time and runtime diagnostics
 - the compatible command `kwechiri <file.kwe>`
 - explicit `run`, execution-free `check`, and directly runnable `compile`
@@ -291,15 +295,28 @@ Batch 11B certification validation:
 
 ### Milestone 12 — Browser playground
 
-Not designed or approved.
+Status: Batch 12A approved, implemented, and locally verified.
 
-Expected work includes:
+Batch 12A provides:
 
-- browser-compatible compiler and runtime boundary
-- safe execution isolation
-- editor, output, errors, and example programs
-- responsive mobile and desktop interface
-- no server or framework choice without approval
+- a host-neutral single-source compiler boundary;
+- a browser implementation of `KwechiriRuntime`;
+- isolated Web Worker execution with a two-second timeout;
+- 64 KiB source and bounded-output controls;
+- a verified-example selector, source editor, output, and diagnostics;
+- local-only execution with no source upload, analytics, or persistence;
+- responsive desktop and mobile browser review.
+
+The [Batch 12A contract](MILESTONE-12-BROWSER-PLAYGROUND.md) records the
+approved limits and its separation from hardened cross-origin execution.
+
+Still deferred:
+
+- relative filesystem modules and multiple editable files;
+- saved or shared programs;
+- syntax highlighting and autocomplete;
+- DOM, network, input, or other host APIs;
+- production-grade execution of one person's code on behalf of another.
 
 ### Milestone 13 — VS Code support
 
@@ -356,14 +373,13 @@ the appropriate owner decision and milestone placement.
 - decide npm publication and package ownership
 - define release and changelog procedures
 
-The owner approved a separate, documentation-first static website foundation
-under `website/`. It uses Astro, targets `kwechiri.dev`, and does not execute
-code or collect analytics. The foundation is implemented locally and passes its
-Astro check, static build, internal-link audit, and responsive visual review.
-Vercel preview and Git-driven deployments are connected and building
-successfully; GitHub Actions passes on Node.js 20 and 24. A custom domain and
-public launch are verified at `https://kwechiri.dev/`. Browser execution remains
-Milestone 12.
+The owner approved a documentation-first website foundation under `website/`.
+It uses Astro, targets `kwechiri.dev`, and passes its Astro check, static build,
+internal-link audit, and responsive visual review. Vercel preview and Git-driven
+deployments are connected and building successfully; GitHub Actions passes on
+Node.js 20 and 24. A custom domain and public launch are verified at
+`https://kwechiri.dev/`. Batch 12A adds a local browser playground for
+single-file programs without adding server execution or analytics.
 
 The approved Tutorial Foundation is complete. All eight lessons, through
 “Standard Library strings,” are available with repository-verified programs,

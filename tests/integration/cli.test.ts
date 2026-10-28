@@ -138,6 +138,14 @@ describe("Kwechiri CLI integration", () => {
     });
   });
 
+  it("runs the functions tutorial with its documented output", () => {
+    expect(runCli([resolve("examples/tutorials/functions.kwe")])).toEqual({
+      status: 0,
+      stdout: "30\nOkenye\nNwatakịrị\nAda\nefu\n",
+      stderr: "",
+    });
+  });
+
   it("checks valid source and a valid module graph silently without executing", () => {
     expect(runCli(["check", resolve("tests/fixtures/division-by-zero.kwe")])).toEqual({ status: 0, stdout: "", stderr: "" });
     expect(runCli(["check", resolve("examples/modules/main.kwe")])).toEqual({ status: 0, stdout: "", stderr: "" });

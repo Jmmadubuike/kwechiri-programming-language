@@ -20,7 +20,7 @@ keywords, identifiers, examples, and diagnostics.
 | 2 | [Variables and values](02-variables-and-values.md) | Available |
 | 3 | [Expressions and decisions](03-expressions-and-decisions.md) | Available |
 | 4 | [Repetition and loop control](04-repetition-and-loop-control.md) | Available |
-| 5 | Functions and return values | Planned |
+| 5 | [Functions and return values](05-functions-and-return-values.md) | Available |
 | 6 | Arrays and objects | Planned |
 | 7 | Modules | Planned |
 | 8 | Standard Library strings | Planned |

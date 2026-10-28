@@ -59,5 +59,5 @@ batches remain unauthorized.
 ## 7. Tutorials
 
 The [tutorial index](tutorials/README.md) defines the beginner-first learning
-path. Lessons 1–4 are available; lessons 5–8 remain planned. Examples in
+path. Lessons 1–5 are available; lessons 6–8 remain planned. Examples in
 `examples/` remain the executable source material.

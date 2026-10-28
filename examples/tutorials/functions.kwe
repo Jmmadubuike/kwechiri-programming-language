@@ -1,0 +1,20 @@
+ọrụ gbakọọ(a, b) {
+    laghachi a + b
+}
+
+ọrụ kọwaa(afọ) {
+    ọ bụrụ (afọ >= 18) {
+        laghachi "Okenye"
+    }
+    laghachi "Nwatakịrị"
+}
+
+ọrụ kelee(aha) {
+    bipụta(aha)
+}
+
+nsonaazụ = gbakọọ(10, 20)
+bipụta(nsonaazụ)
+bipụta(kọwaa(20))
+bipụta(kọwaa(12))
+bipụta(kelee("Ada"))

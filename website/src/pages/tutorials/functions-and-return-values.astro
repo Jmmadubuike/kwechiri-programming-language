@@ -1,0 +1,100 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CodeExample from "../../components/CodeExample.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
+import lessonSource from "../../generated/examples/tutorial-functions.kwe?raw";
+
+const source = lessonSource.trimEnd();
+const output = "30\nOkenye\nNwatakịrị\nAda\nefu";
+---
+
+<BaseLayout
+  title="Lesson 5: Functions and Return Values"
+  description="Learn named Kwechiri functions, parameters, calls, return values, and current function rules."
+>
+  <PageIntro
+    eyebrow="Tutorial 05"
+    title="Functions and Return Values"
+    lead="Declare reusable named functions, accept parameters, call them, and return values with laghachi."
+    meta="Beginner · Complete Lesson 4 first"
+  />
+
+  <div class="shell content-layout">
+    <nav class="docs-nav" aria-label="Tutorial navigation">
+      <a href="/tutorials/repetition-and-loop-control/">← Lesson 4: Repetition and Loop Control</a>
+      <a href="/tutorials/functions-and-return-values/" aria-current="page">Lesson 5: Functions and return values</a>
+      <span>Collections · Planned</span>
+      <span>Modules · Planned</span>
+    </nav>
+    <article class="prose">
+      <h2>The program</h2>
+      <p>Open <code>examples/tutorials/functions.kwe</code>.</p>
+      <CodeExample label="examples/tutorials/functions.kwe" code={source} output={output} />
+
+      <h2>Run it</h2>
+      <pre><code>node dist/cli/index.js examples/tutorials/functions.kwe</code></pre>
+
+      <h2>Defining and calling</h2>
+      <p>A named function starts with <code>ọrụ</code>:</p>
+      <pre><code>ọrụ gbakọọ(a, b) &#123;
+    laghachi a + b
+&#125;</code></pre>
+      <p>
+        <code>a</code> and <code>b</code> are parameters available only inside
+        the function. Call it with arguments:
+      </p>
+      <pre><code>nsonaazụ = gbakọọ(10, 20)</code></pre>
+
+      <h2>Returning values</h2>
+      <p>
+        <code>laghachi</code> returns a value immediately and exits the whole
+        function:
+      </p>
+      <pre><code>ọ bụrụ (afọ &gt;= 18) &#123;
+    laghachi "Okenye"
+&#125;
+laghachi "Nwatakịrị"</code></pre>
+      <p>
+        Both reachable returns produce strings, so the inferred return type is
+        string. A function that reaches the end without <code>laghachi</code>
+        returns <code>efu</code>, which is why <code>kelee("Ada")</code> prints
+        <code>Ada</code> and then returns <code>efu</code>.
+      </p>
+
+      <h2>Current rules</h2>
+      <ul>
+        <li>Declare functions at module top level before calling them.</li>
+        <li>Use the exact number of arguments.</li>
+        <li>The first call establishes one parameter signature for the function.</li>
+        <li>Every later call must use that same signature.</li>
+        <li>Parameters and locals cannot capture module variables.</li>
+        <li>Recursion, nested functions, closures, default parameters, and first-class functions are unsupported.</li>
+      </ul>
+
+      <h2>Your turn</h2>
+      <p>
+        Add <code>bipụta(gbakọọ(2, 3))</code> and predict the result. Then call
+        <code>kọwaa</code> with a number below <code>18</code> and explain which
+        <code>laghachi</code> supplies the result.
+      </p>
+
+      <div class="callout callout--gold">
+        <strong>Common problems</strong>
+        Declare the function before the call, use the exact argument count,
+        return one concrete type across reachable paths, and remember that
+        fallthrough returns <code>efu</code>.
+      </div>
+
+      <h2>Normative references</h2>
+      <ul>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/functions.md`}>Functions</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/variables.md`}>Variables</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/errors.md`}>Current language errors</a></li>
+      </ul>
+
+      <h2>Next</h2>
+      <p>Lesson 6 will introduce homogeneous arrays, typed objects, indexing, and existing-element mutation.</p>
+    </article>
+  </div>
+</BaseLayout>

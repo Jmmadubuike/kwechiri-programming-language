@@ -34,12 +34,14 @@ afterEach(() => {
 });
 
 describe("kwechiri:eriri", () => {
-  it("records the three approved exports in the declarative catalog", () => {
+  it("records the five approved exports in the declarative catalog", () => {
     const module = standardModule("kwechiri:eriri");
     expect([...module?.exports.values() ?? []]).toEqual([
       expect.objectContaining({ publicName: "nwereEriri", arity: 2, parameterTypes: ["string", "string"], returnType: "boolean", mutation: "none", intrinsic: "stringContains" }),
       expect.objectContaining({ publicName: "maliteNa", arity: 2, parameterTypes: ["string", "string"], returnType: "boolean", mutation: "none", intrinsic: "stringStartsWith" }),
       expect.objectContaining({ publicName: "kwụsịNa", arity: 2, parameterTypes: ["string", "string"], returnType: "boolean", mutation: "none", intrinsic: "stringEndsWith" }),
+      expect.objectContaining({ publicName: "ogologoEriri", arity: 1, parameterTypes: ["string"], returnType: "number", mutation: "none", intrinsic: "stringGraphemeLength" }),
+      expect.objectContaining({ publicName: "jikọọEriri", arity: 2, parameterTypes: ["string", "string"], returnType: "string", mutation: "none", intrinsic: "stringConcat" }),
     ]);
   });
 
@@ -90,14 +92,49 @@ describe("kwechiri:eriri", () => {
     await expect(loadModuleGraph(write(directory, "case.kwe", 'webata { KwụsịNa } site na "kwechiri:eriri"'))).rejects.toThrow(/Unknown Kwechiri standard export/);
   });
 
+  it("counts user-perceived grapheme clusters for empty, ASCII, and Igbo text", async () => {
+    const decomposed = "ụbọchị".normalize("NFD");
+    const source = [
+      'webata { ogologoEriri } site na "kwechiri:eriri"',
+      'bipụta(ogologoEriri(""))',
+      'bipụta(ogologoEriri("Kwechiri"))',
+      'bipụta(ogologoEriri("ụbọchị"))',
+      `bipụta(ogologoEriri("${decomposed}"))`,
+      'bipụta(ogologoEriri("👩🏽‍💻"))',
+      'bipụta(ogologoEriri("🇳🇬"))',
+    ].join("\n");
+
+    expect(await outputOf(source)).toEqual([0, 8, 6, 6, 1, 1]);
+  });
+
+  it("concatenates exact raw strings without coercion or normalization", async () => {
+    const composed = "ụ";
+    const decomposed = composed.normalize("NFD");
+    const source = [
+      'webata { jikọọEriri } site na "kwechiri:eriri"',
+      'bipụta(jikọọEriri("", ""))',
+      'bipụta(jikọọEriri("Kwe", "chiri"))',
+      'bipụta(jikọọEriri("ụbọchị", " ọma"))',
+      `bipụta(jikọọEriri("${composed}", "${decomposed}"))`,
+    ].join("\n");
+
+    const output = await outputOf(source);
+    expect(output).toEqual(["", "Kwechiri", "ụbọchị ọma", composed + decomposed]);
+    expect(output[3]).not.toBe(composed + composed);
+  });
+
   it.each([
     ['nwereEriri(42, "x")', /argument type mismatch/i],
     ['maliteNa("x", eziokwu)', /argument type mismatch/i],
     ['kwụsịNa("x")', /argument count/i],
     ['nwereEriri("x", "x", "x")', /argument count/i],
+    ["ogologoEriri(42)", /argument type mismatch/i],
+    ['ogologoEriri("x", "y")', /argument count/i],
+    ['jikọọEriri("x")', /argument count/i],
+    ['jikọọEriri("x", eziokwu)', /argument type mismatch/i],
   ])("rejects invalid call %s with a located semantic diagnostic", async (call, message) => {
     const directory = temporaryDirectory();
-    const source = `webata { nwereEriri, maliteNa, kwụsịNa } site na "kwechiri:eriri"\nvalue = ${call}`;
+    const source = `webata { nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri } site na "kwechiri:eriri"\nvalue = ${call}`;
     await expect(compileFile(write(directory, "invalid.kwe", source))).rejects.toThrow(message);
     await expect(compileFile(join(directory, "invalid.kwe"))).rejects.toThrow(/invalid\.kwe:\d+:\d+:/);
   });
@@ -105,7 +142,7 @@ describe("kwechiri:eriri", () => {
   it("rejects unknown standard modules and exports without filesystem resolution", async () => {
     const directory = temporaryDirectory();
     await expect(loadModuleGraph(write(directory, "module.kwe", 'webata { x } site na "kwechiri:amaghi"'))).rejects.toThrow(/Unknown Kwechiri standard module/);
-    await expect(loadModuleGraph(write(directory, "export.kwe", 'webata { ogologoEriri } site na "kwechiri:eriri"'))).rejects.toThrow(/Unknown Kwechiri standard export/);
+    await expect(loadModuleGraph(write(directory, "export.kwe", 'webata { wepụEriri } site na "kwechiri:eriri"'))).rejects.toThrow(/Unknown Kwechiri standard export/);
   });
 
   it("applies ordinary duplicate and local collision rules", async () => {

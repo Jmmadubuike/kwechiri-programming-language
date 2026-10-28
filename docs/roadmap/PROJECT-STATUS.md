@@ -4,6 +4,7 @@ Last updated: 2026-10-28
 Current version: `0.1.0-development`  
 Current completed batch: Milestone 11 Batch 11A — Standard Library string
 predicates
+Current active batch: Milestone 11 Batch 11B — Standard Library string basics
 
 Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
@@ -16,9 +17,10 @@ at `67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`; Milestone 11 Batch 11A
 certified and closed at `d147ccf2f84ee36261b97b4dca602d95ad34304a`.
 
 The pre-1.0 Language Foundations phase is closed. Milestone 11 Batch 11A is
-closed; later Standard Library batches remain unauthorized.
+closed and Batch 11B is active; later Standard Library batches remain
+unauthorized.
 
-Current roadmap milestone: Milestone 11 — Standard Library, Batch 11A closed
+Current roadmap milestone: Milestone 11 — Standard Library, Batch 11B active
 
 ## Purpose
 
@@ -249,7 +251,7 @@ linting, strict source/test type checking, a production build, and direct
 ### Milestone 11 — Standard Library
 
 Status: Batch 11A certified and closed at
-`d147ccf2f84ee36261b97b4dca602d95ad34304a`.
+`d147ccf2f84ee36261b97b4dca602d95ad34304a`; Batch 11B active.
 
 Batch 11A establishes the reserved `kwechiri:` namespace, explicit imported
 standard functions, an internal signature catalog, portable pure
@@ -258,6 +260,10 @@ implementations, and exactly three provisional string predicates:
 - `nwereEriri`
 - `maliteNa`
 - `kwụsịNa`
+
+Batch 11B adds `ogologoEriri` for extended grapheme-cluster length and
+`jikọọEriri` for exact raw-string concatenation. Both are provisionally named
+pre-1.0 APIs in the same `kwechiri:eriri` module.
 
 Later string operations, numbers, collections, conversions, JSON, I/O, network,
 randomness, and date/time remain unapproved.
@@ -378,5 +384,5 @@ Functions is closed at `c27d353e7589cf541f0054958c33f72c4803389b`.
 Control Flow is closed at `ce14e04c56271b756742d29a57cb717ec0e27803`.
 Modules is closed at `67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`, and the
 pre-1.0 Language Foundations phase is closed. Milestone 11 Batch 11A is closed
-at `d147ccf2f84ee36261b97b4dca602d95ad34304a`. Do not begin later Standard
-Library batches without a separately approved contract.
+at `d147ccf2f84ee36261b97b4dca602d95ad34304a`. Batch 11B is active. Do not
+begin later Standard Library batches without a separately approved contract.

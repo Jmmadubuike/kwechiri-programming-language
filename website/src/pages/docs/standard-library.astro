@@ -5,21 +5,23 @@ import DocsNav from "../../components/DocsNav.astro";
 import PageIntro from "../../components/PageIntro.astro";
 import { SITE } from "../../consts";
 
-const predicateExample = `webata { nwereEriri, maliteNa, kwụsịNa } site na "kwechiri:eriri"
+const stringExample = `webata { nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri } site na "kwechiri:eriri"
 
 bipụta(nwereEriri("Kwechiri", "chiri"))
 bipụta(maliteNa("Kwechiri", "Kwe"))
-bipụta(kwụsịNa("Kwechiri", "chiri"))`;
+bipụta(kwụsịNa("Kwechiri", "chiri"))
+bipụta(ogologoEriri("Ụbọchị"))
+bipụta(jikọọEriri("Kwe", "chiri"))`;
 ---
 
 <BaseLayout
   title="Standard Library"
-  description="The first Kwechiri Standard Library module and its provisional string predicates."
+  description="The official Kwechiri string module and its five provisional functions."
 >
   <PageIntro
     eyebrow="Documentation"
     title="Explicit imports, specified behavior."
-    lead="Batch 11A introduced the reserved kwechiri: namespace and one pure string module. Later Standard Library batches are not yet authorized."
+    lead="Batch 11A introduced the reserved kwechiri: namespace. Batch 11B extends its pure string module with length and concatenation. Later Standard Library batches are not yet authorized."
   />
 
   <div class="shell content-layout">
@@ -27,8 +29,8 @@ bipụta(kwụsịNa("Kwechiri", "chiri"))`;
     <article class="prose">
       <h2><code>kwechiri:eriri</code></h2>
       <p>
-        The module exports three provisional pre-1.0 predicates. Each accepts
-        two strings and returns a Boolean without mutation, coercion, or
+        The module exports five provisional pre-1.0 functions. All are pure,
+        non-mutating, case-sensitive, and free of implicit coercion or
         normalization.
       </p>
       <div class="table-wrap">
@@ -40,14 +42,16 @@ bipụta(kwụsịNa("Kwechiri", "chiri"))`;
             <tr><td><code>nwereEriri</code></td><td><code>(string, string) -&gt; boolean</code></td><td>Contains</td></tr>
             <tr><td><code>maliteNa</code></td><td><code>(string, string) -&gt; boolean</code></td><td>Starts with</td></tr>
             <tr><td><code>kwụsịNa</code></td><td><code>(string, string) -&gt; boolean</code></td><td>Ends with</td></tr>
+            <tr><td><code>ogologoEriri</code></td><td><code>(string) -&gt; number</code></td><td>Grapheme-cluster length</td></tr>
+            <tr><td><code>jikọọEriri</code></td><td><code>(string, string) -&gt; string</code></td><td>Exact concatenation</td></tr>
           </tbody>
         </table>
       </div>
 
       <CodeExample
         label="Standard Library"
-        code={predicateExample}
-        output={"eziokwu\neziokwu\neziokwu"}
+        code={stringExample}
+        output={"eziokwu\neziokwu\neziokwu\n6\nKwechiri"}
       />
 
       <h2>Exact string behavior</h2>
@@ -55,20 +59,22 @@ bipụta(kwụsịNa("Kwechiri", "chiri"))`;
         <li>Matching is case-sensitive and exact.</li>
         <li>String contents are not normalized.</li>
         <li>The empty string is contained in every string and is a prefix and suffix of every string.</li>
+        <li><code>ogologoEriri</code> counts user-perceived characters; an Igbo letter with combining marks counts once.</li>
+        <li><code>jikọọEriri</code> joins exact raw sequences without inserting separators.</li>
         <li>Wrong arity and statically known wrong argument types are located semantic errors.</li>
       </ul>
 
       <div class="callout callout--gold">
         <strong>The names are provisional.</strong>
-        <code>nwereEriri</code>, <code>maliteNa</code>, and
-        <code>kwụsịNa</code> remain subject to the 1.0 terminology review.
+        All five string function names remain subject to the 1.0 terminology
+        review.
       </div>
 
       <p>
         Read the
         <a href={`${SITE.github}/blob/main/docs/standard-library/README.md`}>Standard Library documentation</a>
         and
-        <a href={`${SITE.github}/tree/main/docs/design-decisions`}>ADR-020 through ADR-022</a>
+        <a href={`${SITE.github}/tree/main/docs/design-decisions`}>ADR-020 through ADR-023</a>
         for the full contract.
       </p>
     </article>

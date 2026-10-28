@@ -1,5 +1,10 @@
-export type StandardValueType = "string" | "boolean";
-export type StandardIntrinsic = "stringContains" | "stringStartsWith" | "stringEndsWith";
+export type StandardValueType = "string" | "number" | "boolean";
+export type StandardIntrinsic =
+  | "stringContains"
+  | "stringStartsWith"
+  | "stringEndsWith"
+  | "stringGraphemeLength"
+  | "stringConcat";
 
 export interface StandardExportDefinition {
   readonly module: string;
@@ -43,6 +48,24 @@ const stringModuleExports: readonly StandardExportDefinition[] = [
     returnType: "boolean",
     mutation: "none",
     intrinsic: "stringEndsWith",
+  },
+  {
+    module: "kwechiri:eriri",
+    publicName: "ogologoEriri",
+    arity: 1,
+    parameterTypes: ["string"],
+    returnType: "number",
+    mutation: "none",
+    intrinsic: "stringGraphemeLength",
+  },
+  {
+    module: "kwechiri:eriri",
+    publicName: "jikọọEriri",
+    arity: 2,
+    parameterTypes: ["string", "string"],
+    returnType: "string",
+    mutation: "none",
+    intrinsic: "stringConcat",
   },
 ];
 

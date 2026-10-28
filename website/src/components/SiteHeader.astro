@@ -8,9 +8,10 @@ const isActive = (href: string): boolean =>
 
 <header class="site-header">
   <div class="site-header__inner">
-    <a class="wordmark" href="/" aria-label={`${SITE.name} home`}>
+    <a class="wordmark" href="/">
       <span class="wordmark__mark" aria-hidden="true">K</span>
       <span>{SITE.name}</span>
+      <span class="visually-hidden">home</span>
     </a>
     <nav class="site-nav" aria-label="Primary navigation">
       {NAV_ITEMS.map((item) => (

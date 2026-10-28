@@ -2,7 +2,7 @@
 
 This directory contains the static Kwechiri website for `kwechiri.dev`.
 
-The website build requires Node.js 22.12 or newer. This does not change the
+The website build requires Node.js 22.23.4 or newer. This does not change the
 Kwechiri compiler's separate Node.js 20 support.
 
 The site is documentation-first. Its `/playground/` route compiles and runs one
@@ -24,6 +24,8 @@ npm run dev
 
 ```sh
 npm run check
+npm run test:e2e:install
+npm run test:e2e
 ```
 
 The repository root also provides `npm run website:check`.

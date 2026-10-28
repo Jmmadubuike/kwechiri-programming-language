@@ -23,7 +23,8 @@
     "check": "npm run lint && npm run typecheck && npm test && npm run build",
     "website:dev": "npm --prefix website run dev",
     "website:build": "npm --prefix website run build",
-    "website:check": "npm --prefix website run check"
+    "website:check": "npm --prefix website run check",
+    "website:e2e": "npm --prefix website run test:e2e"
   },
   "engines": {
     "node": ">=20"
@@ -34,6 +35,6 @@
     "eslint": "^10.9.0",
     "typescript": "^5.9.0",
     "typescript-eslint": "^8.67.0",
-    "vitest": "^3.2.0"
+    "vitest": "^4.1.11"
   }
 }

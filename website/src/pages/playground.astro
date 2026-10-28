@@ -63,7 +63,12 @@ import helloSource from "../generated/examples/hello.kwe?raw";
             <span>stays in this browser</span>
           </div>
           <div id="output-panel" class="playground-output playground-output--empty">
-            <pre id="playground-output" aria-label="Program output"></pre>
+            <pre
+              id="playground-output"
+              role="log"
+              aria-label="Program output"
+              aria-live="polite"
+            ></pre>
           </div>
           <div id="playground-error" class="playground-error" role="alert" hidden>
             <strong id="playground-error-title"></strong>

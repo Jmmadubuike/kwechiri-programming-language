@@ -18,7 +18,7 @@ certified and closed at `8655631f4f9fbb0508447713371e534bee418582`.
 The pre-1.0 Language Foundations phase is closed. Milestone 11 Batches 11A and
 11B are closed; later Standard Library batches remain unauthorized.
 
-Current roadmap milestone: Milestone 12 — Browser playground, Batch 12A
+Current roadmap milestone: Milestone 12 — Browser playground, Batch 12B
 implemented
 
 ## Purpose
@@ -59,6 +59,8 @@ Kwechiri currently supports:
   implementations
 - a local `/playground/` for one source file, certified `kwechiri:` imports,
   verified examples, and located diagnostics
+- automated Chromium regression and WCAG A/AA checks for the playground
+- production security headers and audited compiler/website dependency locks
 - located compile-time and runtime diagnostics
 - the compatible command `kwechiri <file.kwe>`
 - explicit `run`, execution-free `check`, and directly runnable `compile`
@@ -295,7 +297,7 @@ Batch 11B certification validation:
 
 ### Milestone 12 — Browser playground
 
-Status: Batch 12A approved, implemented, and locally verified.
+Status: Batches 12A and 12B approved, implemented, and locally verified.
 
 Batch 12A provides:
 
@@ -309,6 +311,19 @@ Batch 12A provides:
 
 The [Batch 12A contract](MILESTONE-12-BROWSER-PLAYGROUND.md) records the
 approved limits and its separation from hardened cross-origin execution.
+
+Batch 12B adds:
+
+- seven Chromium regression tests covering every example and failure boundary;
+- automated WCAG A/AA and narrow-viewport checks;
+- Content Security Policy and related production headers;
+- zero-vulnerability compiler and website dependency locks, including Astro
+  7.4.3;
+- CI browser installation, Chromium tests, and compiler/website dependency
+  auditing.
+
+The [Batch 12B hardening record](MILESTONE-12-BATCH-12B-HARDENING.md) documents
+its evidence and remaining limitations.
 
 Still deferred:
 
@@ -379,7 +394,8 @@ internal-link audit, and responsive visual review. Vercel preview and Git-driven
 deployments are connected and building successfully; GitHub Actions passes on
 Node.js 20 and 24. A custom domain and public launch are verified at
 `https://kwechiri.dev/`. Batch 12A adds a local browser playground for
-single-file programs without adding server execution or analytics.
+single-file programs without adding server execution or analytics. Batch 12B
+adds automated browser/accessibility coverage and production security headers.
 
 The approved Tutorial Foundation is complete. All eight lessons, through
 “Standard Library strings,” are available with repository-verified programs,

@@ -18,8 +18,8 @@ contract.
 
 ## Implementation status
 
-The static foundation is implemented in `website/` with Astro 6.0.5. The
-website build requires Node.js 22.12 or newer and is validated independently
+The static foundation is implemented in `website/` with Astro 7.4.3. The
+website build requires Node.js 22.23.4 or newer and is validated independently
 from the compiler's Node.js 20 support. It includes the approved route
 structure, responsive styling, verified website snapshots of repository
 examples, sitemap generation, privacy copy, and no analytics. Batch 12A adds

@@ -46,6 +46,8 @@ and consequences; they do not authorize unresolved future features.
   — approved static foundation
 - [Browser playground Batch 12A contract](roadmap/MILESTONE-12-BROWSER-PLAYGROUND.md)
   — approved and implemented
+- [Browser playground Batch 12B hardening](roadmap/MILESTONE-12-BATCH-12B-HARDENING.md)
+  — approved and implemented
 - [Standard Library](standard-library/README.md)
 
 Milestones 0–10 and the post-milestone Lexical Foundations, Core Values & Logic,

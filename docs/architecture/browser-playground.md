@@ -72,6 +72,18 @@ The browser compiles and executes source locally. The site does not upload
 source or output, collect analytics, persist programs, or provide accounts or
 sharing.
 
+## Hardening
+
+Batch 12B adds a Chromium regression suite, automated WCAG A/AA scanning, and a
+narrow-viewport check. Production configuration applies a Content Security
+Policy and related headers; the CSP retains `'unsafe-eval'` only because the
+approved worker executes compiler-generated JavaScript through the `Function`
+constructor.
+
+The website dependency lock uses a supported Astro release with no known npm
+audit findings. The canonical `www.kwechiri.dev` redirect remains part of the
+deployment configuration.
+
 ## Deferred work
 
 - relative filesystem modules and multiple editable files;

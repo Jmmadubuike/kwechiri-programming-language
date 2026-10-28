@@ -1,0 +1,11 @@
+webata { nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri } site na "kwechiri:eriri"
+
+aha = "Kwechiri"
+
+bipụta(nwereEriri(aha, "chiri"))
+bipụta(nwereEriri(aha, "CHIRI"))
+bipụta(maliteNa(aha, "Kwe"))
+bipụta(kwụsịNa(aha, "chiri"))
+bipụta(ogologoEriri("ụbọchị"))
+bipụta(jikọọEriri("Ndewo, ", aha))
+bipụta(maliteNa(aha, ""))

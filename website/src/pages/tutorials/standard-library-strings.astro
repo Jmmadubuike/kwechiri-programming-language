@@ -1,0 +1,155 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CodeExample from "../../components/CodeExample.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
+import lessonSource from "../../generated/examples/tutorial-standard-library.kwe?raw";
+
+const source = lessonSource.trimEnd();
+const output = `eziokwu
+ụgha
+eziokwu
+eziokwu
+6
+Ndewo, Kwechiri
+eziokwu`;
+---
+
+<BaseLayout
+  title="Lesson 8: Standard Library Strings"
+  description="Learn the five certified Kwechiri string functions for exact matching, grapheme-aware length, and concatenation."
+>
+  <PageIntro
+    eyebrow="Tutorial 08"
+    title="Standard Library Strings"
+    lead="Import the official kwechiri:eriri module, check string contents, count user-perceived characters, and join strings exactly."
+    meta="Beginner · Complete Lesson 7 first"
+  />
+
+  <div class="shell content-layout">
+    <nav class="docs-nav" aria-label="Tutorial navigation">
+      <a href="/tutorials/modules/">← Lesson 7: Modules</a>
+      <a href="/tutorials/standard-library-strings/" aria-current="page">
+        Lesson 8: Standard Library strings
+      </a>
+    </nav>
+    <article class="prose">
+      <h2>The program</h2>
+      <p>Open <code>examples/tutorials/standard-library.kwe</code>.</p>
+      <CodeExample
+        label="examples/tutorials/standard-library.kwe"
+        code={source}
+        output={output}
+      />
+
+      <h2>Run it</h2>
+      <p>From the repository root, run the entry file:</p>
+      <pre><code>node dist/cli/index.js examples/tutorials/standard-library.kwe</code></pre>
+
+      <h2>Importing a standard module</h2>
+      <p>
+        Standard Library modules use the same explicit import form as filesystem
+        modules, but their names begin with the reserved
+        <code>kwechiri:</code> namespace:
+      </p>
+      <pre><code>webata &#123; nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri &#125; site na "kwechiri:eriri"</code></pre>
+      <p>
+        <code>kwechiri:eriri</code> is provided by the compiler. It is not a
+        package, remote URL, or hidden <code>.kwe</code> file. Only the imported
+        names become available, and the import must come before other
+        statements.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Function</th><th>Signature</th><th>Meaning</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>nwereEriri</code></td><td><code>(string, string) -&gt; boolean</code></td><td>Contains</td></tr>
+            <tr><td><code>maliteNa</code></td><td><code>(string, string) -&gt; boolean</code></td><td>Starts with</td></tr>
+            <tr><td><code>kwụsịNa</code></td><td><code>(string, string) -&gt; boolean</code></td><td>Ends with</td></tr>
+            <tr><td><code>ogologoEriri</code></td><td><code>(string) -&gt; number</code></td><td>Grapheme length</td></tr>
+            <tr><td><code>jikọọEriri</code></td><td><code>(string, string) -&gt; string</code></td><td>Exact concatenation</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Exact string checks</h2>
+      <p>
+        <code>nwereEriri</code>, <code>maliteNa</code>, and
+        <code>kwụsịNa</code> compare exact string sequences. Matching is
+        case-sensitive:
+      </p>
+      <pre><code>nwereEriri("Kwechiri", "chiri") # eziokwu
+nwereEriri("Kwechiri", "CHIRI") # ụgha</code></pre>
+      <p>
+        An empty search string is contained in every string and is both a
+        prefix and a suffix of every string. That is why
+        <code>maliteNa(aha, "")</code> prints <code>eziokwu</code>.
+      </p>
+
+      <h2>Counting characters</h2>
+      <p>
+        <code>ogologoEriri</code> counts extended grapheme clusters: characters
+        as a reader perceives them, rather than raw UTF-16 storage units.
+      </p>
+      <pre><code>ogologoEriri("ụbọchị") # 6</code></pre>
+      <p>
+        An Igbo letter written with combining marks still counts as one
+        character. An empty string has length <code>0</code>.
+      </p>
+
+      <h2>Joining strings</h2>
+      <p>
+        <code>jikọọEriri</code> joins two raw strings without inserting spaces
+        or separators and without converting other value types:
+      </p>
+      <pre><code>jikọọEriri("Ndewo, ", "Kwechiri") # Ndewo, Kwechiri</code></pre>
+      <p>
+        The space is part of the first argument. String contents are not
+        normalized, so visually similar NFC and NFD sequences remain different
+        raw strings.
+      </p>
+
+      <h2>Your turn</h2>
+      <p>Add these lines and predict the output:</p>
+      <pre><code>bipụta(nwereEriri(aha, ""))
+bipụta(ogologoEriri("Igbo"))
+bipụta(jikọọEriri("Kwe", "chiri"))</code></pre>
+      <p>
+        Expected output: <code>eziokwu</code>, <code>4</code>, and
+        <code>Kwechiri</code>.
+      </p>
+
+      <div class="callout callout--gold">
+        <strong>Common problems</strong>
+        Import the module and name every function you use. Keep the import
+        first, provide the exact argument count and string types, and remember
+        that predicates are case-sensitive. Length counts user-perceived
+        characters, and concatenation adds no separator or conversion.
+      </div>
+
+      <p>
+        All five public names remain provisional until Kwechiri's 1.0
+        terminology review.
+      </p>
+
+      <h2>Normative references</h2>
+      <ul>
+        <li><a href={`${SITE.github}/blob/main/docs/standard-library/README.md`}>Standard Library</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/standard-library/strings.md`}>String functions</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/modules.md`}>Standard modules</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/design-decisions/ADR-022-standard-library-signatures-and-errors.md`}>Standard Library signatures and errors</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/design-decisions/ADR-023-string-basics.md`}>String functions decision</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/errors.md`}>Current language errors</a></li>
+      </ul>
+
+      <h2>Next</h2>
+      <p>
+        The approved eight-lesson Tutorial Foundation is complete. Continue with
+        the <a href="/examples/">verified examples</a> and the
+        <a href="/docs/language/">language overview</a>.
+      </p>
+    </article>
+  </div>
+</BaseLayout>

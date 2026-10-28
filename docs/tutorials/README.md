@@ -1,6 +1,6 @@
 # Tutorials
 
-Status: Tutorial Foundation active.
+Status: Tutorial Foundation complete.
 
 The tutorial sequence introduces one verified concept at a time. Every lesson
 must use only certified language behavior and should connect its example to an
@@ -12,7 +12,7 @@ The first sequence is for someone who can use a terminal but is new to
 programming. Explanations use clear English while preserving Igbo language
 keywords, identifiers, examples, and diagnostics.
 
-## Planned learning path
+## Learning path
 
 | Lesson | Topic | Status |
 |---|---|---|
@@ -23,7 +23,7 @@ keywords, identifiers, examples, and diagnostics.
 | 5 | [Functions and return values](05-functions-and-return-values.md) | Available |
 | 6 | [Arrays and objects](06-arrays-and-objects.md) | Available |
 | 7 | [Modules](07-modules.md) | Available |
-| 8 | Standard Library strings | Planned |
+| 8 | [Standard Library strings](08-standard-library-strings.md) | Available |
 
 Each available lesson should include:
 

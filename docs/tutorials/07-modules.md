@@ -104,5 +104,5 @@ import `nzuzo` and explain why the module loader rejects it.
 
 ## Next
 
-Lesson 8 will introduce the explicitly imported `kwechiri:eriri` Standard
-Library module.
+Continue with [Lesson 8](08-standard-library-strings.md), which introduces the
+explicitly imported `kwechiri:eriri` Standard Library module.

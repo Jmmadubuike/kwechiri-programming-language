@@ -22,7 +22,7 @@ keywords, identifiers, examples, and diagnostics.
 | 4 | [Repetition and loop control](04-repetition-and-loop-control.md) | Available |
 | 5 | [Functions and return values](05-functions-and-return-values.md) | Available |
 | 6 | [Arrays and objects](06-arrays-and-objects.md) | Available |
-| 7 | Modules | Planned |
+| 7 | [Modules](07-modules.md) | Available |
 | 8 | Standard Library strings | Planned |
 
 Each available lesson should include:

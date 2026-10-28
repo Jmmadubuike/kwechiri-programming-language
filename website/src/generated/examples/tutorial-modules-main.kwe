@@ -1,0 +1,6 @@
+webata { aha, kelee, ndepụta } site na "./aha.kwe"
+
+bipụta(kelee(aha))
+
+ndepụta[1] = "Obi"
+bipụta(ndepụta)

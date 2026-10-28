@@ -1,0 +1,129 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CodeExample from "../../components/CodeExample.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
+import moduleSource from "../../generated/examples/tutorial-modules-aha.kwe?raw";
+import mainSource from "../../generated/examples/tutorial-modules-main.kwe?raw";
+
+const aha = moduleSource.trimEnd();
+const main = mainSource.trimEnd();
+const output = `Ada
+["Uche","Obi"]`;
+---
+
+<BaseLayout
+  title="Lesson 7: Modules"
+  description="Learn Kwechiri named exports, imports, relative module paths, initialization order, and shared collection values."
+>
+  <PageIntro
+    eyebrow="Tutorial 07"
+    title="Modules"
+    lead="Split a program across two source files, export only the names another file needs, and use those names explicitly."
+    meta="Beginner · Complete Lesson 6 first"
+  />
+
+  <div class="shell content-layout">
+    <nav class="docs-nav" aria-label="Tutorial navigation">
+      <a href="/tutorials/arrays-and-objects/">← Lesson 6: Arrays and Objects</a>
+      <a href="/tutorials/modules/" aria-current="page">Lesson 7: Modules</a>
+      <span>Standard Library · Planned</span>
+    </nav>
+    <article class="prose">
+      <h2>Two source files</h2>
+      <p>
+        A module is a <code>.kwe</code> source file. Create
+        <code>aha.kwe</code> with a few declarations:
+      </p>
+      <CodeExample label="examples/tutorials/modules/aha.kwe" code={aha} />
+      <p>
+        The <code>bupụ</code> prefix exports a declaration. <code>nzuzo</code>
+        has no prefix, so it remains private to this module.
+      </p>
+
+      <p>Now create <code>main.kwe</code> in the same directory:</p>
+      <CodeExample
+        label="examples/tutorials/modules/main.kwe"
+        code={main}
+        output={output}
+      />
+
+      <h2>Run it</h2>
+      <p>From the repository root, run the entry file:</p>
+      <pre><code>node dist/cli/index.js examples/tutorials/modules/main.kwe</code></pre>
+      <p>
+        The compiler follows the import to <code>aha.kwe</code>, validates and
+        initializes that dependency first, and then runs <code>main.kwe</code>.
+      </p>
+
+      <h2>Exporting and importing</h2>
+      <p>Only exported declarations can be imported:</p>
+      <pre><code>webata &#123; aha, kelee, ndepụta &#125; site na "./aha.kwe"</code></pre>
+      <p>
+        Each imported name is explicit. Imports must appear before all other
+        statements. Trying to import <code>nzuzo</code> is an error because it
+        was not exported.
+      </p>
+      <p>
+        Module paths are relative and end in a lowercase <code>.kwe</code>
+        extension. Absolute paths, bare package names, remote paths, directory
+        imports, and extensionless paths are currently invalid. A module path
+        resolves from the file that contains the import.
+      </p>
+
+      <h2>Initialization and cycles</h2>
+      <p>
+        A module initializes once, after its dependencies. If two files import
+        each other directly or through a longer chain, the program is rejected
+        as a module cycle instead of continuing with partially initialized
+        values.
+      </p>
+
+      <h2>Read-only bindings, shared contents</h2>
+      <p>An imported name cannot be rebound:</p>
+      <pre><code>aha = "Obi" # error: imported binding is read-only</code></pre>
+      <p>
+        Collections are different: the binding cannot be replaced, but the
+        collection's existing contents remain mutable. The lesson changes
+        <code>ndepụta[1]</code> to <code>"Obi"</code>. Imports do not copy an
+        array or object, so every reference to that collection observes the
+        change.
+      </p>
+      <p>
+        This does not make the collection deeply immutable. It also does not
+        allow resizing or changing the collection's established element type.
+        Ordinary collection bounds, types, and mutation rules still apply.
+      </p>
+
+      <h2>Your turn</h2>
+      <p>
+        Change <code>aha</code> in <code>aha.kwe</code> to another string and
+        predict the output. Then try importing <code>nzuzo</code> and explain
+        why the module loader rejects it.
+      </p>
+
+      <div class="callout callout--gold">
+        <strong>Common problems</strong>
+        Keep imports first and use the exact
+        <code>webata &#123; ... &#125; site na "./file.kwe"</code> form. Use a
+        relative lowercase <code>.kwe</code> path, import only exported names,
+        and distinguish reassigning an imported binding from mutating an
+        imported collection's contents.
+      </div>
+
+      <h2>Normative references</h2>
+      <ul>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/modules.md`}>Modules</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/architecture/modules.md`}>Module architecture</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/design-decisions/ADR-019-module-semantics.md`}>Hardened module semantics</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/errors.md`}>Current language errors</a></li>
+      </ul>
+
+      <h2>Next</h2>
+      <p>
+        Lesson 8 will introduce the explicitly imported
+        <code>kwechiri:eriri</code> Standard Library module.
+      </p>
+    </article>
+  </div>
+</BaseLayout>

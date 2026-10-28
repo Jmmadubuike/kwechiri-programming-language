@@ -1,0 +1,17 @@
+afọ = 20
+nsonaazụ = (3 + 5) * 2
+
+bipụta(nsonaazụ)
+bipụta(afọ >= 18)
+bipụta(afọ < 18)
+bipụta(afọ >= 18 na afọ < 65)
+bipụta(afọ < 18 maọbụ afọ >= 18)
+bipụta(ọ bụghị (afọ < 18))
+
+ọ bụrụ (afọ >= 18) {
+    ọkwa = "Okenye"
+} ọzọ {
+    ọkwa = "Nwatakịrị"
+}
+
+bipụta(ọkwa)

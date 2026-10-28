@@ -11,6 +11,7 @@ const pairs = [
   ["collections.kwe", "collections.kwe"],
   ["modules/main.kwe", "modules-main.kwe"],
   ["tutorials/variables.kwe", "tutorial-variables.kwe"],
+  ["tutorials/expressions-and-decisions.kwe", "tutorial-expressions-and-decisions.kwe"],
 ];
 
 for (const [sourceName, websiteName] of pairs) {

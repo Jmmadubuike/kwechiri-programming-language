@@ -18,7 +18,7 @@ keywords, identifiers, examples, and diagnostics.
 |---|---|---|
 | 1 | [Ndewo Ụwa](01-ndewo-uwa.md) | Available |
 | 2 | [Variables and values](02-variables-and-values.md) | Available |
-| 3 | Expressions and decisions | Planned |
+| 3 | [Expressions and decisions](03-expressions-and-decisions.md) | Available |
 | 4 | Repetition and loop control | Planned |
 | 5 | Functions and return values | Planned |
 | 6 | Arrays and objects | Planned |

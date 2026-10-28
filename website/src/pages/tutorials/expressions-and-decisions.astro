@@ -1,0 +1,117 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CodeExample from "../../components/CodeExample.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
+import lessonSource from "../../generated/examples/tutorial-expressions-and-decisions.kwe?raw";
+
+const source = lessonSource.trimEnd();
+const output = "16\neziokwu\nụgha\neziokwu\neziokwu\neziokwu\nOkenye";
+---
+
+<BaseLayout
+  title="Lesson 3: Expressions and Decisions"
+  description="Learn Kwechiri arithmetic, comparisons, Boolean logic, and conditional decisions."
+>
+  <PageIntro
+    eyebrow="Tutorial 03"
+    title="Expressions and Decisions"
+    lead="Calculate values, compare them, combine Boolean results, and choose which block of a program should run."
+    meta="Beginner · Complete Lesson 2 first"
+  />
+
+  <div class="shell content-layout">
+    <nav class="docs-nav" aria-label="Tutorial navigation">
+      <a href="/tutorials/variables-and-values/">← Lesson 2: Variables and Values</a>
+      <a href="/tutorials/expressions-and-decisions/" aria-current="page">Lesson 3: Expressions and decisions</a>
+      <span>Loops · Planned</span>
+      <span>Functions · Planned</span>
+    </nav>
+    <article class="prose">
+      <h2>The program</h2>
+      <p>Open <code>examples/tutorials/expressions-and-decisions.kwe</code>.</p>
+      <CodeExample label="examples/tutorials/expressions-and-decisions.kwe" code={source} output={output} />
+
+      <h2>Run it</h2>
+      <pre><code>node dist/cli/index.js examples/tutorials/expressions-and-decisions.kwe</code></pre>
+
+      <h2>Arithmetic</h2>
+      <p>
+        Kwechiri currently provides <code>+</code>, <code>-</code>, <code>*</code>,
+        and <code>/</code> for numbers. Multiplication and division happen
+        before addition and subtraction. Parentheses override that order.
+      </p>
+      <pre><code>nsonaazụ = (3 + 5) * 2
+# 16</code></pre>
+      <p>
+        Arithmetic does not accept strings, and <code>+</code> does not
+        concatenate strings. Dividing by zero is a runtime error.
+      </p>
+
+      <h2>Comparisons</h2>
+      <p>
+        <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, and
+        <code>&gt;=</code> compare numbers. <code>==</code> and
+        <code>!=</code> compare supported primitive values without converting
+        types. Comparisons produce <code>eziokwu</code> or <code>ụgha</code>.
+      </p>
+
+      <h2>Boolean logic</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Operator</th><th>Meaning</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>na</code></td><td>and</td></tr>
+            <tr><td><code>maọbụ</code></td><td>or</td></tr>
+            <tr><td><code>ọ bụghị</code></td><td>not</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        These operators accept booleans only. <code>na</code> and
+        <code>maọbụ</code> evaluate left to right and short-circuit. Kwechiri
+        does not treat numbers, strings, collections, or <code>efu</code> as
+        automatic truth values.
+      </p>
+
+      <h2>Conditions</h2>
+      <pre><code>ọ bụrụ (afọ >= 18) &#123;
+    ọkwa = "Okenye"
+&#125; ọzọ &#123;
+    ọkwa = "Nwatakịrị"
+&#125;</code></pre>
+      <p>
+        The condition must be Boolean. Exactly one branch runs. Because both
+        branches assign <code>ọkwa</code> as a string, that name is available
+        after the condition.
+      </p>
+
+      <h2>Your turn</h2>
+      <p>
+        Change the first line to <code>afọ = 16</code> and predict the output
+        before running the program. Then replace <code>na</code> with
+        <code>maọbụ</code> in the first logical expression and explain why
+        the result is still <code>eziokwu</code>.
+      </p>
+
+      <div class="callout callout--gold">
+        <strong>Common problems</strong>
+        Parentheses control grouping. Use <code>==</code> for equality and
+        <code>=</code> for assignment. A name created in only one branch is
+        unavailable after the condition.
+      </div>
+
+      <h2>Normative references</h2>
+      <ul>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/expressions.md`}>Expressions</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/control-flow.md`}>Control flow</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/errors.md`}>Current language errors</a></li>
+      </ul>
+
+      <h2>Next</h2>
+      <p>Lesson 4 will introduce <code>mgbe</code> loops, <code>kwụsị</code>, and <code>gaa n'ihu</code>.</p>
+    </article>
+  </div>
+</BaseLayout>

@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import CodeExample from "../../components/CodeExample.astro";
 import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
 import { examples } from "../../lib/examples";
 
 const hello = examples.find((example) => example.id === "hello");
@@ -69,6 +70,13 @@ npm run build</code></pre>
         correct path to the source file. The current CLI does not execute
         programs in the browser.
       </div>
+
+      <h2>Normative references</h2>
+      <ul>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/README.md`}>Current language specification</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/cli.md`}>Command-line interface</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/errors.md`}>Current language errors</a></li>
+      </ul>
 
       <h2>Next</h2>
       <p>

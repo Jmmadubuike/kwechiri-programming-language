@@ -85,6 +85,12 @@ Ndewo Kwechiri!
 - Type Igbo characters exactly. NFC and NFD string contents are preserved as
   different raw sequences.
 
+## Normative references
+
+- [Current language specification](../language-spec/README.md)
+- [Command-line interface](../language-spec/cli.md)
+- [Current language errors](../language-spec/errors.md)
+
 ## Next
 
 Lesson 2 will introduce variables and the current value types. Until it is

@@ -104,6 +104,12 @@ located undefined-variable error. Restore the assignment before continuing.
   Boolean value.
 - A variable must be assigned before it is read.
 
+## Normative references
+
+- [Variables](../language-spec/variables.md)
+- [Values and types](../language-spec/types.md)
+- [Command-line interface](../language-spec/cli.md)
+
 ## Next
 
 Lesson 3 will introduce arithmetic expressions, comparisons, and decisions.

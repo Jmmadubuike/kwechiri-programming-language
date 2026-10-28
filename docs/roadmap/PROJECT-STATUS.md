@@ -349,7 +349,7 @@ the appropriate owner decision and milestone placement.
 ### Engineering and operations
 
 - choose and add a license
-- add formal tutorials beyond the executable examples
+- add the remaining formal tutorial lessons beyond the available first lesson
 - add remaining architecture topic documents
 - add cross-platform verification beyond Linux CI
 - finalize the supported Node.js policy beyond the current `>=20` declaration
@@ -365,6 +365,10 @@ Vercel preview and Git-driven deployments are connected and building
 successfully; GitHub Actions passes on Node.js 20 and 24. A custom domain and
 public launch are verified at `https://kwechiri.dev/`. Browser execution remains
 Milestone 12.
+
+The formal Tutorial Foundation is active. Lesson 1, “Ndewo Ụwa,” is available
+with a repository-verified program, exact expected output, and an exercise.
+Lessons 2–8 remain planned and must use only certified language behavior.
 
 The npm package is temporarily marked private to prevent accidental publication
 during development. Publication remains owner-controlled. Do not remove the

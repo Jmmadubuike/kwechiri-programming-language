@@ -58,5 +58,6 @@ batches remain unauthorized.
 
 ## 7. Tutorials
 
-The [tutorial index](tutorials/README.md) records the tutorial gap. Examples in
-`examples/` are currently the executable learning material.
+The [tutorial index](tutorials/README.md) defines the beginner-first learning
+path. Lesson 1 is available; lessons 2–8 remain planned. Examples in `examples/`
+remain the executable source material.

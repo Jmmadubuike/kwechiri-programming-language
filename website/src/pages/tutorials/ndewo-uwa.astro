@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CodeExample from "../../components/CodeExample.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { examples } from "../../lib/examples";
+
+const hello = examples.find((example) => example.id === "hello");
+if (hello === undefined) throw new Error("The hello example is required.");
+---
+
+<BaseLayout
+  title="Lesson 1: Ndewo Ụwa"
+  description="Run your first Kwechiri program and understand its output."
+>
+  <PageIntro
+    eyebrow="Tutorial 01"
+    title="Ndewo Ụwa"
+    lead="Run one complete Kwechiri program and understand how a source file produces output."
+    meta="Beginner · No previous programming experience required"
+  />
+
+  <div class="shell content-layout">
+    <nav class="docs-nav" aria-label="Tutorial navigation">
+      <a href="/tutorials/" aria-current="page">Lesson 1: Ndewo Ụwa</a>
+      <span>Variables · Planned</span>
+      <span>Decisions · Planned</span>
+      <span>Loops · Planned</span>
+    </nav>
+    <article class="prose">
+      <h2>Before you begin</h2>
+      <p>You need Git, Node.js 20 or newer, npm, and a terminal.</p>
+      <pre><code>git clone https://github.com/Jmmadubuike/kwechiri-programming-language.git
+cd kwechiri-programming-language
+npm ci
+npm run build</code></pre>
+
+      <h2>The program</h2>
+      <p>Open <code>examples/hello.kwe</code>.</p>
+      <CodeExample label="examples/hello.kwe" code={hello.source} output={hello.output} />
+
+      <h2>Run it</h2>
+      <pre><code>node dist/cli/index.js examples/hello.kwe</code></pre>
+      <p>The output is:</p>
+      <pre><code>Ndewo Ụwa!</code></pre>
+
+      <h2>What happened</h2>
+      <ul>
+        <li>The <code>.kwe</code> extension identifies a Kwechiri source file.</li>
+        <li><code>bipụta</code> is the language's current output function.</li>
+        <li>Text between quotation marks is a string.</li>
+        <li>The runtime prints the string and adds a line break.</li>
+      </ul>
+      <p>
+        Capitalization and Igbo characters are part of the string. Replacing
+        <code>Ụ</code> with <code>ụ</code> changes the output because Kwechiri
+        preserves raw string contents.
+      </p>
+
+      <h2>Your turn</h2>
+      <p>Create a file named <code>ndewo.kwe</code> containing:</p>
+      <pre><code>bipụta("Ndewo Kwechiri!")</code></pre>
+      <p>Run it and confirm the output:</p>
+      <pre><code>node dist/cli/index.js ndewo.kwe
+# Ndewo Kwechiri!</code></pre>
+
+      <div class="callout callout--gold">
+        <strong>Common problems</strong>
+        Use the <code>.kwe</code> extension, straight quotation marks, and the
+        correct path to the source file. The current CLI does not execute
+        programs in the browser.
+      </div>
+
+      <h2>Next</h2>
+      <p>
+        Lesson 2 will introduce variables and the current value types. Until it
+        is published, explore the <a href="/examples/">verified examples</a> or
+        read the <a href="/docs/getting-started/">getting-started guide</a>.
+      </p>
+    </article>
+  </div>
+</BaseLayout>

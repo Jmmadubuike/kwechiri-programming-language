@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../../components/PageIntro.astro";
+---
+
+<BaseLayout
+  title="Tutorials"
+  description="Beginner-first Kwechiri tutorials using only verified language behavior."
+>
+  <PageIntro
+    eyebrow="Learn Kwechiri"
+    title="One concept at a time."
+    lead="The tutorial path starts with a complete program, explains every part, and gives you a small exercise. Later lessons appear only when their examples and output are verified."
+  />
+
+  <section class="section">
+    <div class="shell">
+      <div class="card-grid">
+        <a class="card card--link" href="/tutorials/ndewo-uwa/">
+          <span class="pill">Lesson 1 · Available</span>
+          <h2>Ndewo Ụwa</h2>
+          <p>
+            Install the local compiler, run a Kwechiri source file, and
+            understand how `bipụta` produces output.
+          </p>
+        </a>
+        <div class="card">
+          <span class="pill">Planned</span>
+          <h2>Variables and values</h2>
+          <p>Strings, numbers, booleans, absence, and mutable program variables.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Planned</span>
+          <h2>Expressions and decisions</h2>
+          <p>Arithmetic, comparisons, Boolean logic, and conditional branches.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Planned</span>
+          <h2>Repetition</h2>
+          <p><code>mgbe</code> loops, <code>kwụsị</code>, and <code>gaa n'ihu</code>.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Planned</span>
+          <h2>Functions</h2>
+          <p>Declarations, parameters, calls, and <code>laghachi</code>.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Planned</span>
+          <h2>Collections</h2>
+          <p>Homogeneous arrays, typed objects, indexing, and mutation.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Planned</span>
+          <h2>Modules</h2>
+          <p>Named imports, exports, dependency order, and multi-file programs.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Planned</span>
+          <h2>Standard Library strings</h2>
+          <p>Predicates, grapheme-aware length, and exact concatenation from <code>kwechiri:eriri</code>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

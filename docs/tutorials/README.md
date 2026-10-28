@@ -1,8 +1,39 @@
 # Tutorials
 
-Formal tutorials have not yet been written. Current executable examples live in
-`examples/` and cover Hello World, variables, expressions, conditions, loops,
-functions, collections, and modules.
+Status: Tutorial Foundation active.
 
-Future tutorials should be added only when they can follow the current
-specification and tested examples without introducing new semantics.
+The tutorial sequence introduces one verified concept at a time. Every lesson
+must use only certified language behavior and should connect its example to an
+executable source file and an automated test.
+
+## Audience
+
+The first sequence is for someone who can use a terminal but is new to
+programming. Explanations use clear English while preserving Igbo language
+keywords, identifiers, examples, and diagnostics.
+
+## Planned learning path
+
+| Lesson | Topic | Status |
+|---|---|---|
+| 1 | [Ndewo Ụwa](01-ndewo-uwa.md) | Available |
+| 2 | Variables and values | Planned |
+| 3 | Expressions and decisions | Planned |
+| 4 | Repetition and loop control | Planned |
+| 5 | Functions and return values | Planned |
+| 6 | Arrays and objects | Planned |
+| 7 | Modules | Planned |
+| 8 | Standard Library strings | Planned |
+
+Each available lesson should include:
+
+1. one learning objective;
+2. prerequisites and the exact commands;
+3. readable Kwechiri source;
+4. expected output;
+5. a beginner-level explanation;
+6. a small exercise with an expected result;
+7. a link to the relevant normative documentation.
+
+Do not introduce future syntax, browser execution, package installation, or
+unverified output in a tutorial.

@@ -1,0 +1,26 @@
+onụọgụ = 1
+bipụta("Mgbe")
+mgbe (onụọgụ <= 3) {
+    bipụta(onụọgụ)
+    onụọgụ = onụọgụ + 1
+}
+
+onụọgụ = 0
+bipụta("Kwụsị")
+mgbe (eziokwu) {
+    onụọgụ = onụọgụ + 1
+    ọ bụrụ (onụọgụ == 2) {
+        kwụsị
+    }
+    bipụta(onụọgụ)
+}
+
+onụọgụ = 0
+bipụta("Gaa n'ihu")
+mgbe (onụọgụ < 4) {
+    onụọgụ = onụọgụ + 1
+    ọ bụrụ (onụọgụ == 2) {
+        gaa n'ihu
+    }
+    bipụta(onụọgụ)
+}

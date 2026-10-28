@@ -1,0 +1,106 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CodeExample from "../../components/CodeExample.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
+import lessonSource from "../../generated/examples/tutorial-loops.kwe?raw";
+
+const source = lessonSource.trimEnd();
+const output = "Mgbe\n1\n2\n3\nKwụsị\n1\nGaa n'ihu\n1\n3\n4";
+---
+
+<BaseLayout
+  title="Lesson 4: Repetition and Loop Control"
+  description="Learn Kwechiri mgbe loops, early exit with kwụsị, and continuation with gaa n'ihu."
+>
+  <PageIntro
+    eyebrow="Tutorial 04"
+    title="Repetition and Loop Control"
+    lead="Repeat statements while a Boolean condition is true, stop a loop early, and skip to its next iteration."
+    meta="Beginner · Complete Lesson 3 first"
+  />
+
+  <div class="shell content-layout">
+    <nav class="docs-nav" aria-label="Tutorial navigation">
+      <a href="/tutorials/expressions-and-decisions/">← Lesson 3: Expressions and Decisions</a>
+      <a href="/tutorials/repetition-and-loop-control/" aria-current="page">Lesson 4: Repetition and loop control</a>
+      <span>Functions · Planned</span>
+      <span>Collections · Planned</span>
+    </nav>
+    <article class="prose">
+      <h2>The program</h2>
+      <p>Open <code>examples/tutorials/loops.kwe</code>.</p>
+      <CodeExample label="examples/tutorials/loops.kwe" code={source} output={output} />
+
+      <h2>Run it</h2>
+      <pre><code>node dist/cli/index.js examples/tutorials/loops.kwe</code></pre>
+
+      <h2><code>mgbe</code></h2>
+      <p><code>mgbe</code> checks its Boolean condition before every iteration:</p>
+      <pre><code>mgbe (onụọgụ &lt;= 3) &#123;
+    bipụta(onụọgụ)
+    onụọgụ = onụọgụ + 1
+&#125;</code></pre>
+      <p>
+        The condition can be false immediately, so a loop may run zero times.
+        Update loop-carried variables so the condition can eventually become
+        false; otherwise the loop may continue forever.
+      </p>
+
+      <h2><code>kwụsị</code></h2>
+      <p><code>kwụsị</code> exits the nearest enclosing loop:</p>
+      <pre><code>ọ bụrụ (onụọgụ == 2) &#123;
+    kwụsị
+&#125;</code></pre>
+      <p>
+        The statements after the conditional remain valid, but on the iteration
+        where the branch runs, the loop ends before reaching them.
+      </p>
+
+      <h2><code>gaa n'ihu</code></h2>
+      <p><code>gaa n'ihu</code> starts the next iteration of the nearest loop:</p>
+      <pre><code>ọ bụrụ (onụọgụ == 2) &#123;
+    gaa n'ihu
+&#125;
+bipụta(onụọgụ)</code></pre>
+      <p>
+        When <code>onụọgụ</code> is <code>2</code>, the print is skipped and the
+        loop begins its next iteration with <code>onụọgụ</code> equal to
+        <code>3</code>.
+      </p>
+
+      <h2>Nearest loop</h2>
+      <p>
+        Both statements target the nearest enclosing loop. In nested loops they
+        do not target an outer loop. <code>kwụsị</code> exits only the loop, not
+        the whole function. <code>laghachi</code> is the statement that exits a
+        function.
+      </p>
+
+      <h2>Your turn</h2>
+      <p>
+        Change the <code>kwụsị</code> condition to
+        <code>onụọgụ == 4</code> and predict how the output changes. Then remove
+        <code>onụọgụ = onụọgụ + 1</code> from the first loop and explain why the
+        program no longer finishes.
+      </p>
+
+      <div class="callout callout--gold">
+        <strong>Common problems</strong>
+        Loop conditions must be Boolean. Use <code>kwụsị</code> only inside a
+        loop to stop it, and <code>gaa n'ihu</code> only inside a loop to skip
+        to the next iteration. Neither statement affects an outer loop.
+      </div>
+
+      <h2>Normative references</h2>
+      <ul>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/control-flow.md`}>Control flow</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/variables.md`}>Variables</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/errors.md`}>Current language errors</a></li>
+      </ul>
+
+      <h2>Next</h2>
+      <p>Lesson 5 will introduce <code>ọrụ</code> functions, parameters, calls, and <code>laghachi</code>.</p>
+    </article>
+  </div>
+</BaseLayout>

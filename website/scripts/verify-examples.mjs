@@ -10,6 +10,7 @@ const pairs = [
   ["conditions.kwe", "conditions.kwe"],
   ["collections.kwe", "collections.kwe"],
   ["modules/main.kwe", "modules-main.kwe"],
+  ["tutorials/variables.kwe", "tutorial-variables.kwe"],
 ];
 
 for (const [sourceName, websiteName] of pairs) {

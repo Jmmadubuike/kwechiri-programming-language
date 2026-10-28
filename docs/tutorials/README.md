@@ -17,7 +17,7 @@ keywords, identifiers, examples, and diagnostics.
 | Lesson | Topic | Status |
 |---|---|---|
 | 1 | [Ndewo Ụwa](01-ndewo-uwa.md) | Available |
-| 2 | Variables and values | Planned |
+| 2 | [Variables and values](02-variables-and-values.md) | Available |
 | 3 | Expressions and decisions | Planned |
 | 4 | Repetition and loop control | Planned |
 | 5 | Functions and return values | Planned |

@@ -1,0 +1,12 @@
+aha = "Uche"
+afọ = 36
+bụOkenye = eziokwu
+nzaghachi = efu
+
+bipụta(aha)
+bipụta(afọ)
+bipụta(bụOkenye)
+bipụta(nzaghachi)
+
+aha = "Ada"
+bipụta(aha)

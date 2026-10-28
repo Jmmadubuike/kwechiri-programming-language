@@ -21,7 +21,7 @@ keywords, identifiers, examples, and diagnostics.
 | 3 | [Expressions and decisions](03-expressions-and-decisions.md) | Available |
 | 4 | [Repetition and loop control](04-repetition-and-loop-control.md) | Available |
 | 5 | [Functions and return values](05-functions-and-return-values.md) | Available |
-| 6 | Arrays and objects | Planned |
+| 6 | [Arrays and objects](06-arrays-and-objects.md) | Available |
 | 7 | Modules | Planned |
 | 8 | Standard Library strings | Planned |
 

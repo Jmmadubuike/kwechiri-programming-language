@@ -1,0 +1,105 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CodeExample from "../../components/CodeExample.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
+import lessonSource from "../../generated/examples/tutorial-collections.kwe?raw";
+
+const source = lessonSource.trimEnd();
+const output = '["Uche","Ada","Obi"]\n{"aha":"Uche","afọ":36}\nUche\n["Uche","Chidi","Obi"]\n{"aha":"Uche","afọ":37}';
+---
+
+<BaseLayout
+  title="Lesson 6: Arrays and Objects"
+  description="Learn Kwechiri homogeneous arrays, typed objects, indexing, property access, and safe mutation."
+>
+  <PageIntro
+    eyebrow="Tutorial 06"
+    title="Arrays and Objects"
+    lead="Store several values in an array, group named values in an object, read them, and safely update existing elements."
+    meta="Beginner · Complete Lesson 5 first"
+  />
+
+  <div class="shell content-layout">
+    <nav class="docs-nav" aria-label="Tutorial navigation">
+      <a href="/tutorials/functions-and-return-values/">← Lesson 5: Functions and Return Values</a>
+      <a href="/tutorials/arrays-and-objects/" aria-current="page">Lesson 6: Arrays and objects</a>
+      <span>Modules · Planned</span>
+      <span>Standard Library · Planned</span>
+    </nav>
+    <article class="prose">
+      <h2>The program</h2>
+      <p>Open <code>examples/tutorials/collections.kwe</code>.</p>
+      <CodeExample label="examples/tutorials/collections.kwe" code={source} output={output} />
+
+      <h2>Run it</h2>
+      <pre><code>node dist/cli/index.js examples/tutorials/collections.kwe</code></pre>
+
+      <h2>Arrays</h2>
+      <p>
+        An array uses square brackets and currently must be non-empty and
+        homogeneous:
+      </p>
+      <pre><code>ahaNdị = ["Uche", "Ada", "Obi"]</code></pre>
+      <p>
+        Indexes start at <code>0</code>, so <code>ahaNdị[0]</code> is
+        <code>"Uche"</code>. Known invalid indexes are compile-time errors;
+        dynamically invalid indexes are runtime errors.
+      </p>
+      <pre><code>ahaNdịAlias[1] = "Chidi"</code></pre>
+      <p>
+        Existing elements can be replaced when the value has the array's
+        element type. Assignment cannot resize the array.
+      </p>
+
+      <h2>Objects</h2>
+      <p>Objects use curly braces and fixed property names:</p>
+      <pre><code>mmadụ = &#123; aha: ahaNdị[0], afọ: 36 &#125;</code></pre>
+      <p>Read properties with a dot:</p>
+      <pre><code>bipụta(mmadụ.aha)</code></pre>
+      <p>Existing properties can be updated without changing their type:</p>
+      <pre><code>mmadụ.afọ = 37</code></pre>
+      <p>
+        Assignment cannot add a property. Missing properties are errors; they
+        do not return <code>efu</code>.
+      </p>
+
+      <h2>References and sharing</h2>
+      <p>
+        <code>ahaNdịAlias = ahaNdị</code> copies the reference, not the array.
+        Updating index <code>1</code> through the alias is visible through the
+        original name. Arrays and objects are not implicitly copied during
+        assignment, function calls, returns, imports, or exports.
+      </p>
+      <p>
+        Collection equality remains unsupported. Kwechiri currently defines
+        neither reference equality nor deep equality for collections.
+      </p>
+
+      <h2>Your turn</h2>
+      <p>
+        Change <code>ahaNdịAlias[0]</code> to <code>"Ngozi"</code> and predict
+        what printing <code>ahaNdị</code> shows. Then try adding
+        <code>mmadụ.obodo = "Aba"</code> and explain why the compiler rejects
+        it.
+      </p>
+
+      <div class="callout callout--gold">
+        <strong>Common problems</strong>
+        Arrays are currently non-empty and homogeneous. Indexes must be valid
+        integers. Collections do not resize through assignment, object shapes
+        are fixed, and mutating an alias changes the same collection.
+      </div>
+
+      <h2>Normative references</h2>
+      <ul>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/collections.md`}>Collections</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/types.md`}>Values and types</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/errors.md`}>Current language errors</a></li>
+      </ul>
+
+      <h2>Next</h2>
+      <p>Lesson 7 will introduce named imports, exports, dependencies, and multi-file programs.</p>
+    </article>
+  </div>
+</BaseLayout>

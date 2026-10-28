@@ -1,0 +1,13 @@
+ahaNdị = ["Uche", "Ada", "Obi"]
+mmadụ = { aha: ahaNdị[0], afọ: 36 }
+
+bipụta(ahaNdị)
+bipụta(mmadụ)
+bipụta(mmadụ.aha)
+
+ahaNdịAlias = ahaNdị
+ahaNdịAlias[1] = "Chidi"
+mmadụ.afọ = 37
+
+bipụta(ahaNdị)
+bipụta(mmadụ)

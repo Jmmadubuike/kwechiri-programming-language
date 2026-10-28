@@ -366,9 +366,9 @@ successfully; GitHub Actions passes on Node.js 20 and 24. A custom domain and
 public launch are verified at `https://kwechiri.dev/`. Browser execution remains
 Milestone 12.
 
-The formal Tutorial Foundation is active. Lessons 1–5, through “Functions and
-Return Values,” are available with repository-verified programs, exact expected
-output, and exercises. Lessons 6–8 remain planned and must use only certified
+The formal Tutorial Foundation is active. Lessons 1–6, through “Arrays and
+Objects,” are available with repository-verified programs, exact expected
+output, and exercises. Lessons 7–8 remain planned and must use only certified
 language behavior.
 
 The npm package is temporarily marked private to prevent accidental publication

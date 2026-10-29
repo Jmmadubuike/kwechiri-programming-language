@@ -2,5 +2,9 @@ node_modules/
 dist/
 coverage/
 .astro/
+extensions/vscode/dist/
+extensions/vscode/out/
+extensions/vscode/*.vsix
+extensions/vscode/.vscode-test/
 *.log
 .DS_Store

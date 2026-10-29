@@ -9,6 +9,10 @@ export default tseslint.config(
       "coverage/**",
       "website/.astro/**",
       "website/dist/**",
+      "extensions/vscode/dist/**",
+      "extensions/vscode/node_modules/**",
+      "extensions/vscode/out/**",
+      "extensions/vscode/.vscode-test/**",
     ],
   },
   eslint.configs.recommended,
@@ -36,6 +40,17 @@ export default tseslint.config(
     files: ["website/scripts/**/*.mjs"],
     languageOptions: {
       globals: {
+        console: "readonly",
+        process: "readonly",
+      },
+    },
+  },
+  {
+    files: ["extensions/vscode/scripts/**/*.mjs"],
+    languageOptions: {
+      globals: {
+        Buffer: "readonly",
+        URL: "readonly",
         console: "readonly",
         process: "readonly",
       },

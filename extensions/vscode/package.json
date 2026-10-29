@@ -1,0 +1,77 @@
+{
+  "name": "kwechiri-language",
+  "displayName": "Kwechiri",
+  "description": "Igbo-first Kwechiri language support for Visual Studio Code.",
+  "version": "0.1.0-development",
+  "private": true,
+  "publisher": "kwechiri",
+  "engines": {
+    "vscode": "^1.100.0",
+    "node": ">=22"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "kwechiri",
+    "igbo",
+    "programming language"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jmmadubuike/kwechiri-programming-language.git"
+  },
+  "extensionKind": [
+    "workspace"
+  ],
+  "activationEvents": [
+    "onLanguage:kwechiri",
+    "onCommand:kwechiri.checkCurrentFile"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "kwechiri",
+        "aliases": [
+          "Kwechiri",
+          "kwechiri"
+        ],
+        "extensions": [
+          ".kwe"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "kwechiri",
+        "scopeName": "source.kwechiri",
+        "path": "./syntaxes/kwechiri.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "kwechiri.checkCurrentFile",
+        "title": "Kwechiri: Check Current File"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "verify": "node scripts/verify-extension.mjs",
+    "test:build": "node scripts/build-integration-tests.mjs",
+    "test:integration": "npm run test:build && node scripts/run-integration-tests.mjs",
+    "package": "node scripts/package-extension.mjs",
+    "check": "npm run typecheck && npm run build && npm run verify && npm run package"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/vscode": "1.100.0",
+    "@vscode/test-electron": "^3.1.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.9.0",
+    "yazl": "^3.3.1"
+  }
+}

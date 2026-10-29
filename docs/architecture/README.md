@@ -26,6 +26,8 @@ Current documents:
 - [Standard Library architecture](../standard-library/README.md) — reserved
   modules, pure APIs, signatures, and diagnostics
 - [CLI architecture](cli.md) — command parsing, orchestration, output, and exits
+- [VS Code extension architecture](vscode-extension.md) — registration,
+  highlighting, canonical compiler bundling, and diagnostics
 
 Architecture documentation still needed:
 

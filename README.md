@@ -101,6 +101,16 @@ npm ci --prefix website
 npm run website:check
 ```
 
+The VS Code integration lives in [`extensions/vscode/`](extensions/vscode/).
+Install its locked dependencies, validate it, and produce a local VSIX:
+
+```sh
+npm ci --prefix extensions/vscode
+npm run vscode:check
+```
+
+The extension is private and is not published by this command.
+
 ## Documentation
 
 - [Official website](https://kwechiri.dev/)
@@ -111,6 +121,7 @@ npm run website:check
 - [Project status and roadmap](docs/roadmap/PROJECT-STATUS.md)
 - [Recorded technical debt](docs/roadmap/technical-debt.md)
 - [Website foundation plan](docs/roadmap/WEBSITE-FOUNDATION-PLAN.md)
+- [VS Code support contract](docs/roadmap/MILESTONE-13-VS-CODE.md)
 
 Historical `milestone-*.md` files remain available as incremental records and
 may be superseded by the current topic-oriented specification and later ADRs.

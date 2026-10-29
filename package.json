@@ -24,7 +24,10 @@
     "website:dev": "npm --prefix website run dev",
     "website:build": "npm --prefix website run build",
     "website:check": "npm --prefix website run check",
-    "website:e2e": "npm --prefix website run test:e2e"
+    "website:e2e": "npm --prefix website run test:e2e",
+    "vscode:check": "npm --prefix extensions/vscode run check",
+    "vscode:package": "npm --prefix extensions/vscode run package",
+    "vscode:test": "npm --prefix extensions/vscode run test:integration"
   },
   "engines": {
     "node": ">=20"

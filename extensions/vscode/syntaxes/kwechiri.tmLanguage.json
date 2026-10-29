@@ -1,0 +1,116 @@
+{
+  "name": "Kwechiri",
+  "scopeName": "source.kwechiri",
+  "fileTypes": [
+    "kwe"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#language-constants"
+    },
+    {
+      "include": "#multiword-keywords"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#logical-operators"
+    },
+    {
+      "include": "#comparison-operators"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#punctuation"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "match": "//.*$",
+      "name": "comment.line.double-slash.kwechiri"
+    },
+    "strings": {
+      "begin": "\"",
+      "end": "\"",
+      "name": "string.quoted.double.kwechiri",
+      "patterns": [
+        {
+          "match": "\\\\(?:n|t|r|\\\\|\")",
+          "name": "constant.character.escape.kwechiri"
+        },
+        {
+          "match": "\\\\.",
+          "name": "invalid.illegal.escape.kwechiri"
+        }
+      ]
+    },
+    "numbers": {
+      "match": "\\b\\d+(?:\\.\\d+)?\\b",
+      "name": "constant.numeric.kwechiri"
+    },
+    "language-constants": {
+      "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:eziokwu|ụgha|efu)(?![\\p{L}\\p{M}\\p{N}_])",
+      "name": "constant.language.kwechiri"
+    },
+    "multiword-keywords": {
+      "patterns": [
+        {
+          "match": "(?<![\\p{L}\\p{M}\\p{N}_])ọ\\s+bụrụ(?![\\p{L}\\p{M}\\p{N}_])",
+          "name": "keyword.control.conditional.kwechiri"
+        },
+        {
+          "match": "(?<![\\p{L}\\p{M}\\p{N}_])gaa\\s+n'ihu(?![\\p{L}\\p{M}\\p{N}_])",
+          "name": "keyword.control.loop.kwechiri"
+        },
+        {
+          "match": "(?<![\\p{L}\\p{M}\\p{N}_])site\\s+na(?![\\p{L}\\p{M}\\p{N}_])",
+          "name": "keyword.control.import.kwechiri"
+        },
+        {
+          "match": "(?<![\\p{L}\\p{M}\\p{N}_])ọ\\s+bụghị(?![\\p{L}\\p{M}\\p{N}_])",
+          "name": "keyword.operator.logical.kwechiri"
+        }
+      ]
+    },
+    "keywords": {
+      "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:bipụta|ọrụ|laghachi|kwụsị|webata|bupụ|mgbe|ọzọ)(?![\\p{L}\\p{M}\\p{N}_])",
+      "name": "keyword.control.kwechiri"
+    },
+    "logical-operators": {
+      "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:na|maọbụ)(?![\\p{L}\\p{M}\\p{N}_])",
+      "name": "keyword.operator.logical.kwechiri"
+    },
+    "comparison-operators": {
+      "match": "==|!=|<=|>=|<|>",
+      "name": "keyword.operator.comparison.kwechiri"
+    },
+    "operators": {
+      "match": "=",
+      "name": "keyword.operator.assignment.kwechiri"
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "match": "[+*/\\-]",
+          "name": "keyword.operator.arithmetic.kwechiri"
+        },
+        {
+          "match": "[(){}\\[\\],:.]",
+          "name": "punctuation.separator.kwechiri"
+        }
+      ]
+    }
+  }
+}

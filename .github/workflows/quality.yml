@@ -63,5 +63,28 @@ jobs:
         if: matrix.node-version == 24
         run: npm run website:e2e
 
+      - name: Install VS Code extension dependencies
+        if: matrix.node-version == 24
+        run: npm ci --prefix extensions/vscode
+
+      - name: Audit VS Code extension dependencies
+        if: matrix.node-version == 24
+        run: npm --prefix extensions/vscode audit --audit-level=high
+
+      - name: Validate and package VS Code extension
+        if: matrix.node-version == 24
+        run: npm run vscode:check
+
+      - name: Cache VS Code extension test runtime
+        if: matrix.node-version == 24
+        uses: actions/cache@v4
+        with:
+          path: extensions/vscode/.vscode-test
+          key: ${{ runner.os }}-vscode-1.100.0
+
+      - name: Test VS Code extension host
+        if: matrix.node-version == 24
+        run: xvfb-run -a npm run vscode:test
+
       - name: Smoke-test existing CLI
         run: node dist/cli/index.js hello.kwe

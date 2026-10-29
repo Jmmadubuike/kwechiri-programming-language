@@ -3,6 +3,8 @@
 Last updated: 2026-10-29
 Current version: `0.1.0-development`  
 Current completed batch: Milestone 12 Batch 12B — Browser playground hardening
+Current active batch: Milestone 13 — VS Code support, implemented and locally
+verified
 
 Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
@@ -21,8 +23,8 @@ certified and closed at `8655631f4f9fbb0508447713371e534bee418582`; Milestone
 The pre-1.0 Language Foundations phase is closed. Milestone 11 Batches 11A and
 11B are closed; later Standard Library batches remain unauthorized.
 
-Current roadmap milestone: Milestone 13 — VS Code support, not designed or
-approved
+Current roadmap milestone: Milestone 13 — VS Code support, awaiting
+certification
 
 ## Purpose
 
@@ -354,7 +356,8 @@ Still deferred:
 
 ### Milestone 13 — VS Code support
 
-Not designed or approved.
+Status: Approved, implemented, and locally verified on 2026-10-29. Awaiting
+owner certification.
 
 Expected work includes:
 
@@ -364,6 +367,35 @@ Expected work includes:
 - diagnostics integration
 - formatting and completion decisions
 - extension packaging and verification
+
+Implemented foundation:
+
+- `.kwe` language registration, TextMate highlighting, canonical-lexer
+  semantic tokens, comments, brackets, indentation, and Unicode word
+  navigation;
+- compile-only diagnostics on open and save plus an explicit
+  `Kwechiri: Check Current File` command;
+- location-aware conversion for compiler and module errors without executing
+  user programs;
+- a private local VSIX package built from the canonical compiler source;
+- manifest, grammar, Unicode, diagnostic, packaging, and VS Code
+  extension-host tests.
+
+Formatting and completion remain undecided and unimplemented. The extension is
+not published to a marketplace.
+
+Milestone 13 certification validation:
+
+- `npm run check` passed with 185 automated tests, linting, strict source/test
+  type checking, and the production build;
+- `npm run vscode:check` passed extension type checking, bundling, manifest and
+  grammar verification, and local VSIX packaging;
+- `npm run vscode:test` passed against pinned VS Code 1.100.0, covering
+  activation, segmentation into the `.kwe` language, semantic tokens, located
+  diagnostics, correction clearing, manual command execution, and missing
+  module diagnostics;
+- the generated VSIX installed successfully into VS Code 1.133.0;
+- the extension dependency audit reported zero vulnerabilities.
 
 ### Milestone 14 — Kwechiri 1.0
 
@@ -422,6 +454,10 @@ The approved Tutorial Foundation is complete. All eight lessons, through
 “Standard Library strings,” are available with repository-verified programs,
 exact expected output, and exercises.
 
+The Milestone 13 VS Code foundation is implemented as a private local
+extension. It is not published to the Visual Studio Marketplace; publishing
+requires separate approval for extension identity, licensing, and release.
+
 The npm package is temporarily marked private to prevent accidental publication
 during development. Publication remains owner-controlled. Do not remove the
 safeguard or publish while licensing and publication policy remain undecided.
@@ -450,6 +486,7 @@ pre-1.0 Language Foundations phase is closed. Milestone 11 Batch 11A is closed
 at `d147ccf2f84ee36261b97b4dca602d95ad34304a`; Batch 11B is closed at
 `8655631f4f9fbb0508447713371e534bee418582`. Milestone 12 Batch 12A is closed
 at `693c5e09c1988cabd94133ee0d3f4af125278466`; Batch 12B is closed at
-`f4fc5b40ac3a002563da60bae170d06e60963b7e`. Milestone 13 is not designed or
-approved. Do not begin later Standard Library batches or VS Code support without
-a separately approved contract.
+`f4fc5b40ac3a002563da60bae170d06e60963b7e`. Milestone 13 is implemented and
+locally verified, with owner certification pending. Do not begin later Standard
+Library batches or marketplace publication without a separately approved
+contract.

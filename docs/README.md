@@ -48,6 +48,8 @@ and consequences; they do not authorize unresolved future features.
   — certified and closed
 - [Browser playground Batch 12B hardening](roadmap/MILESTONE-12-BATCH-12B-HARDENING.md)
   — certified and closed
+- [VS Code support contract](roadmap/MILESTONE-13-VS-CODE.md)
+  — approved and implemented
 - [Standard Library](standard-library/README.md)
 
 Milestones 0–10 and the post-milestone Lexical Foundations, Core Values & Logic,
@@ -60,8 +62,8 @@ Foundations phase. Milestone 11 Batch 11A was certified and closed at
 closed at `8655631f4f9fbb0508447713371e534bee418582`; later Standard Library
 batches remain unauthorized.
 
-Milestone 12 Batches 12A and 12B are certified and closed. Milestone 13 remains
-not designed or approved.
+Milestone 12 Batches 12A and 12B are certified and closed. Milestone 13 is
+approved, implemented, and locally verified; certification remains pending.
 
 ## 7. Tutorials
 

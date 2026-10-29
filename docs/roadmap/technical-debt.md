@@ -9,7 +9,8 @@ blockers and do not authorize refactoring without a focused, approved task.
 - Concentrated module-loader filesystem, graph, validation, and rewriting work
 - Need for a clearer host-independent compiler/module-resolution boundary
 - Future browser compatibility requirements for Milestone 12
-- Future editor and language-server requirements for Milestone 13
+- Language-server transport, formatting, completion, hover, rename, debugging,
+  and richer editor intelligence remain future Milestone 13 work
 - The lexer currently iterates JavaScript UTF-16 code units. A pre-1.0 decision
   must cover full code-point iteration, astral identifiers, whether to adopt
   Unicode `ID_Start`/`ID_Continue`, and which Unicode version defines validity.

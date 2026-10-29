@@ -28,6 +28,7 @@ decision and a new or amended record.
 | [ADR-021](ADR-021-standard-library-naming.md) | Provisional public naming and imported-function API style |
 | [ADR-022](ADR-022-standard-library-signatures-and-errors.md) | Exact intrinsic signatures and controlled diagnostics |
 | [ADR-023](ADR-023-string-basics.md) | Grapheme-cluster length and exact raw-string concatenation |
+| [ADR-024](ADR-024-vscode-extension.md) | VS Code extension and canonical compiler boundary |
 
 ADR-014 settles the normalization and ASCII-alias questions left open by
 ADR-012. It does not settle the final identifier code-point profile.

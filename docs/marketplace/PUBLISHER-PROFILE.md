@@ -21,13 +21,13 @@ clear path to modern software ecosystems.
 ## Public links
 
 - Company website: `https://kwechiri.dev`
-- Support: `https://github.com/Jmmadubuike/kwechiri-programming-language/issues`
-- Source code: `https://github.com/Jmmadubuike/kwechiri-programming-language`
+- Support: `https://kwechiri.dev/contributing/`
+- Source code: not supplied while the repository remains private
 - LinkedIn: not supplied
 - Twitter/X: not supplied
 
-Do not invent social profiles. Add those fields only after the owner confirms
-the exact public URLs.
+Do not invent social profiles or expose a private repository URL. Add the
+source and social fields only after the owner confirms those public URLs.
 
 ## Extension summary
 

@@ -2,9 +2,7 @@
 
 Last updated: 2026-10-29
 Current version: `0.1.0-development`  
-Current completed batch: Milestone 12 Batch 12B — Browser playground hardening
-Current active batch: Milestone 13 — VS Code support, implemented and locally
-verified
+Current completed milestone: Milestone 13 — VS Code support
 
 Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
@@ -18,13 +16,13 @@ certified and closed at `d147ccf2f84ee36261b97b4dca602d95ad34304a`; Batch 11B
 certified and closed at `8655631f4f9fbb0508447713371e534bee418582`; Milestone
 12 Batch 12A certified and closed at
 `693c5e09c1988cabd94133ee0d3f4af125278466`; Batch 12B certified and closed at
-`f4fc5b40ac3a002563da60bae170d06e60963b7e`.
+`f4fc5b40ac3a002563da60bae170d06e60963b7e`; Milestone 13 certified and
+closed at `a78d42102d3a672f1bc13535c652300c92f25318`.
 
 The pre-1.0 Language Foundations phase is closed. Milestone 11 Batches 11A and
 11B are closed; later Standard Library batches remain unauthorized.
 
-Current roadmap milestone: Milestone 13 — VS Code support, awaiting
-certification
+Current roadmap milestone: Milestone 14 — Kwechiri 1.0, not ready
 
 ## Purpose
 
@@ -356,8 +354,8 @@ Still deferred:
 
 ### Milestone 13 — VS Code support
 
-Status: Approved, implemented, and locally verified on 2026-10-29. Awaiting
-owner certification.
+Status: Certified and closed on 2026-10-29 at
+`a78d42102d3a672f1bc13535c652300c92f25318`.
 
 Expected work includes:
 
@@ -486,7 +484,7 @@ pre-1.0 Language Foundations phase is closed. Milestone 11 Batch 11A is closed
 at `d147ccf2f84ee36261b97b4dca602d95ad34304a`; Batch 11B is closed at
 `8655631f4f9fbb0508447713371e534bee418582`. Milestone 12 Batch 12A is closed
 at `693c5e09c1988cabd94133ee0d3f4af125278466`; Batch 12B is closed at
-`f4fc5b40ac3a002563da60bae170d06e60963b7e`. Milestone 13 is implemented and
-locally verified, with owner certification pending. Do not begin later Standard
-Library batches or marketplace publication without a separately approved
-contract.
+`f4fc5b40ac3a002563da60bae170d06e60963b7e`. Milestone 13 is certified and
+closed at `a78d42102d3a672f1bc13535c652300c92f25318`. Do not begin later
+Standard Library batches, Milestone 14 implementation, or marketplace
+publication without a separately approved contract.

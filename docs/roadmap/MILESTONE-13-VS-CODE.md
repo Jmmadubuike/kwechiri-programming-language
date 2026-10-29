@@ -1,7 +1,7 @@
 # Milestone 13: VS Code support
 
-Status: Approved, implemented, and locally verified on 2026-10-29. Awaiting
-owner certification.
+Status: Certified and closed on 2026-10-29 at
+`a78d42102d3a672f1bc13535c652300c92f25318`.
 
 ## Purpose
 

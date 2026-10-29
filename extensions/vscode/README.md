@@ -1,5 +1,7 @@
 # Kwechiri for Visual Studio Code
 
+![Kwechiri logo](kwechiri-logo.png)
+
 This extension provides local development support for Kwechiri `.kwe` source
 files:
 

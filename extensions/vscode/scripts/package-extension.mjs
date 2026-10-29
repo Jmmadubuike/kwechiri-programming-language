@@ -48,6 +48,7 @@ const contentTypes = `<?xml version="1.0" encoding="utf-8"?>
 const bundledFiles = [
   "package.json",
   "README.md",
+  "kwechiri-logo.png",
   "language-configuration.json",
   "syntaxes/kwechiri.tmLanguage.json",
   "dist/extension.js",

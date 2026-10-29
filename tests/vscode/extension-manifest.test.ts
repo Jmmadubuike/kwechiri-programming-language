@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { keywordSpellings } from "../../src/lexer/lexer.js";
 
 interface ExtensionManifest {
+  readonly icon?: string;
   readonly main?: string;
   readonly private?: boolean;
   readonly contributes?: {
@@ -27,6 +28,7 @@ describe("VS Code extension manifest", () => {
     const language = manifest.contributes?.languages?.[0];
 
     expect(manifest.private).toBe(true);
+    expect(manifest.icon).toBe("kwechiri-logo.png");
     expect(manifest.main).toBe("./dist/extension.js");
     expect(language).toMatchObject({
       id: "kwechiri",

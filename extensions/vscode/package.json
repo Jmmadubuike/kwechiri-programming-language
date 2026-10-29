@@ -5,6 +5,7 @@
   "version": "0.1.0-development",
   "private": true,
   "license": "MIT",
+  "icon": "kwechiri-logo.png",
   "publisher": "kwechiri",
   "engines": {
     "vscode": "^1.100.0",

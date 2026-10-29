@@ -2,7 +2,7 @@
   "name": "kwechiri-language",
   "displayName": "Kwechiri",
   "description": "Igbo-first Kwechiri language support for Visual Studio Code.",
-  "version": "0.1.0-development",
+  "version": "0.1.0",
   "private": true,
   "license": "MIT",
   "icon": "kwechiri-logo.png",

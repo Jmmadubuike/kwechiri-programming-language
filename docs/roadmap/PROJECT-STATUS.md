@@ -447,6 +447,11 @@ browser playground for single-file programs without adding server execution or
 analytics. Batch 12B adds automated browser/accessibility coverage and
 production security headers. Milestone 12 is closed.
 
+The owner-supplied Kwechiri logo now defines the website, social preview,
+favicon, README, VS Code extension icon, and Marketplace publisher identity.
+Its black, electric-blue, cyan, orange, emerald, and white palette is recorded
+in ADR-026.
+
 The approved Tutorial Foundation is complete. All eight lessons, through
 “Standard Library strings,” are available with repository-verified programs,
 exact expected output, and exercises.

@@ -44,7 +44,7 @@ eziokwu`;
 
       <h2>Run it</h2>
       <p>From the repository root, run the entry file:</p>
-      <pre><code>node dist/cli/index.js examples/tutorials/standard-library.kwe</code></pre>
+      <pre tabindex="0"><code>node dist/cli/index.js examples/tutorials/standard-library.kwe</code></pre>
 
       <h2>Importing a standard module</h2>
       <p>
@@ -52,7 +52,7 @@ eziokwu`;
         modules, but their names begin with the reserved
         <code>kwechiri:</code> namespace:
       </p>
-      <pre><code>webata &#123; nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri &#125; site na "kwechiri:eriri"</code></pre>
+      <pre tabindex="0"><code>webata &#123; nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri &#125; site na "kwechiri:eriri"</code></pre>
       <p>
         <code>kwechiri:eriri</code> is provided by the compiler. It is not a
         package, remote URL, or hidden <code>.kwe</code> file. Only the imported
@@ -80,7 +80,7 @@ eziokwu`;
         <code>kwụsịNa</code> compare exact string sequences. Matching is
         case-sensitive:
       </p>
-      <pre><code>nwereEriri("Kwechiri", "chiri") # eziokwu
+      <pre tabindex="0"><code>nwereEriri("Kwechiri", "chiri") # eziokwu
 nwereEriri("Kwechiri", "CHIRI") # ụgha</code></pre>
       <p>
         An empty search string is contained in every string and is both a
@@ -93,7 +93,7 @@ nwereEriri("Kwechiri", "CHIRI") # ụgha</code></pre>
         <code>ogologoEriri</code> counts extended grapheme clusters: characters
         as a reader perceives them, rather than raw UTF-16 storage units.
       </p>
-      <pre><code>ogologoEriri("ụbọchị") # 6</code></pre>
+      <pre tabindex="0"><code>ogologoEriri("ụbọchị") # 6</code></pre>
       <p>
         An Igbo letter written with combining marks still counts as one
         character. An empty string has length <code>0</code>.
@@ -104,7 +104,7 @@ nwereEriri("Kwechiri", "CHIRI") # ụgha</code></pre>
         <code>jikọọEriri</code> joins two raw strings without inserting spaces
         or separators and without converting other value types:
       </p>
-      <pre><code>jikọọEriri("Ndewo, ", "Kwechiri") # Ndewo, Kwechiri</code></pre>
+      <pre tabindex="0"><code>jikọọEriri("Ndewo, ", "Kwechiri") # Ndewo, Kwechiri</code></pre>
       <p>
         The space is part of the first argument. String contents are not
         normalized, so visually similar NFC and NFD sequences remain different
@@ -113,7 +113,7 @@ nwereEriri("Kwechiri", "CHIRI") # ụgha</code></pre>
 
       <h2>Your turn</h2>
       <p>Add these lines and predict the output:</p>
-      <pre><code>bipụta(nwereEriri(aha, ""))
+      <pre tabindex="0"><code>bipụta(nwereEriri(aha, ""))
 bipụta(ogologoEriri("Igbo"))
 bipụta(jikọọEriri("Kwe", "chiri"))</code></pre>
       <p>

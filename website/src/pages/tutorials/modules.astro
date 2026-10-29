@@ -50,7 +50,7 @@ const output = `Ada
 
       <h2>Run it</h2>
       <p>From the repository root, run the entry file:</p>
-      <pre><code>node dist/cli/index.js examples/tutorials/modules/main.kwe</code></pre>
+      <pre tabindex="0"><code>node dist/cli/index.js examples/tutorials/modules/main.kwe</code></pre>
       <p>
         The compiler follows the import to <code>aha.kwe</code>, validates and
         initializes that dependency first, and then runs <code>main.kwe</code>.
@@ -58,7 +58,7 @@ const output = `Ada
 
       <h2>Exporting and importing</h2>
       <p>Only exported declarations can be imported:</p>
-      <pre><code>webata &#123; aha, kelee, ndepụta &#125; site na "./aha.kwe"</code></pre>
+      <pre tabindex="0"><code>webata &#123; aha, kelee, ndepụta &#125; site na "./aha.kwe"</code></pre>
       <p>
         Each imported name is explicit. Imports must appear before all other
         statements. Trying to import <code>nzuzo</code> is an error because it
@@ -81,7 +81,7 @@ const output = `Ada
 
       <h2>Read-only bindings, shared contents</h2>
       <p>An imported name cannot be rebound:</p>
-      <pre><code>aha = "Obi" # error: imported binding is read-only</code></pre>
+      <pre tabindex="0"><code>aha = "Obi" # error: imported binding is read-only</code></pre>
       <p>
         Collections are different: the binding cannot be replaced, but the
         collection's existing contents remain mutable. The lesson changes

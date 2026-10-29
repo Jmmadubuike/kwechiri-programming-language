@@ -1,6 +1,8 @@
 # Kwechiri for Visual Studio Code
 
-![Kwechiri logo](kwechiri-logo.png)
+<p align="center">
+  <img src="kwechiri-logo.png" alt="Kwechiri" width="128" height="128" />
+</p>
 
 This extension provides local development support for Kwechiri `.kwe` source
 files:
@@ -29,5 +31,4 @@ artifact during development with VS Code's **Extensions: Install from VSIX**
 command.
 
 This package is private. Packaging is not publication, and marketplace release
-requires separate owner approval for licensing, publisher ownership, and the
-extension identity.
+requires a separate publisher and Marketplace release decision.

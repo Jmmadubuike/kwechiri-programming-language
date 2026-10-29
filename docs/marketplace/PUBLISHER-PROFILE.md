@@ -4,7 +4,7 @@
 
 - Name: `Kwechiri`
 - ID: `kwechiri`
-- Logo: [`kwechiri-logo-128.png`](../../assets/brand/kwechiri-logo-128.png)
+- Logo: [`kwechiri-logo-main-128.png`](../../assets/brand/kwechiri-logo-main-128.png)
 - Verified domain: `https://kwechiri.dev`
 
 The publisher ID is provisional until Microsoft confirms that `kwechiri` is

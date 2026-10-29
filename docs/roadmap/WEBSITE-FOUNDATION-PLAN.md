@@ -196,9 +196,8 @@ implemented and maintained explicitly.
 
 ## Visual and educational direction
 
-The first release should use a restrained, text-led identity that can be
-reviewed without a completed logo program. Visual direction, illustration,
-logo, typography, and public copy require owner approval. The design should:
+The owner approved the supplied Kwechiri logo and its blue, orange, green,
+black, and white palette as the active identity. The design should:
 
 - prioritize readability and clear code samples;
 - work at mobile widths without hiding essential content;
@@ -300,6 +299,5 @@ content accuracy or owner approval.
 ## Remaining owner decisions
 
 1. Review the initial Igbo/English content balance before public launch.
-2. Approve final visual branding beyond the temporary text-led identity.
-3. Confirm the owner responsible for launch approval and rollback.
-4. Verify DNS ownership and approve the production deployment.
+2. Confirm the owner responsible for launch approval and rollback.
+3. Verify DNS ownership and approve the production deployment.

@@ -33,20 +33,20 @@ const output = '["Uche","Ada","Obi"]\n{"aha":"Uche","afọ":36}\nUche\n["Uche","
       <CodeExample label="examples/tutorials/collections.kwe" code={source} output={output} />
 
       <h2>Run it</h2>
-      <pre><code>node dist/cli/index.js examples/tutorials/collections.kwe</code></pre>
+      <pre tabindex="0"><code>node dist/cli/index.js examples/tutorials/collections.kwe</code></pre>
 
       <h2>Arrays</h2>
       <p>
         An array uses square brackets and currently must be non-empty and
         homogeneous:
       </p>
-      <pre><code>ahaNdị = ["Uche", "Ada", "Obi"]</code></pre>
+      <pre tabindex="0"><code>ahaNdị = ["Uche", "Ada", "Obi"]</code></pre>
       <p>
         Indexes start at <code>0</code>, so <code>ahaNdị[0]</code> is
         <code>"Uche"</code>. Known invalid indexes are compile-time errors;
         dynamically invalid indexes are runtime errors.
       </p>
-      <pre><code>ahaNdịAlias[1] = "Chidi"</code></pre>
+      <pre tabindex="0"><code>ahaNdịAlias[1] = "Chidi"</code></pre>
       <p>
         Existing elements can be replaced when the value has the array's
         element type. Assignment cannot resize the array.
@@ -54,11 +54,11 @@ const output = '["Uche","Ada","Obi"]\n{"aha":"Uche","afọ":36}\nUche\n["Uche","
 
       <h2>Objects</h2>
       <p>Objects use curly braces and fixed property names:</p>
-      <pre><code>mmadụ = &#123; aha: ahaNdị[0], afọ: 36 &#125;</code></pre>
+      <pre tabindex="0"><code>mmadụ = &#123; aha: ahaNdị[0], afọ: 36 &#125;</code></pre>
       <p>Read properties with a dot:</p>
-      <pre><code>bipụta(mmadụ.aha)</code></pre>
+      <pre tabindex="0"><code>bipụta(mmadụ.aha)</code></pre>
       <p>Existing properties can be updated without changing their type:</p>
-      <pre><code>mmadụ.afọ = 37</code></pre>
+      <pre tabindex="0"><code>mmadụ.afọ = 37</code></pre>
       <p>
         Assignment cannot add a property. Missing properties are errors; they
         do not return <code>efu</code>.

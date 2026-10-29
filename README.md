@@ -1,5 +1,9 @@
 # Kwechiri
 
+<p align="center">
+  <img src="assets/brand/kwechiri-logo-main-640.png" alt="Kwechiri Programming Language" width="520" />
+</p>
+
 Kwechiri is an Igbo-first programming language designed to make programming
 more accessible to Igbo speakers while maintaining a coherent, professional
 language and compiler architecture.

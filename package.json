@@ -4,13 +4,15 @@
   "private": true,
   "license": "MIT",
   "description": "An Igbo-first programming language",
+  "homepage": "https://kwechiri.dev",
   "type": "module",
   "bin": {
     "kwechiri": "dist/cli/index.js"
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "assets/brand/kwechiri-logo-main-640.png"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",

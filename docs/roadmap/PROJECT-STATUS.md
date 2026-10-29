@@ -1,8 +1,8 @@
 # Kwechiri project status and remaining roadmap
 
-Last updated: 2026-10-28
+Last updated: 2026-10-29
 Current version: `0.1.0-development`  
-Current completed batch: Milestone 11 Batch 11B — Standard Library string basics
+Current completed batch: Milestone 12 Batch 12B — Browser playground hardening
 
 Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
@@ -13,13 +13,16 @@ at `c27d353e7589cf541f0054958c33f72c4803389b`; Control Flow certified and
 closed at `ce14e04c56271b756742d29a57cb717ec0e27803`; Modules certified and closed
 at `67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`; Milestone 11 Batch 11A
 certified and closed at `d147ccf2f84ee36261b97b4dca602d95ad34304a`; Batch 11B
-certified and closed at `8655631f4f9fbb0508447713371e534bee418582`.
+certified and closed at `8655631f4f9fbb0508447713371e534bee418582`; Milestone
+12 Batch 12A certified and closed at
+`693c5e09c1988cabd94133ee0d3f4af125278466`; Batch 12B certified and closed at
+`f4fc5b40ac3a002563da60bae170d06e60963b7e`.
 
 The pre-1.0 Language Foundations phase is closed. Milestone 11 Batches 11A and
 11B are closed; later Standard Library batches remain unauthorized.
 
-Current roadmap milestone: Milestone 12 — Browser playground, Batch 12B
-implemented
+Current roadmap milestone: Milestone 13 — VS Code support, not designed or
+approved
 
 ## Purpose
 
@@ -297,7 +300,9 @@ Batch 11B certification validation:
 
 ### Milestone 12 — Browser playground
 
-Status: Batches 12A and 12B approved, implemented, and locally verified.
+Status: Batches 12A and 12B certified and closed. Batch 12A closed at
+`693c5e09c1988cabd94133ee0d3f4af125278466`; Batch 12B closed at
+`f4fc5b40ac3a002563da60bae170d06e60963b7e`.
 
 Batch 12A provides:
 
@@ -324,6 +329,20 @@ Batch 12B adds:
 
 The [Batch 12B hardening record](MILESTONE-12-BATCH-12B-HARDENING.md) documents
 its evidence and remaining limitations.
+
+Certification validation on 2026-10-29:
+
+- the canonical gate passed linting, strict source/test type checking, 175
+  automated tests, and the production build;
+- `npm run website:check` passed example and deployment-configuration checks,
+  Astro check with zero diagnostics, and the 23-page static build;
+- seven Playwright Chromium tests passed, including WCAG A/AA and narrow-viewport
+  coverage;
+- the compiler and website dependency audits both reported zero vulnerabilities;
+- the live Vercel deployment returned the configured security headers and
+  preserved the permanent `www.kwechiri.dev` redirect to `kwechiri.dev`;
+- the GitHub Actions run for Batch 12B was not independently inspected because
+  the GitHub CLI was not authenticated in this session.
 
 Still deferred:
 
@@ -391,11 +410,13 @@ the appropriate owner decision and milestone placement.
 The owner approved a documentation-first website foundation under `website/`.
 It uses Astro, targets `kwechiri.dev`, and passes its Astro check, static build,
 internal-link audit, and responsive visual review. Vercel preview and Git-driven
-deployments are connected and building successfully; GitHub Actions passes on
-Node.js 20 and 24. A custom domain and public launch are verified at
-`https://kwechiri.dev/`. Batch 12A adds a local browser playground for
-single-file programs without adding server execution or analytics. Batch 12B
-adds automated browser/accessibility coverage and production security headers.
+deployments are connected and building successfully. Earlier GitHub Actions
+verification passed on Node.js 20 and Node.js 24; the Batch 12B run could not be
+independently inspected without GitHub CLI authentication. A custom domain and
+public launch are verified at `https://kwechiri.dev/`. Batch 12A adds a local
+browser playground for single-file programs without adding server execution or
+analytics. Batch 12B adds automated browser/accessibility coverage and
+production security headers. Milestone 12 is closed.
 
 The approved Tutorial Foundation is complete. All eight lessons, through
 “Standard Library strings,” are available with repository-verified programs,
@@ -427,5 +448,8 @@ Control Flow is closed at `ce14e04c56271b756742d29a57cb717ec0e27803`.
 Modules is closed at `67ebd7384468c91a6eedaa5427c6fc3bef4bd9f3`, and the
 pre-1.0 Language Foundations phase is closed. Milestone 11 Batch 11A is closed
 at `d147ccf2f84ee36261b97b4dca602d95ad34304a`; Batch 11B is closed at
-`8655631f4f9fbb0508447713371e534bee418582`. Do not begin later Standard
-Library batches without a separately approved contract.
+`8655631f4f9fbb0508447713371e534bee418582`. Milestone 12 Batch 12A is closed
+at `693c5e09c1988cabd94133ee0d3f4af125278466`; Batch 12B is closed at
+`f4fc5b40ac3a002563da60bae170d06e60963b7e`. Milestone 13 is not designed or
+approved. Do not begin later Standard Library batches or VS Code support without
+a separately approved contract.

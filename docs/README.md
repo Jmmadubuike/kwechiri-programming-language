@@ -45,9 +45,9 @@ and consequences; they do not authorize unresolved future features.
 - [Website and documentation foundation plan](roadmap/WEBSITE-FOUNDATION-PLAN.md)
   — approved static foundation
 - [Browser playground Batch 12A contract](roadmap/MILESTONE-12-BROWSER-PLAYGROUND.md)
-  — approved and implemented
+  — certified and closed
 - [Browser playground Batch 12B hardening](roadmap/MILESTONE-12-BATCH-12B-HARDENING.md)
-  — approved and implemented
+  — certified and closed
 - [Standard Library](standard-library/README.md)
 
 Milestones 0–10 and the post-milestone Lexical Foundations, Core Values & Logic,
@@ -59,6 +59,9 @@ Foundations phase. Milestone 11 Batch 11A was certified and closed at
 `d147ccf2f84ee36261b97b4dca602d95ad34304a`, and Batch 11B was certified and
 closed at `8655631f4f9fbb0508447713371e534bee418582`; later Standard Library
 batches remain unauthorized.
+
+Milestone 12 Batches 12A and 12B are certified and closed. Milestone 13 remains
+not designed or approved.
 
 ## 7. Tutorials
 

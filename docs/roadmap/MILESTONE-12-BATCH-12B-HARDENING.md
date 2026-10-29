@@ -1,6 +1,7 @@
 # Milestone 12 Batch 12B: Playground hardening
 
-Status: Approved and implemented on 2026-10-28.
+Status: Certified and closed on 2026-10-29 at
+`f4fc5b40ac3a002563da60bae170d06e60963b7e`.
 
 ## Purpose
 
@@ -106,10 +107,22 @@ Post-deployment verification must separately confirm that Vercel returns the
 configured headers and preserves the `www` redirect. A local configuration
 check is not deployment evidence.
 
+Certification validation on 2026-10-29:
+
+- the canonical gate passed with 175 automated tests, linting, strict
+  source/test type checking, and the production build;
+- website validation passed Astro check with zero diagnostics, all example and
+  deployment checks, and the 23-page static build;
+- the 7-test Playwright Chromium suite passed;
+- compiler and website dependency audits both reported zero vulnerabilities;
+- live `https://kwechiri.dev/` responses contained the configured security
+  headers, and `https://www.kwechiri.dev/` returned a permanent redirect to the
+  canonical host.
+
 ## Remaining limitations
 
-- The repository remains private, so this session cannot inspect GitHub Actions
-  without separate authentication.
+- The GitHub Actions run for this batch could not be independently inspected
+  because the GitHub CLI was not authenticated.
 - Browser execution remains same-origin worker containment rather than
   cross-origin isolation.
 - Multi-file editing, saved programs, editor intelligence, and richer language

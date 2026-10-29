@@ -1,7 +1,7 @@
 # Milestone 12 Batch 12A: Browser playground foundation
 
-Status: Approved by the project owner on 2026-10-28. Batch 12A is implemented
-and locally verified.
+Status: Certified and closed on 2026-10-29 at
+`693c5e09c1988cabd94133ee0d3f4af125278466`.
 
 ## Purpose
 

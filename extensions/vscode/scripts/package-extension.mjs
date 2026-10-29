@@ -52,6 +52,7 @@ const bundledFiles = [
   "syntaxes/kwechiri.tmLanguage.json",
   "dist/extension.js",
 ];
+const rootLicense = new URL("../../../LICENSE", import.meta.url);
 const zip = new yazl.ZipFile();
 
 zip.addBuffer(Buffer.from(extensionManifest), "extension.vsixmanifest", {
@@ -67,6 +68,9 @@ for (const file of bundledFiles) {
     { mtime: stableDate },
   );
 }
+zip.addBuffer(await readFile(rootLicense), "extension/LICENSE", {
+  mtime: stableDate,
+});
 
 await new Promise((resolve, reject) => {
   const output = createWriteStream(outputPath);

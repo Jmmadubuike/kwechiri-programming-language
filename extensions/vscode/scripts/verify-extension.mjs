@@ -17,6 +17,7 @@ const kwechiriLanguage = Array.isArray(languages)
   : undefined;
 
 if (manifest.private !== true) throw new Error("The extension package must remain private.");
+if (manifest.license !== "MIT") throw new Error("The extension must declare the MIT license.");
 if (manifest.main !== "./dist/extension.js") throw new Error("Unexpected extension entry point.");
 if (!kwechiriLanguage?.extensions?.includes(".kwe")) throw new Error("The .kwe extension is not registered.");
 if (kwechiriLanguage.configuration !== "./language-configuration.json") {
@@ -40,6 +41,7 @@ for (const requiredKeyword of ["bipụta", "ọrụ", "laghachi", "kwụsị", "
 }
 
 await access(fileURLToPath(new URL("dist/extension.js", extensionRoot)));
+await access(fileURLToPath(new URL("../../../LICENSE", import.meta.url)));
 
 for (const contribution of ["completionProviders", "debuggers", "formatters", "languageserver", "snippets"]) {
   if (contribution in (manifest.contributes ?? {})) {

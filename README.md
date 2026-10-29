@@ -128,7 +128,9 @@ may be superseded by the current topic-oriented specification and later ADRs.
 
 ## License and publication
 
-The project owner has not selected a license. No license is granted or implied
-by this repository, and the package must not be published until licensing and
-publication policy receive explicit owner approval. The package is temporarily
-marked private to prevent accidental npm publication during development.
+Kwechiri is licensed under the MIT License. See [`LICENSE`](LICENSE) for the
+full text and copyright notice.
+
+The package remains temporarily marked private to prevent accidental npm
+publication. npm and Visual Studio Marketplace publication remain separate,
+owner-controlled release decisions.

@@ -87,8 +87,8 @@ fallback for syntax classes the lexer intentionally does not return.
 
 The extension package is marked private and is built as an installable local
 `.vsix`. Packaging does not publish it. The project owner must separately
-approve an extension identifier, publisher ownership, marketplace publication,
-and the project license before public distribution.
+approve an extension identifier, publisher ownership, and marketplace
+publication before public distribution. The project license is MIT.
 
 ## Validation
 

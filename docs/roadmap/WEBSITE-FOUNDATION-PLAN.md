@@ -67,7 +67,8 @@ its tooling is more complete than it is.
   certified `kwechiri:` imports; filesystem modules remain deferred.
 - Formal tutorials are planned but not yet written.
 - The repository documentation is the source of truth.
-- The project has no selected license or approved publication policy.
+- The project adopted the MIT license on 2026-10-29; npm publication policy
+  remains undecided.
 - A full website authored directly in Kwechiri requires browser, DOM, event,
   and networking capabilities that do not yet exist.
 

@@ -4,6 +4,7 @@
   "description": "Igbo-first Kwechiri language support for Visual Studio Code.",
   "version": "0.1.0-development",
   "private": true,
+  "license": "MIT",
   "publisher": "kwechiri",
   "engines": {
     "vscode": "^1.100.0",

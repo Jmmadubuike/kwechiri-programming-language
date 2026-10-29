@@ -408,7 +408,6 @@ Required release work includes:
 - tutorials and reference documentation
 - supported Node.js and operating-system matrix
 - package naming and publication decision
-- licensing decision
 - release checklist and explicit owner approval
 
 ## Cross-cutting work still unresolved
@@ -429,7 +428,7 @@ the appropriate owner decision and milestone placement.
 
 ### Engineering and operations
 
-- choose and add a license
+- publish and release procedures under the MIT license recorded in ADR-025
 - add remaining architecture topic documents
 - add cross-platform verification beyond Linux CI
 - finalize the supported Node.js policy beyond the current `>=20` declaration
@@ -454,11 +453,10 @@ exact expected output, and exercises.
 
 The Milestone 13 VS Code foundation is implemented as a private local
 extension. It is not published to the Visual Studio Marketplace; publishing
-requires separate approval for extension identity, licensing, and release.
+requires a separate publisher and release decision. The project license is MIT.
 
 The npm package is temporarily marked private to prevent accidental publication
-during development. Publication remains owner-controlled. Do not remove the
-safeguard or publish while licensing and publication policy remain undecided.
+during development. Publication remains owner-controlled.
 
 ## Session-start checklist
 

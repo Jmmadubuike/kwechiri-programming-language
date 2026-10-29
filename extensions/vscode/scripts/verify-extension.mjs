@@ -16,7 +16,7 @@ const kwechiriLanguage = Array.isArray(languages)
   ? languages.find((language) => language.id === "kwechiri")
   : undefined;
 
-if (manifest.private !== true) throw new Error("The extension package must remain private.");
+if (manifest.private === true) throw new Error("The marketplace extension package must not be npm-private.");
 if (manifest.license !== "MIT") throw new Error("The extension must declare the MIT license.");
 if (manifest.icon !== "kwechiri-logo.png") throw new Error("The extension icon is not registered.");
 if (manifest.main !== "./dist/extension.js") throw new Error("Unexpected extension entry point.");

@@ -27,7 +27,7 @@ describe("VS Code extension manifest", () => {
     const manifest = readJson<ExtensionManifest>("package.json");
     const language = manifest.contributes?.languages?.[0];
 
-    expect(manifest.private).toBe(true);
+    expect(manifest.private).toBeUndefined();
     expect(manifest.icon).toBe("kwechiri-logo.png");
     expect(manifest.main).toBe("./dist/extension.js");
     expect(language).toMatchObject({

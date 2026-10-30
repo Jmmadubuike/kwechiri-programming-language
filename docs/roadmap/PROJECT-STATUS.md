@@ -1,7 +1,7 @@
 # Kwechiri project status and remaining roadmap
 
 Last updated: 2026-10-30
-Current version: `1.0.0-rc.1`, candidate; not published
+Current version: `1.0.0-rc.1`, published release candidate
 
 Current completed milestone: Milestone 13 — VS Code support
 Current VS Code release: `0.1.3`, public
@@ -421,10 +421,13 @@ Completed release work:
 - compiler package identity and cross-platform CI matrix
 - tutorial, reference, example, and architecture documentation verification
 - Linux and Windows CI verification for Node.js 20, 22, and 24
+- npm publication of `kwechiri@1.0.0-rc.1`
+- annotated Git tag `v1.0.0-rc.1`
 
 Remaining release work includes:
 
-- explicit publication approval
+- final stable 1.0 approval and release
+- live release-candidate website deployment verification
 
 The [changelog](../../CHANGELOG.md) and
 [release procedure](../development/release.md) are established. The procedure
@@ -509,10 +512,8 @@ at `693c5e09c1988cabd94133ee0d3f4af125278466`; Batch 12B is closed at
 closed at `a78d42102d3a672f1bc13535c652300c92f25318`. Further Marketplace
 releases use the trusted-publishing workflow.
 
-Milestone 14 is approved and in progress with the `1.0.0-rc.1` candidate at
-`7035d6e`. Work packages 14A-14F are complete; 14G and 14H are in progress.
-CI run `41124819384` passed on Windows and Linux for Node.js 20, 22, and 24.
-The npm account has verified `auth-and-writes` two-factor authentication, and
-the `kwechiri` name remains unclaimed. The remaining gate is explicit owner
-approval for publication. Do not publish the compiler or begin later Standard
-Library batches without that approval.
+Milestone 14 is approved and in progress. Work packages 14A-14G are complete;
+14H has published `kwechiri@1.0.0-rc.1` at
+`a3076756407d55a4be4825f906d8a8202ae6767f` and tagged it `v1.0.0-rc.1`.
+Final stable 1.0 approval and live website verification remain. Do not begin
+later Standard Library batches without a separate approved milestone.

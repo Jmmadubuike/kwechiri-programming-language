@@ -41,7 +41,7 @@ separate owner decision before implementation.
 | 14E - Documentation and learning path | Complete | Architecture, reference, tutorials, examples, links, and browser examples verified on the current tree |
 | 14F - Support matrix and portability | Complete | Windows and Linux Node 20/22/24 verified; macOS explicitly unclaimed |
 | 14G - Distribution and release engineering | Complete | Package identity, npm 2FA, packed artifact, CI, and release procedure verified |
-| 14H - Release candidate and final approval | In progress | `1.0.0-rc.1` candidate and CI matrix verified; publication GO remains |
+| 14H - Release candidate and final approval | In progress | `1.0.0-rc.1` published and tagged; final stable 1.0 decision remains |
 
 ### 14A - Release contract and readiness inventory
 

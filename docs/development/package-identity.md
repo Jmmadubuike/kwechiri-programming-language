@@ -1,6 +1,6 @@
 # Compiler package identity
 
-Status: Approved name; npm identity and 2FA verified; publication blocked
+Status: Published as 1.0.0-rc.1
 
 The compiler package identity for Kwechiri 1.0 is:
 
@@ -8,24 +8,24 @@ The compiler package identity for Kwechiri 1.0 is:
 kwechiri
 ```
 
-The repository package already uses this name and remains `"private": true` to
-prevent accidental npm publication. Private status must remain until the owner
-authorizes the final publication step.
+The repository package uses this name and is published to the public npm
+registry under the owner's approved release.
 
 ## Registry check
 
-On 2026-10-30, a read-only npm registry lookup for `kwechiri` returned `E404`
-and no public package metadata. This is current availability evidence, not a
-reservation or a guarantee that the name will remain available.
+The first publication claimed the package on 2026-10-30:
 
-On 2026-10-30, npm authentication was verified as `jmmadubuike`, with a
-verified email address. The authenticated registry lookup still returned
-`E404`, so this account does not currently see an existing public `kwechiri`
-package.
+- maintainer: `jmmadubuike`;
+- version: `1.0.0-rc.1`;
+- access: public;
+- registry SHA-1: `4c4bd419c02355c13d849a4400a0d259f912d1d3`;
+- registry tarball:
+  `https://registry.npmjs.org/kwechiri/-/kwechiri-1.0.0-rc.1.tgz`;
+- git commit: `a3076756407d55a4be4825f906d8a8202ae6767f`;
+- git tag: `v1.0.0-rc.1`.
 
 Account-level two-factor authentication is enabled in `auth-and-writes` mode.
-The first approved publication claims the package name; availability is not a
-reservation before that step.
+npm assigned both `latest` and `next` to the first published version.
 
 ## Package metadata
 

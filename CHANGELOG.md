@@ -5,7 +5,8 @@ are added only when the project owner approves a release.
 
 ## 1.0.0-rc.1 - 2026-10-30
 
-Status: Release candidate under verification; not published.
+Published to npm on 2026-10-30. Because this was the package's first
+publication, npm assigned both `latest` and `next` to this prerelease.
 
 ### Added
 

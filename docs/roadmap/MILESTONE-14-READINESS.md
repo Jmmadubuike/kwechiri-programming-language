@@ -1,6 +1,6 @@
 # Milestone 14 release-readiness record
 
-Status: Local baseline recorded; Kwechiri 1.0 not ready
+Status: 1.0.0-rc.1 published; stable Kwechiri 1.0 not yet released
 
 Evidence date: 2026-10-30
 
@@ -13,15 +13,15 @@ release.
 | Item | Value |
 | --- | --- |
 | Foundation commit | `af28cd686f2fface9b43389cf922e7007307b26d` |
-| Candidate commit | `7035d6e42ad7b1fa977f278d4ceb75db9db9dfdc` |
-| Working tree | clean after CI verification update |
-| Version | `1.0.0-rc.1`, candidate |
+| Published commit | `a3076756407d55a4be4825f906d8a8202ae6767f` |
+| Release tag | annotated `v1.0.0-rc.1` |
+| Working tree | clean after publication update |
+| Version | `1.0.0-rc.1`, published |
 | Operating system | Windows 11 Pro x64 |
 | Node.js | `v24.19.0` |
 | npm | `11.17.0` |
 
-The evidence below applies to the `1.0.0-rc.1` candidate. The final release, if
-different, must be validated independently.
+The evidence below applies to the published `1.0.0-rc.1` release candidate.
 
 ## Verified locally
 
@@ -136,8 +136,8 @@ rules approved in
 
 ### Compiler package
 
-`npm pack --dry-run --json` succeeded under the private development package.
-The candidate contained 74 entries, including `LICENSE`, `README.md`,
+`npm pack --dry-run --json` succeeded for the published package. It contained
+74 entries, including `LICENSE`, `README.md`,
 `CHANGELOG.md`, package metadata, and the complete `dist/` compiler output.
 
 A packed `kwechiri-1.0.0-rc.1.tgz` was installed in a clean temporary
@@ -151,10 +151,12 @@ Candidate package identity:
 | --- | --- |
 | Filename | `kwechiri-1.0.0-rc.1.tgz` |
 | Entries | 74 |
-| Packed size | 224,253 bytes |
-| SHA-1 | `abe83038230233a81ab0e86a04b254849cae18ff` |
+| Packed size | 224,239 bytes |
+| Registry SHA-1 | `4c4bd419c02355c13d849a4400a0d259f912d1d3` |
+| Integrity | `sha512-38bnKO07fQc008w7lOXk6kzwggW+l507FwLdgOIgz3Bgvz8BtUX3UzJzIhaMCNSqhBgZUcnudFzgbWPa0fY/EQ==` |
 
-No package was published and no workspace tarball was retained.
+A public registry install of `kwechiri@1.0.0-rc.1` succeeded, reported the
+correct version, and ran `hello.kwe` successfully.
 
 ### CLI
 
@@ -175,10 +177,7 @@ link audit.
 - macOS, which is not currently claimed;
 - installation of the generated VSIX into a separate editor installation;
 - a live website deployment for the release candidate;
-- provider publication or post-publication installation;
-- npm publication and post-publication installation;
-- checksums or immutable artifact storage for the final release;
-- final tag and explicit publication GO.
+- final stable 1.0 approval and release.
 
 ## CI history
 
@@ -204,13 +203,17 @@ successful:
 - Ubuntu Node.js 24 additionally passed website build, Chromium accessibility,
   VS Code extension packaging, and extension-host tests.
 
+Run `41128115799` for the published commit `a307675` also passed all six jobs.
+
 ## Remaining release blockers
 
-1. Obtain explicit approval for npm publication and any release tag.
-2. Publish and verify the resulting package installation.
+1. Complete a live website deployment verification if the release includes the
+   website.
+2. Obtain explicit approval for the stable 1.0 release after evaluating the
+   release candidate.
 
 ## Evidence rule
 
-This record is local platform evidence, not a release. It must not be used to
-claim that Kwechiri 1.0, npm publication, Marketplace publication, or a live
-website release has occurred.
+This record covers the published release candidate. It must not be used to
+claim that stable Kwechiri 1.0, a new Marketplace release, or a live website
+deployment has occurred.

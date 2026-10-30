@@ -40,6 +40,13 @@ The implemented language includes:
 
 Requires Node.js 20 or newer.
 
+The published release candidate can be installed directly:
+
+```sh
+npm install --global kwechiri@1.0.0-rc.1
+kwechiri hello.kwe
+```
+
 ```sh
 npm install
 npm run build

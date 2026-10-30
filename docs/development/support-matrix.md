@@ -1,6 +1,6 @@
 # Supported environments
 
-Status: Verified for the 1.0.0-rc.1 candidate; publication approval pending
+Status: Verified and published as 1.0.0-rc.1
 Evidence date: 2026-10-30
 
 The compiler, website, and VS Code extension have separate environment

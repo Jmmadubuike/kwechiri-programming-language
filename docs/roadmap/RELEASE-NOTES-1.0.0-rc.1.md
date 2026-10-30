@@ -1,13 +1,13 @@
 # Kwechiri 1.0.0-rc.1 release notes
 
-Status: Release candidate under verification; not published
+Status: Published to npm
 
 Candidate date: 2026-10-30
-Candidate commit: `7035d6e`
+Published commit: `a307675`
 
-This candidate freezes the Kwechiri 1.0 language surface and establishes the
-compatibility, diagnostic, Unicode, packaging, and release contracts. It is
-not an npm release and has not been tagged as a final release.
+This release candidate freezes the Kwechiri 1.0 language surface and
+establishes the compatibility, diagnostic, Unicode, packaging, and release
+contracts. It is published as an npm prerelease and tagged in Git.
 
 ## Language
 
@@ -72,18 +72,21 @@ The Ubuntu Node.js 24 job also passed website, Chromium accessibility, and VS
 Code extension checks.
 
 npm authentication is verified as `jmmadubuike` with `auth-and-writes`
-two-factor authentication enabled. The `kwechiri` name remains unclaimed.
-Publication approval remains pending.
+two-factor authentication enabled. The package is owned by that account.
 
 ## Distribution status
 
-- Compiler package: `kwechiri@1.0.0-rc.1`, private and unpublished.
+- Compiler package: [`kwechiri@1.0.0-rc.1`](https://www.npmjs.com/package/kwechiri/v/1.0.0-rc.1),
+  published with public access.
+- npm dist-tags: `latest` and `next` both point to `1.0.0-rc.1` because npm
+  assigns both on the first publication of a package.
+- Registry SHA-1: `4c4bd419c02355c13d849a4400a0d259f912d1d3`.
 - VS Code extension: separate public version `0.1.3`; unchanged by this
   compiler candidate.
 - Website: candidate content is not deployed by this release-note change.
-- Git tag: not created.
+- Git tag: annotated `v1.0.0-rc.1` at `a307675`.
 
-Publication requires explicit owner approval for each target.
+The compiler package publication was explicitly approved by the owner.
 
 ## Known limitations
 

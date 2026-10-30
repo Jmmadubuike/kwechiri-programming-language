@@ -5,6 +5,7 @@ export const SITE = {
     "Kwechiri is an Igbo-first programming language designed for clear, professional, and accessible software.",
   url: "https://kwechiri.dev",
   github: "https://github.com/Jmmadubuike/kwechiri-programming-language",
+  marketplace: "https://marketplace.visualstudio.com/items?itemName=kwechiri.kwechiri-language",
   version: "0.1.0-development",
 } as const;
 

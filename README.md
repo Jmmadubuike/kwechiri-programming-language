@@ -31,6 +31,7 @@ The implemented language includes:
 - named relative modules using `webata`, `bupụ`, and `site na`
 - five explicit string functions imported from `kwechiri:eriri`
 - an explicit runtime boundary with a Node.js implementation
+- a public VS Code extension for `.kwe` syntax highlighting and diagnostics
 
 ## Quick start
 
@@ -113,7 +114,8 @@ npm ci --prefix extensions/vscode
 npm run vscode:check
 ```
 
-The extension is private and is not published by this command.
+The build command does not publish. The released extension is available from the
+[VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=kwechiri.kwechiri-language).
 
 ## Documentation
 
@@ -135,6 +137,6 @@ may be superseded by the current topic-oriented specification and later ADRs.
 Kwechiri is licensed under the MIT License. See [`LICENSE`](LICENSE) for the
 full text and copyright notice.
 
-The package remains temporarily marked private to prevent accidental npm
-publication. npm and Visual Studio Marketplace publication remain separate,
-owner-controlled release decisions.
+The compiler package remains temporarily marked private to prevent accidental
+npm publication. The separate VS Code extension is publicly distributed
+through the Visual Studio Marketplace.

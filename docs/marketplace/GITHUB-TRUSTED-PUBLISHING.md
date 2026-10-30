@@ -5,6 +5,10 @@ through manual `workflow_dispatch`, requires the `main` branch, performs the
 canonical compiler and extension checks, and publishes the versioned VSIX
 through GitHub OpenID Connect.
 
+The Kwechiri policy is active. Version `0.1.3` is public in the Visual Studio
+Marketplace and was installed from a clean VS Code profile as deployment
+verification.
+
 ## Marketplace policy
 
 Create one **Trusted Publishing** policy in the Kwechiri publisher:

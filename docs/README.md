@@ -65,6 +65,8 @@ closed at `8655631f4f9fbb0508447713371e534bee418582`; later Standard Library
 batches remain unauthorized.
 
 Milestone 12 Batches 12A and 12B and Milestone 13 are certified and closed.
+The Kwechiri VS Code extension is publicly distributed through GitHub trusted
+publishing and the Visual Studio Marketplace.
 
 ## 7. Tutorials
 

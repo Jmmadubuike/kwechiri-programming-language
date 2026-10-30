@@ -1,8 +1,9 @@
 # Kwechiri project status and remaining roadmap
 
-Last updated: 2026-10-29
+Last updated: 2026-10-30
 Current version: `0.1.0-development`  
 Current completed milestone: Milestone 13 — VS Code support
+Current VS Code release: `0.1.3`, public
 
 Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
@@ -375,12 +376,13 @@ Implemented foundation:
   `Kwechiri: Check Current File` command;
 - location-aware conversion for compiler and module errors without executing
   user programs;
-- a private local VSIX package built from the canonical compiler source;
+- a versioned VSIX package built from the canonical compiler source;
 - manifest, grammar, Unicode, diagnostic, packaging, and VS Code
   extension-host tests.
 
 Formatting and completion remain undecided and unimplemented. The extension is
-not published to a marketplace.
+published publicly as version `0.1.3` at
+`https://marketplace.visualstudio.com/items?itemName=kwechiri.kwechiri-language`.
 
 Milestone 13 certification validation:
 
@@ -456,9 +458,8 @@ The approved Tutorial Foundation is complete. All eight lessons, through
 “Standard Library strings,” are available with repository-verified programs,
 exact expected output, and exercises.
 
-The Milestone 13 VS Code foundation is implemented as a private local
-extension. It is not published to the Visual Studio Marketplace; publishing
-requires a separate publisher and release decision. The project license is MIT.
+The Milestone 13 VS Code foundation is publicly distributed through the Visual
+Studio Marketplace using GitHub trusted publishing. The project license is MIT.
 
 The npm package is temporarily marked private to prevent accidental publication
 during development. Publication remains owner-controlled.
@@ -488,6 +489,7 @@ at `d147ccf2f84ee36261b97b4dca602d95ad34304a`; Batch 11B is closed at
 `8655631f4f9fbb0508447713371e534bee418582`. Milestone 12 Batch 12A is closed
 at `693c5e09c1988cabd94133ee0d3f4af125278466`; Batch 12B is closed at
 `f4fc5b40ac3a002563da60bae170d06e60963b7e`. Milestone 13 is certified and
-closed at `a78d42102d3a672f1bc13535c652300c92f25318`. Do not begin later
-Standard Library batches, Milestone 14 implementation, or marketplace
-publication without a separately approved contract.
+closed at `a78d42102d3a672f1bc13535c652300c92f25318`. Further Marketplace
+releases use the trusted-publishing workflow. Do not begin later Standard
+Library batches or Milestone 14 implementation without a separately approved
+contract.

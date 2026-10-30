@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageIntro from "../components/PageIntro.astro";
+import { SITE } from "../consts";
 ---
 
 <BaseLayout
@@ -49,10 +50,11 @@ import PageIntro from "../components/PageIntro.astro";
           <span class="pill">Certified</span>
           <h2>VS Code language support</h2>
           <p>
-            A private VS Code extension now provides Kwechiri highlighting and
-            compile-only diagnostics. Marketplace publication remains a
-            separate release decision.
+            The Kwechiri VS Code extension is publicly available with
+            highlighting, compile-only diagnostics, and the owner-approved
+            brand identity.
           </p>
+          <a href={SITE.marketplace}>Install from the VS Code Marketplace</a>
         </article>
         <article class="timeline__item">
           <span class="pill">Deferred</span>

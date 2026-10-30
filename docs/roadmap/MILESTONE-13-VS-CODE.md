@@ -88,7 +88,8 @@ fallback for syntax classes the lexer intentionally does not return.
 The extension package is marked private and is built as an installable local
 `.vsix`. Packaging does not publish it. The project owner must separately
 approve an extension identifier, publisher ownership, and marketplace
-publication before public distribution. The project license is MIT.
+publication before public distribution. These decisions are now approved, and
+the extension is publicly distributed. The project license is MIT.
 
 ## Validation
 
@@ -129,4 +130,6 @@ Local validation on 2026-10-29:
 
 The Windows Computer Use helper was unavailable, so the visual click-through
 was replaced with a pinned extension-host test. Public marketplace
-installation remains unverified and unauthorized.
+installation was subsequently verified with version `0.1.3`:
+
+[https://marketplace.visualstudio.com/items?itemName=kwechiri.kwechiri-language](https://marketplace.visualstudio.com/items?itemName=kwechiri.kwechiri-language)

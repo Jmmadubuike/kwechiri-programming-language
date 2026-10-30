@@ -16,6 +16,9 @@ files:
 The extension validates source without executing it. It does not yet provide a
 formatter, completion, hover, rename, debugging, or program execution.
 
+Install the published extension from the
+[VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=kwechiri.kwechiri-language).
+
 ## Development
 
 From the repository root:

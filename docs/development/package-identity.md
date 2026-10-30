@@ -1,6 +1,6 @@
 # Compiler package identity
 
-Status: Approved name; npm identity verified; 2FA required; publication blocked
+Status: Approved name; npm identity and 2FA verified; publication blocked
 
 The compiler package identity for Kwechiri 1.0 is:
 
@@ -23,9 +23,9 @@ verified email address. The authenticated registry lookup still returned
 `E404`, so this account does not currently see an existing public `kwechiri`
 package.
 
-Account-level two-factor authentication is currently disabled (`tfa: false`).
-It must be enabled before publication. The first approved publication claims
-the package name; availability is not a reservation before that step.
+Account-level two-factor authentication is enabled in `auth-and-writes` mode.
+The first approved publication claims the package name; availability is not a
+reservation before that step.
 
 ## Package metadata
 

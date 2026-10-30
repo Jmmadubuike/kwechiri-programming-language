@@ -40,8 +40,8 @@ separate owner decision before implementation.
 | 14D - Compatibility and versioning policy | Complete | Approved in ADR-027 |
 | 14E - Documentation and learning path | Complete | Architecture, reference, tutorials, examples, links, and browser examples verified on the current tree |
 | 14F - Support matrix and portability | Complete | Windows and Linux Node 20/22/24 verified; macOS explicitly unclaimed |
-| 14G - Distribution and release engineering | In progress | Package name and metadata approved; npm ownership and publication remain blocked |
-| 14H - Release candidate and final approval | In progress | `1.0.0-rc.1` candidate and CI matrix verified; npm security and publication GO remain |
+| 14G - Distribution and release engineering | Complete | Package identity, npm 2FA, packed artifact, CI, and release procedure verified |
+| 14H - Release candidate and final approval | In progress | `1.0.0-rc.1` candidate and CI matrix verified; publication GO remains |
 
 ### 14A - Release contract and readiness inventory
 

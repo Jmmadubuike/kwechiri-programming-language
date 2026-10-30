@@ -424,7 +424,6 @@ Completed release work:
 
 Remaining release work includes:
 
-- npm two-factor authentication and ownership verification
 - explicit publication approval
 
 The [changelog](../../CHANGELOG.md) and
@@ -513,6 +512,7 @@ releases use the trusted-publishing workflow.
 Milestone 14 is approved and in progress with the `1.0.0-rc.1` candidate at
 `7035d6e`. Work packages 14A-14F are complete; 14G and 14H are in progress.
 CI run `41124819384` passed on Windows and Linux for Node.js 20, 22, and 24.
-The remaining gates are npm two-factor authentication, ownership confirmation,
-and explicit owner approval for publication. Do not publish the compiler or
-begin later Standard Library batches without that approval.
+The npm account has verified `auth-and-writes` two-factor authentication, and
+the `kwechiri` name remains unclaimed. The remaining gate is explicit owner
+approval for publication. Do not publish the compiler or begin later Standard
+Library batches without that approval.

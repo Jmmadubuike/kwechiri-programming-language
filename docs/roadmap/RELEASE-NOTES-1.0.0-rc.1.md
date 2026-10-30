@@ -71,8 +71,9 @@ CI run `41124819384` passed on Ubuntu and Windows for Node.js 20, 22, and 24.
 The Ubuntu Node.js 24 job also passed website, Chromium accessibility, and VS
 Code extension checks.
 
-npm authentication is verified as `jmmadubuike`, but account-level 2FA is
-currently disabled and package ownership/publication approval remains pending.
+npm authentication is verified as `jmmadubuike` with `auth-and-writes`
+two-factor authentication enabled. The `kwechiri` name remains unclaimed.
+Publication approval remains pending.
 
 ## Distribution status
 

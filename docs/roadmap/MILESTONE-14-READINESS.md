@@ -176,7 +176,7 @@ link audit.
 - installation of the generated VSIX into a separate editor installation;
 - a live website deployment for the release candidate;
 - provider publication or post-publication installation;
-- npm 2FA, ownership, access, and publication;
+- npm publication and post-publication installation;
 - checksums or immutable artifact storage for the final release;
 - final tag and explicit publication GO.
 
@@ -206,9 +206,8 @@ successful:
 
 ## Remaining release blockers
 
-1. Enable npm two-factor authentication.
-2. Confirm npm ownership and package access for `kwechiri`.
-3. Obtain explicit approval for each publication target and verify the result.
+1. Obtain explicit approval for npm publication and any release tag.
+2. Publish and verify the resulting package installation.
 
 ## Evidence rule
 

@@ -31,6 +31,12 @@ jobs:
             node-version: 22
           - os: windows-latest
             node-version: 24
+          - os: macos-latest
+            node-version: 20
+          - os: macos-latest
+            node-version: 22
+          - os: macos-latest
+            node-version: 24
 
     steps:
       - name: Check out repository
@@ -76,27 +82,32 @@ jobs:
         run: npm run website:e2e
 
       - name: Install VS Code extension dependencies
-        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
+        if: matrix.node-version == 24 && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest')
         run: npm ci --prefix extensions/vscode
 
       - name: Audit VS Code extension dependencies
-        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
+        if: matrix.node-version == 24 && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest')
         run: npm --prefix extensions/vscode audit --audit-level=high
 
       - name: Validate and package VS Code extension
-        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
+        if: matrix.node-version == 24 && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest')
         run: npm run vscode:check
 
       - name: Cache VS Code extension test runtime
-        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
+        if: matrix.node-version == 24 && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest')
         uses: actions/cache@v4
         with:
           path: extensions/vscode/.vscode-test
           key: ${{ runner.os }}-vscode-1.100.0
 
       - name: Test VS Code extension host
-        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
-        run: xvfb-run -a npm run vscode:test
+        if: matrix.node-version == 24 && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest')
+        run: |
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            xvfb-run -a npm run vscode:test
+          else
+            npm run vscode:test
+          fi
 
       - name: Smoke-test existing CLI
         run: node dist/cli/index.js hello.kwe

@@ -81,8 +81,8 @@ two-factor authentication enabled. The package is owned by that account.
 - npm dist-tags: `latest` and `next` both point to `1.0.0-rc.1` because npm
   assigns both on the first publication of a package.
 - Registry SHA-1: `4c4bd419c02355c13d849a4400a0d259f912d1d3`.
-- VS Code extension: separate public version `0.1.3`; unchanged by this
-  compiler candidate.
+- VS Code extension: `0.2.0` was accepted by trusted publishing, but the public
+  Marketplace feed still reported `0.1.3` at the last check.
 - Website: candidate content is not deployed by this release-note change.
 - Git tag: annotated `v1.0.0-rc.1` at `a307675`.
 

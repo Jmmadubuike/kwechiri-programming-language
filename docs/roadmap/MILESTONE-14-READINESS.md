@@ -87,7 +87,7 @@ Result: exit code `0`.
 - extension type checking passed;
 - bundled extension built;
 - manifest, grammar, language configuration, and bundle verification passed;
-- `kwechiri-language-0.1.3.vsix` was packaged locally.
+- `kwechiri-language-0.2.0.vsix` was packaged locally.
 
 Command:
 
@@ -107,8 +107,8 @@ One earlier run launched concurrently with the browser suite and package
 installation timed out waiting for the extension host; it was not counted as
 success. The suite passed when repeated alone.
 
-The generated VSIX was not reinstalled into a separate VS Code installation as
-part of this evidence run.
+The `0.2.0` VSIX installed successfully into an isolated VS Code 1.133.0
+profile and was listed as `kwechiri.kwechiri-language@0.2.0`.
 
 ### Dependencies
 
@@ -175,8 +175,12 @@ link audit.
 ## Not yet verified
 
 - macOS, which is not currently claimed;
-- installation of the generated VSIX into a separate editor installation;
 - a live website deployment for the release candidate;
+- public Marketplace propagation of VS Code extension `0.2.0`. The trusted
+  publishing workflow succeeded and logged `Published
+  kwechiri.kwechiri-language v0.2.0`, but the public gallery still reported
+  `0.1.3` and exact-version installation remained unavailable at the last
+  check;
 - final stable 1.0 approval and release.
 
 ## CI history

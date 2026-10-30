@@ -428,6 +428,7 @@ Remaining release work includes:
 
 - final stable 1.0 approval and release
 - live release-candidate website deployment verification
+- public Marketplace propagation verification for VS Code `0.2.0`
 
 The [changelog](../../CHANGELOG.md) and
 [release procedure](../development/release.md) are established. The procedure

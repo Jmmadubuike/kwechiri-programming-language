@@ -12,16 +12,15 @@ release.
 
 | Item | Value |
 | --- | --- |
-| Base commit | `75935d784af04d094b80d2038ec4a409b41000b9` |
-| Working tree | Milestone 14 documentation and package-metadata changes not committed |
+| Foundation commit | `af28cd686f2fface9b43389cf922e7007307b26d` |
+| Working tree | clean and synchronized with `origin/main` |
 | Version | `0.1.0-development` |
 | Operating system | Windows 11 Pro x64 |
 | Node.js | `v24.19.0` |
 | npm | `11.17.0` |
 
-The evidence below applies to the compiler code at the base commit plus
-documentation and package-metadata changes. The final release candidate commit
-must be validated independently.
+The evidence below applies to compiler code in the foundation commit. The final
+release candidate, if different, must be validated independently.
 
 ## Verified locally
 
@@ -162,7 +161,9 @@ link audit.
 
 ## Not yet verified
 
-- CI for the final release-candidate commit;
+- CI for the foundation commit and final release candidate. The repository is
+  private, and the GitHub CLI/API is unauthenticated in this session, so the
+  remote Actions run could not be inspected;
 - Linux at the release commit;
 - macOS, which is not currently claimed;
 - installation of the generated VSIX into a separate editor installation;

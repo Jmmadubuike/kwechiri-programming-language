@@ -25,9 +25,10 @@ UTF-8 failures.
 
 Linux has historical Node.js 20 and 24 CI evidence from earlier closed
 milestones. The quality workflow now defines Linux and Windows jobs for Node.js
-20, 22, and 24. The Milestone 14 changes have not yet been verified by remote
-CI because the current working tree is not committed and the GitHub CLI is not
-authenticated in this session.
+20, 22, and 24 at foundation commit
+`af28cd686f2fface9b43389cf922e7007307b26d`. The remote workflow result could
+not be inspected because the private repository's Actions API is unavailable
+without GitHub authentication in this session.
 
 macOS is not claimed as supported. No direct or CI evidence exists for it.
 

@@ -20,10 +20,9 @@ Modules and the pre-1.0 Language Foundations phase are closed. Standard Library
 Batches 11A and 11B are certified and closed. The browser playground and VS Code
 support milestones, Batches 12A, 12B, and 13, are also certified and closed.
 
-The current roadmap milestone is Kwechiri 1.0. It is not ready: the release
-contract, language freeze, diagnostics catalog, compatibility policy, support
-matrix, and publication decisions remain in progress. See the
-[Milestone 14 contract](docs/roadmap/MILESTONE-14-KWECHIRI-1.0.md).
+Kwechiri 1.0 is released. The [Milestone 14 contract](docs/roadmap/MILESTONE-14-KWECHIRI-1.0.md)
+is complete, with stable npm publication, Windows/Linux CI, and the public
+VS Code extension.
 The implemented language includes:
 
 - Unicode Igbo identifiers and located diagnostics

@@ -6,7 +6,7 @@ export const SITE = {
   url: "https://kwechiri.dev",
   github: "https://github.com/Jmmadubuike/kwechiri-programming-language",
   marketplace: "https://marketplace.visualstudio.com/items?itemName=kwechiri.kwechiri-language",
-  version: "1.0.0-rc.1",
+  version: "1.0.0",
 } as const;
 
 export const NAV_ITEMS = [

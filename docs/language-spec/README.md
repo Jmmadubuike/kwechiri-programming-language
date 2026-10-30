@@ -1,7 +1,7 @@
 # Current Kwechiri language specification
 
 This index describes current implemented and approved behavior. It is normative
-for the `1.0.0-rc.1` candidate language together with the approved ADRs.
+for the stable `1.0.0` language together with the approved ADRs.
 
 - [Lexical grammar](lexical-grammar.md)
 - [Syntax overview](syntax.md)

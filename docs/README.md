@@ -40,21 +40,20 @@ and consequences; they do not authorize unresolved future features.
 - [Git workflow](development/git-workflow.md)
 - [Definition of done](development/definition-of-done.md)
 - [Release procedure](development/release.md) - approved 2026-10-30
-- [Supported environments](development/support-matrix.md) - approved direction,
-  final verification pending
-- [Compiler package identity](development/package-identity.md) - approved name,
-  publication blocked
+- [Supported environments](development/support-matrix.md) - verified for 1.0.0
+- [Compiler package identity](development/package-identity.md) - published as
+  `kwechiri@1.0.0`
 
 ## 6. Roadmap and status
 
 - [Current project status](roadmap/PROJECT-STATUS.md)
 - [Recorded technical debt](roadmap/technical-debt.md)
 - [Milestone 14 Kwechiri 1.0 contract](roadmap/MILESTONE-14-KWECHIRI-1.0.md)
-  - approved 2026-10-30; in progress
+  - complete
 - [Kwechiri 1.0 language surface inventory](roadmap/KWECHIRI-1.0-SURFACE-INVENTORY.md)
   - approved for the 1.0 freeze
 - [Milestone 14 release-readiness record](roadmap/MILESTONE-14-READINESS.md)
-  - local baseline and unverified external scope
+  - 1.0.0 publication and verification evidence
 - [Kwechiri 1.0.0-rc.1 release notes](roadmap/RELEASE-NOTES-1.0.0-rc.1.md)
   - published 2026-10-30
 - [Kwechiri 1.0.0 release notes](roadmap/RELEASE-NOTES-1.0.0.md)

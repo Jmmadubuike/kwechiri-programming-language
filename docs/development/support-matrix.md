@@ -1,6 +1,6 @@
 # Supported environments
 
-Status: Verified and published as 1.0.0-rc.1
+Status: Verified and published as 1.0.0
 Evidence date: 2026-10-30
 
 The compiler, website, and VS Code extension have separate environment
@@ -57,6 +57,6 @@ extension-host gate.
 
 ## Final support claims
 
-The `1.0.0-rc.1` candidate has passed the compiler suite on every claimed
+The `1.0.0` release has passed the compiler suite on every claimed
 operating system and Node.js major version. macOS remains unclaimed.
 Publication remains blocked until the owner approves publication.

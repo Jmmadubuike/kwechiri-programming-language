@@ -1,9 +1,9 @@
 # Kwechiri project status and remaining roadmap
 
 Last updated: 2026-10-31
-Current version: `1.0.0-rc.1`, published release candidate
+Current version: `1.0.0`, stable and published
 
-Current completed milestone: Milestone 13 — VS Code support
+Current completed milestone: Milestone 14 — Kwechiri 1.0
 Current VS Code release: `0.2.0`, public
 
 Certification state: Milestone 10 certified and closed at
@@ -24,9 +24,9 @@ closed at `a78d42102d3a672f1bc13535c652300c92f25318`.
 The pre-1.0 Language Foundations phase is closed. Milestone 11 Batches 11A and
 11B are closed; later Standard Library batches remain unauthorized.
 
-Current roadmap milestone: Milestone 14 — Kwechiri 1.0, not ready
+Current roadmap milestone: Milestone 14 — Kwechiri 1.0, complete
 Contract: [Milestone 14 release contract](MILESTONE-14-KWECHIRI-1.0.md),
-approved 2026-10-30 and in progress
+approved 2026-10-30 and complete
 
 Readiness: [local evidence and remaining gaps](MILESTONE-14-READINESS.md)
 
@@ -405,7 +405,7 @@ Milestone 13 certification validation:
 
 ### Milestone 14 — Kwechiri 1.0
 
-Approved and in progress. The detailed scope, acceptance conditions, and
+Complete. The detailed scope, acceptance conditions, and
 owner-decision register are in the
 [Milestone 14 release contract](MILESTONE-14-KWECHIRI-1.0.md).
 
@@ -423,11 +423,12 @@ Completed release work:
 - Linux and Windows CI verification for Node.js 20, 22, and 24
 - npm publication of `kwechiri@1.0.0-rc.1`
 - annotated Git tag `v1.0.0-rc.1`
+- npm publication of stable `kwechiri@1.0.0`
+- annotated Git tag `v1.0.0`
 
 Remaining release work includes:
 
-- final stable 1.0 approval and release
-- live release-candidate website deployment verification
+- live 1.0.0 website deployment verification
 
 The [changelog](../../CHANGELOG.md) and
 [release procedure](../development/release.md) are established. The procedure
@@ -512,8 +513,7 @@ at `693c5e09c1988cabd94133ee0d3f4af125278466`; Batch 12B is closed at
 closed at `a78d42102d3a672f1bc13535c652300c92f25318`. Further Marketplace
 releases use the trusted-publishing workflow.
 
-Milestone 14 is approved and in progress. Work packages 14A-14G are complete;
-14H has published `kwechiri@1.0.0-rc.1` at
-`a3076756407d55a4be4825f906d8a8202ae6767f` and tagged it `v1.0.0-rc.1`.
-Final stable 1.0 approval and live website verification remain. Do not begin
-later Standard Library batches without a separate approved milestone.
+Milestone 14 is complete. Kwechiri 1.0.0 is published at
+`d5f92d31b1bba1f63a81de0ac35b2e9b78271ded` and tagged `v1.0.0`. The remaining
+operational check is live website verification for the 1.0.0 content. Do not
+begin later Standard Library batches without a separately approved milestone.

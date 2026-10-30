@@ -1,6 +1,6 @@
 # Milestone 14 release-readiness record
 
-Status: 1.0.0-rc.1 published; stable Kwechiri 1.0 not yet released
+Status: Kwechiri 1.0.0 published and tagged
 
 Evidence date: 2026-10-30
 
@@ -13,15 +13,15 @@ release.
 | Item | Value |
 | --- | --- |
 | Foundation commit | `af28cd686f2fface9b43389cf922e7007307b26d` |
-| Published commit | `a3076756407d55a4be4825f906d8a8202ae6767f` |
-| Release tag | annotated `v1.0.0-rc.1` |
+| Published commit | `d5f92d31b1bba1f63a81de0ac35b2e9b78271ded` |
+| Release tag | annotated `v1.0.0` |
 | Working tree | clean after publication update |
-| Version | `1.0.0-rc.1`, published |
+| Version | `1.0.0`, stable |
 | Operating system | Windows 11 Pro x64 |
 | Node.js | `v24.19.0` |
 | npm | `11.17.0` |
 
-The evidence below applies to the published `1.0.0-rc.1` release candidate.
+The evidence below applies to the published `1.0.0` stable release.
 
 ## Verified locally
 
@@ -142,22 +142,22 @@ rules approved in
 74 entries, including `LICENSE`, `README.md`,
 `CHANGELOG.md`, package metadata, and the complete `dist/` compiler output.
 
-A packed `kwechiri-1.0.0-rc.1.tgz` was installed in a clean temporary
+A packed `kwechiri-1.0.0.tgz` was installed in a clean temporary
 consumer directory. Installation exited `0`, the installed `kwechiri` binary
-reported version `1.0.0-rc.1`, ran a copied `hello.kwe`, and produced
+reported version `1.0.0`, ran a copied `hello.kwe`, and produced
 `Ndewo Ụwa!`.
 
-Candidate package identity:
+Published package identity:
 
 | Item | Value |
 | --- | --- |
-| Filename | `kwechiri-1.0.0-rc.1.tgz` |
+| Filename | `kwechiri-1.0.0.tgz` |
 | Entries | 74 |
-| Packed size | 224,239 bytes |
-| Registry SHA-1 | `4c4bd419c02355c13d849a4400a0d259f912d1d3` |
-| Integrity | `sha512-38bnKO07fQc008w7lOXk6kzwggW+l507FwLdgOIgz3Bgvz8BtUX3UzJzIhaMCNSqhBgZUcnudFzgbWPa0fY/EQ==` |
+| Packed size | 224,490 bytes |
+| Registry SHA-1 | `00e77881804fecac76217ad2a35f02e4b5e4d07d` |
+| Integrity | `sha512-WzEJdoFxSthEi5Ht8rHWVX901ZPls2FOa6p1ourDLFd8a42ak0hpqpyigrhH610AU7NDXThpH8CUbcSmAMa36A==` |
 
-A public registry install of `kwechiri@1.0.0-rc.1` succeeded, reported the
+A public registry install of `kwechiri@1.0.0` succeeded, reported the
 correct version, and ran `hello.kwe` successfully.
 
 ### CLI
@@ -177,8 +177,7 @@ link audit.
 ## Not yet verified
 
 - macOS, which is not currently claimed;
-- a live website deployment for the release candidate;
-- final stable 1.0 approval and release.
+- a live website deployment verification for 1.0.0.
 
 ## CI history
 
@@ -211,10 +210,7 @@ verified.
 
 ## Remaining release blockers
 
-1. Complete a live website deployment verification if the release includes the
-   website.
-2. Obtain explicit approval for the stable 1.0 release after evaluating the
-   release candidate.
+1. Complete a live website deployment verification for 1.0.0.
 
 ## Evidence rule
 

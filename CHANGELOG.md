@@ -7,6 +7,8 @@ are added only when the project owner approves a release.
 
 First stable Kwechiri release.
 
+Published to npm as `latest` on 2026-10-31. Git tag: `v1.0.0`.
+
 ### Added
 
 - Frozen Kwechiri 1.0 language surface and compatibility policy.

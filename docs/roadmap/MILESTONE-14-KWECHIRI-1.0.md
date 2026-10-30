@@ -1,14 +1,13 @@
 # Milestone 14 - Kwechiri 1.0
 
-Status: Approved and in progress
+Status: Complete
 
 Last updated: 2026-10-31
 Owner approval: 2026-10-30
 
-This document is the approved scope and acceptance contract for Kwechiri 1.0.
-Approval of this scope does not approve npm publication, a release, or
-supported-platform claims. The current candidate is `1.0.0-rc.1`; publication
-remains blocked until external verification and explicit owner approval.
+This document records the approved scope and completed acceptance contract for
+Kwechiri 1.0.0. The compiler was published to npm and tagged after external
+verification and explicit owner approval.
 
 ## Purpose
 
@@ -41,7 +40,7 @@ separate owner decision before implementation.
 | 14E - Documentation and learning path | Complete | Architecture, reference, tutorials, examples, links, and browser examples verified on the current tree |
 | 14F - Support matrix and portability | Complete | Windows and Linux Node 20/22/24 verified; macOS explicitly unclaimed |
 | 14G - Distribution and release engineering | Complete | Package identity, npm 2FA, packed artifact, CI, and release procedure verified |
-| 14H - Release candidate and final approval | In progress | `1.0.0-rc.1` published and tagged; final stable 1.0 decision remains |
+| 14H - Release candidate and final approval | Complete | Stable `1.0.0` published to npm and tagged `v1.0.0` |
 
 ### 14A - Release contract and readiness inventory
 

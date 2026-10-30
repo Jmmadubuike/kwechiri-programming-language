@@ -1,8 +1,10 @@
 # Kwechiri 1.0.0 release notes
 
-Status: Stable release
+Status: Published stable release
 
 Release date: 2026-10-31
+Published commit: `d5f92d3`
+Registry SHA-1: `00e77881804fecac76217ad2a35f02e4b5e4d07d`
 
 Kwechiri 1.0 is the first stable release of the Igbo-first programming
 language. It freezes the implemented language surface and establishes the
@@ -23,6 +25,9 @@ Ndewo Ụwa!
 
 The VS Code extension is published separately as
 `kwechiri.kwechiri-language@0.2.0`.
+
+npm dist-tags: `latest` points to `1.0.0`; `next` remains the `1.0.0-rc.1`
+prerelease. The Git release tag is annotated `v1.0.0`.
 
 ## Language
 

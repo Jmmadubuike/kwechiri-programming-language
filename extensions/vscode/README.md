@@ -26,7 +26,7 @@ npm run vscode:check
 ```
 
 The command produces
-`extensions/vscode/kwechiri-language-0.1.1.vsix`. Install that local
+`extensions/vscode/kwechiri-language-0.1.2.vsix`. Install that local
 artifact during development with VS Code's **Extensions: Install from VSIX**
 command.
 

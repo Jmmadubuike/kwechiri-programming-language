@@ -13,6 +13,7 @@ Project governance:
 - [Project vision](project/vision.md)
 - [Governance and authority](project/governance.md)
 - [Visual Studio Marketplace publisher profile](marketplace/PUBLISHER-PROFILE.md)
+- [GitHub trusted publishing](marketplace/GITHUB-TRUSTED-PUBLISHING.md)
 
 ## 2. Historical milestone documentation
 

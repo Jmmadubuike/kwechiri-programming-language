@@ -3,7 +3,7 @@
 Status: Release candidate under verification; not published
 
 Candidate date: 2026-10-30
-Candidate commit: `a0b474d`
+Candidate commit: `7035d6e`
 
 This candidate freezes the Kwechiri 1.0 language surface and establishes the
 compatibility, diagnostic, Unicode, packaging, and release contracts. It is
@@ -67,8 +67,12 @@ Local candidate evidence includes:
 - clean installation of the packed compiler artifact and binary execution;
 - zero-vulnerability compiler, website, and extension dependency audits.
 
-Remote CI and npm ownership are not yet verified. The repository is private and
-the current session has no authenticated GitHub or npm access.
+CI run `41124819384` passed on Ubuntu and Windows for Node.js 20, 22, and 24.
+The Ubuntu Node.js 24 job also passed website, Chromium accessibility, and VS
+Code extension checks.
+
+npm authentication is verified as `jmmadubuike`, but account-level 2FA is
+currently disabled and package ownership/publication approval remains pending.
 
 ## Distribution status
 
@@ -88,4 +92,4 @@ Publication requires explicit owner approval for each target.
 - No formatter, completion, hover, rename, or debugging integration.
 - No host filesystem, network, input, date/time, or production untrusted-code
   API in Kwechiri source.
-- Linux candidate CI and npm ownership remain unverified.
+- npm 2FA, package ownership, and publication approval remain pending.

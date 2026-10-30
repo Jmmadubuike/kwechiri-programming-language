@@ -1,6 +1,6 @@
 # Supported environments
 
-Status: Approved direction; release-candidate verification remains open
+Status: Verified for the 1.0.0-rc.1 candidate; publication approval pending
 Evidence date: 2026-10-30
 
 The compiler, website, and VS Code extension have separate environment
@@ -23,12 +23,13 @@ Each run used the same test suite, including CLI process tests, module loading,
 Unicode and astral identifiers, diagnostics, runtime checks, and source-file
 UTF-8 failures.
 
-Linux has historical Node.js 20 and 24 CI evidence from earlier closed
-milestones. The quality workflow now defines Linux and Windows jobs for Node.js
-20, 22, and 24 for the `1.0.0-rc.1` candidate. Linux jobs passed for the
-initial candidate run. Windows exposed two test portability defects, fixed in
-`a0b474d`; the replacement matrix run is queued behind a GitHub Actions
-degraded-performance incident.
+CI run `41124819384` passed all six compiler jobs for candidate commit
+`7035d6e`:
+
+| Operating system | Node.js 20 | Node.js 22 | Node.js 24 |
+| --- | --- | --- | --- |
+| Ubuntu | Pass | Pass | Pass |
+| Windows | Pass | Pass | Pass |
 
 macOS is not claimed as supported. No direct or CI evidence exists for it.
 
@@ -41,26 +42,21 @@ baseline is intentionally lower than the tested host data.
 The website declares Node.js 22.23.4 or newer. It produced a static build on
 Windows with Node.js 24.19.0, and its seven Playwright Chromium tests passed.
 
-The website host is Vercel. Compiler support does not imply website build
-support below its separate Node.js minimum. A live release-candidate deployment
-has not been verified for this milestone.
+The website host is Vercel. The Ubuntu Node.js 24 CI job passed the website
+example checks, static build, Chromium accessibility suite, and VS Code
+extension checks. Compiler support does not imply website build support below
+its separate Node.js minimum. A live release-candidate deployment has not been
+verified for this milestone.
 
 ## VS Code extension
 
 The extension declares VS Code 1.100.0 or newer. The extension-host suite
 passed on Windows against VS Code 1.100.0 with Node.js 24.19.0 as the build
-runtime.
-
-Linux extension-host evidence exists from earlier closed milestones. The
-milestone candidate still requires the release CI gate.
+runtime, and the Ubuntu Node.js 24 CI job passed the release-candidate
+extension-host gate.
 
 ## Final support claims
 
-Before a 1.0 release, the final candidate must either:
-
-- pass the compiler suite on every claimed operating system and Node.js major
-  version;
-- or narrow the published support matrix so it does not claim unverified
-  environments.
-
-Publication remains blocked until the owner approves the verified matrix.
+The `1.0.0-rc.1` candidate has passed the compiler suite on every claimed
+operating system and Node.js major version. macOS remains unclaimed.
+Publication remains blocked until the owner approves publication.

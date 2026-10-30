@@ -13,8 +13,8 @@ release.
 | Item | Value |
 | --- | --- |
 | Foundation commit | `af28cd686f2fface9b43389cf922e7007307b26d` |
-| Candidate commit | `a0b474d2f98eb33e88bd35fd4fc516a8cf4971b6` |
-| Working tree | clean after Windows portability fix |
+| Candidate commit | `7035d6e42ad7b1fa977f278d4ceb75db9db9dfdc` |
+| Working tree | clean after CI verification update |
 | Version | `1.0.0-rc.1`, candidate |
 | Operating system | Windows 11 Pro x64 |
 | Node.js | `v24.19.0` |
@@ -172,16 +172,13 @@ link audit.
 
 ## Not yet verified
 
-- the replacement CI matrix run is queued behind GitHub Actions
-  `degraded_performance` and has not executed;
-- Linux at the release commit;
 - macOS, which is not currently claimed;
 - installation of the generated VSIX into a separate editor installation;
 - a live website deployment for the release candidate;
 - provider publication or post-publication installation;
-- npm ownership, access, and publication;
+- npm 2FA, ownership, access, and publication;
 - checksums or immutable artifact storage for the final release;
-- release notes, final version metadata, tag, and owner GO.
+- final tag and explicit publication GO.
 
 ## CI history
 
@@ -199,12 +196,19 @@ canonical paths. The complete 199-test suite passes locally after the fix. Run
 `41101489627` for the fix commit was queued but did not start because GitHub
 Actions reported degraded performance.
 
+Run `41124819384` for candidate commit `7035d6e` completed with all six jobs
+successful:
+
+- Node.js 20, 22, and 24 on Ubuntu;
+- Node.js 20, 22, and 24 on Windows;
+- Ubuntu Node.js 24 additionally passed website build, Chromium accessibility,
+  VS Code extension packaging, and extension-host tests.
+
 ## Remaining release blockers
 
-1. Verify the support matrix on the final candidate, including Linux CI.
-2. Verify npm ownership, package access, and publication authorization.
-3. Re-run the complete gate on the final candidate commit.
-4. Obtain explicit approval for each publication target and verify the result.
+1. Enable npm two-factor authentication.
+2. Confirm npm ownership and package access for `kwechiri`.
+3. Obtain explicit approval for each publication target and verify the result.
 
 ## Evidence rule
 

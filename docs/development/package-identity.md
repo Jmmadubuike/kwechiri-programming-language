@@ -1,6 +1,6 @@
 # Compiler package identity
 
-Status: Approved name; publication blocked
+Status: Approved name; npm identity verified; 2FA required; publication blocked
 
 The compiler package identity for Kwechiri 1.0 is:
 
@@ -18,10 +18,14 @@ On 2026-10-30, a read-only npm registry lookup for `kwechiri` returned `E404`
 and no public package metadata. This is current availability evidence, not a
 reservation or a guarantee that the name will remain available.
 
-Package ownership, authenticated access, two-factor policy, and publication
-rights have not been verified. The owner must claim or confirm the npm account
-and package access before the release candidate. No ownership is inferred from
-the local package name or the E404 result.
+On 2026-10-30, npm authentication was verified as `jmmadubuike`, with a
+verified email address. The authenticated registry lookup still returned
+`E404`, so this account does not currently see an existing public `kwechiri`
+package.
+
+Account-level two-factor authentication is currently disabled (`tfa: false`).
+It must be enabled before publication. The first approved publication claims
+the package name; availability is not a reservation before that step.
 
 ## Package metadata
 
@@ -37,6 +41,7 @@ The package declares:
 
 The local pack candidate is inspected with `npm pack --dry-run` and installed
 from its tarball in a clean temporary consumer before publication approval.
+The packed artifact SHA-1 is recorded in the release-readiness log.
 
 ## Separate identities
 

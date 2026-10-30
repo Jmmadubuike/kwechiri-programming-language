@@ -420,12 +420,12 @@ Completed release work:
 - Windows Node.js 20, 22, and 24 compiler verification
 - compiler package identity and cross-platform CI matrix
 - tutorial, reference, example, and architecture documentation verification
+- Linux and Windows CI verification for Node.js 20, 22, and 24
 
 Remaining release work includes:
 
-- Linux release-candidate verification and final support-matrix approval
-- npm ownership verification and publication authorization
-- final release candidate and explicit owner approval
+- npm two-factor authentication and ownership verification
+- explicit publication approval
 
 The [changelog](../../CHANGELOG.md) and
 [release procedure](../development/release.md) are established. The procedure
@@ -511,9 +511,8 @@ closed at `a78d42102d3a672f1bc13535c652300c92f25318`. Further Marketplace
 releases use the trusted-publishing workflow.
 
 Milestone 14 is approved and in progress with the `1.0.0-rc.1` candidate at
-`a0b474d`. Work packages 14A-14E are complete; 14F and 14G are in progress;
-14H has prepared the candidate. The replacement CI matrix is queued behind a
-GitHub Actions degraded-performance incident. After it passes, the remaining
-gates are npm ownership verification and explicit owner approval for each
-publication target. Do not publish the compiler or begin later Standard Library
-batches without that approval.
+`7035d6e`. Work packages 14A-14F are complete; 14G and 14H are in progress.
+CI run `41124819384` passed on Windows and Linux for Node.js 20, 22, and 24.
+The remaining gates are npm two-factor authentication, ownership confirmation,
+and explicit owner approval for publication. Do not publish the compiler or
+begin later Standard Library batches without that approval.

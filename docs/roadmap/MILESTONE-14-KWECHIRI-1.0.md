@@ -38,7 +38,7 @@ separate owner decision before implementation.
 | 14C - Diagnostics and error catalog | Complete | Stable codes, strict UTF-8 source validation, editor integration, and catalog tests implemented |
 | 14D - Compatibility and versioning policy | Complete | Approved in ADR-027 |
 | 14E - Documentation and learning path | Complete | Architecture, reference, tutorials, examples, links, and browser examples verified on the current tree |
-| 14F - Support matrix and portability | Complete | Windows and Linux Node 20/22/24 verified; macOS explicitly unclaimed |
+| 14F - Support matrix and portability | Complete | Linux, Windows, and macOS arm64 Node 20/22/24 verified; Intel macOS unclaimed |
 | 14G - Distribution and release engineering | Complete | Package identity, npm 2FA, packed artifact, CI, and release procedure verified |
 | 14H - Release candidate and final approval | Complete | Stable `1.0.0` published to npm and tagged `v1.0.0` |
 

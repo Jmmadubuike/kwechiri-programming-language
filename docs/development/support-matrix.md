@@ -30,8 +30,10 @@ CI run `41124819384` passed all six compiler jobs for candidate commit
 | --- | --- | --- | --- |
 | Ubuntu | Pass | Pass | Pass |
 | Windows | Pass | Pass | Pass |
+| macOS arm64 | Pass | Pass | Pass |
 
-macOS is not claimed as supported. No direct or CI evidence exists for it.
+macOS arm64 is verified through GitHub's `macos-latest` runner. Intel macOS is
+not separately verified or claimed.
 
 The guaranteed Unicode identifier baseline is 15.0.0 under ADR-028. The
 current tested Node.js patch releases expose Unicode 17.0, so the portable
@@ -45,18 +47,18 @@ Windows with Node.js 24.19.0, and its seven Playwright Chromium tests passed.
 The website host is Vercel. The Ubuntu Node.js 24 CI job passed the website
 example checks, static build, Chromium accessibility suite, and VS Code
 extension checks. Compiler support does not imply website build support below
-its separate Node.js minimum. A live release-candidate deployment has not been
-verified for this milestone.
+its separate Node.js minimum. The live site was verified serving version
+`1.0.0`.
 
 ## VS Code extension
 
 The extension declares VS Code 1.100.0 or newer. The extension-host suite
 passed on Windows against VS Code 1.100.0 with Node.js 24.19.0 as the build
-runtime, and the Ubuntu Node.js 24 CI job passed the release-candidate
-extension-host gate.
+runtime, and the Ubuntu Node.js 24 CI job passed the extension-host gate.
+macOS arm64 extension-host tests also passed in CI.
 
 ## Final support claims
 
 The `1.0.0` release has passed the compiler suite on every claimed
-operating system and Node.js major version. macOS remains unclaimed.
-Publication remains blocked until the owner approves publication.
+operating system and Node.js major version. Intel macOS remains unverified.
+The stable compiler release is published.

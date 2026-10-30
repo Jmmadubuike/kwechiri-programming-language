@@ -57,12 +57,12 @@ packages, and host I/O remain outside 1.0.
 
 ## Supported environments
 
-- Windows and Linux.
+- Windows, Linux, and macOS arm64.
 - Node.js 20, 22, and 24 for the compiler and CLI.
 - Node.js 22.23.4 or newer for the website.
 - VS Code 1.100.0 or newer for the extension.
 
-macOS is not claimed for 1.0. See the
+Intel macOS is not separately verified for 1.0. See the
 [support matrix](../development/support-matrix.md).
 
 ## Compatibility
@@ -78,4 +78,4 @@ stability.
 - No formatter, completion, hover, rename, or debugging integration.
 - No host filesystem, network, input, date/time, or production untrusted-code
   API in Kwechiri source.
-- macOS is not verified or claimed.
+- Intel macOS is not separately verified or claimed.

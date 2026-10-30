@@ -176,7 +176,7 @@ link audit.
 
 ## Not yet verified
 
-- macOS, which is not currently claimed.
+- Intel macOS, which is not separately verified.
 
 ## CI history
 
@@ -213,9 +213,13 @@ post-release website commit `1934feb` passed CI run `41145211276`. Live
 the configured security headers, returned a valid sitemap, and preserved the
 `www` permanent redirect.
 
+macOS arm64 coverage was added after the initial release. CI run `41146936016`
+passed the compiler suite on Node.js 20, 22, and 24 and the VS Code
+extension-host suite on macOS arm64. Intel macOS remains unverified.
+
 ## Remaining release blockers
 
-None for Kwechiri 1.0.0. macOS remains an explicitly unclaimed platform.
+None for Kwechiri 1.0.0. Intel macOS remains explicitly unverified.
 
 ## Evidence rule
 

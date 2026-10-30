@@ -425,6 +425,7 @@ Completed release work:
 - annotated Git tag `v1.0.0-rc.1`
 - npm publication of stable `kwechiri@1.0.0`
 - annotated Git tag `v1.0.0`
+- macOS arm64 compiler and VS Code extension-host verification
 
 Remaining release work includes:
 

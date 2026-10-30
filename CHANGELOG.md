@@ -3,6 +3,23 @@
 All notable changes to Kwechiri are recorded here. Release dates and versions
 are added only when the project owner approves a release.
 
+## 1.0.0 - 2026-10-31
+
+First stable Kwechiri release.
+
+### Added
+
+- Frozen Kwechiri 1.0 language surface and compatibility policy.
+- Stable `KWE-<CATEGORY>-<NNN>` diagnostic codes.
+- Strict UTF-8 source validation.
+- Unicode code-point identifiers with the Unicode 15.0.0 portable baseline.
+- Supported Windows and Linux matrix for Node.js 20, 22, and 24.
+- Public `kwechiri` npm package and VS Code extension `0.2.0`.
+
+### Changed
+
+- npm `latest` now identifies the stable compiler release.
+
 ## 1.0.0-rc.1 - 2026-10-30
 
 Published to npm on 2026-10-30. Because this was the package's first

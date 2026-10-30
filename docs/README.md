@@ -56,7 +56,9 @@ and consequences; they do not authorize unresolved future features.
 - [Milestone 14 release-readiness record](roadmap/MILESTONE-14-READINESS.md)
   - local baseline and unverified external scope
 - [Kwechiri 1.0.0-rc.1 release notes](roadmap/RELEASE-NOTES-1.0.0-rc.1.md)
-  - candidate under verification; not published
+  - published 2026-10-30
+- [Kwechiri 1.0.0 release notes](roadmap/RELEASE-NOTES-1.0.0.md)
+  - stable release
 - [Website and documentation foundation plan](roadmap/WEBSITE-FOUNDATION-PLAN.md)
   — approved static foundation
 - [Browser playground Batch 12A contract](roadmap/MILESTONE-12-BROWSER-PLAYGROUND.md)

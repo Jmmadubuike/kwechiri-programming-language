@@ -1,6 +1,6 @@
 # Kwechiri project status and remaining roadmap
 
-Last updated: 2026-10-30
+Last updated: 2026-10-31
 Current version: `1.0.0-rc.1`, published release candidate
 
 Current completed milestone: Milestone 13 — VS Code support

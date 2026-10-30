@@ -2,7 +2,7 @@
 
 Status: Approved and in progress
 
-Last updated: 2026-10-30
+Last updated: 2026-10-31
 Owner approval: 2026-10-30
 
 This document is the approved scope and acceptance contract for Kwechiri 1.0.

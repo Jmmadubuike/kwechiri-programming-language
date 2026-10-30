@@ -1,7 +1,8 @@
 # Lexical grammar
 
-Kwechiri source is text in `.kwe` files. Whitespace separates tokens and is
-otherwise ignored outside strings.
+Kwechiri source is valid UTF-8 text in `.kwe` files. Malformed byte sequences
+are rejected before lexing. Whitespace separates tokens and is otherwise
+ignored outside strings.
 
 Implemented tokens include identifiers, approved keywords, strings, decimal
 numbers, arithmetic and comparison operators, assignment, parentheses,
@@ -12,6 +13,10 @@ letters, combining marks, numbers, or `_`. Approved multiword forms such as
 `ọ bụrụ`, `gaa n'ihu`, and `site na` are parsed from their component keyword
 tokens. The apostrophe-bearing `n'ihu` component is recognized only as the
 approved keyword; this does not expand the ordinary identifier grammar.
+
+Identifiers are scanned by Unicode code point. The guaranteed portable Unicode
+baseline is 15.0.0; later host data may accept additional letters without
+weakening the portable contract.
 
 Outside strings, `//` begins a single-line comment. It may immediately follow
 another token, produces no tokens, and continues through the character before
@@ -35,4 +40,4 @@ normalize the complete source text.
 remain case-sensitive, and no ASCII aliases exist. `maka` is not reserved by
 this Control Flow contract.
 
-**Status: Undecided** — multiline strings and numeric extensions.
+Multiline strings and numeric extensions are deferred beyond 1.0.

@@ -65,10 +65,10 @@ its tooling is more complete than it is.
 - `NodeKwechiriRuntime` is the only implemented runtime adapter.
 - Browser Playground Batch 12A is approved for one local source file and
   certified `kwechiri:` imports; filesystem modules remain deferred.
-- Formal tutorials are planned but not yet written.
+- All eight planned formal tutorials are available.
 - The repository documentation is the source of truth.
-- The project adopted the MIT license on 2026-10-29; npm publication policy
-  remains undecided.
+- The project adopted the MIT license on 2026-10-29; npm publication remains
+  blocked pending final owner approval.
 - A full website authored directly in Kwechiri requires browser, DOM, event,
   and networking capabilities that do not yet exist.
 
@@ -111,7 +111,7 @@ its tooling is more complete than it is.
 | `/docs/getting-started` | Installation and first verified program | Required |
 | `/docs/language` | Current language overview with links to normative topics | Required |
 | `/docs/cli` | Current command behavior and exit-code references | Required |
-| `/docs/standard-library` | Batch 11A module and provisional-name status | Required |
+| `/docs/standard-library` | Frozen 1.0 Standard Library surface | Required |
 | `/examples` | Tested examples with plain-text source and expected output | Required |
 | `/roadmap` | Certified milestones, active limits, and future roadmap | Required |
 | `/about` | Project purpose and governance summary | Required |

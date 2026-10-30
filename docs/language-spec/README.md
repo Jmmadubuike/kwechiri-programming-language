@@ -14,6 +14,7 @@ for the current `0.1.0-development` language together with the approved ADRs.
 - [Collections](collections.md)
 - [Modules](modules.md)
 - [Errors](errors.md)
+- [Stable diagnostic catalog](error-catalog.md)
 - [Runtime behaviour](runtime-behaviour.md)
 - [Command-line interface](cli.md)
 - [Standard Library](../standard-library/README.md)

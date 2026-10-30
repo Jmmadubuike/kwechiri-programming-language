@@ -41,6 +41,7 @@ export async function run(): Promise<void> {
     console.log("Kwechiri extension test: located diagnostic observed.");
     assert.equal(diagnostics[0]?.severity, vscode.DiagnosticSeverity.Error);
     assert.equal(diagnostics[0]?.source, "kwechiri");
+    assert.equal(diagnostics[0]?.code, "KWE-SEM-001");
     assert.match(diagnostics[0]?.message ?? "", /Undefined variable/);
 
     const semanticTokens = await vscode.commands.executeCommand<vscode.SemanticTokens>(
@@ -95,6 +96,7 @@ export async function run(): Promise<void> {
       "missing module diagnostics",
     );
     console.log("Kwechiri extension test: missing module diagnostic observed.");
+    assert.equal(moduleDiagnostics[0]?.code, "KWE-MOD-002");
     assert.match(moduleDiagnostics[0]?.message ?? "", /Missing imported module/);
   } finally {
     await vscode.commands.executeCommand("workbench.action.closeAllEditors");

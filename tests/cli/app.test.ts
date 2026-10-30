@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { runCli, type CliIo } from "../../src/cli/app.js";
 import { defaultCommandDependencies, executeRequest } from "../../src/cli/commands.js";
 import { ExitCode } from "../../src/cli/exit-codes.js";
+import { DiagnosticCodes } from "../../src/errors/diagnostic-catalog.js";
 import { KwechiriError } from "../../src/errors/kwechiri-error.js";
 import { KwechiriRuntimeError } from "../../src/runtime/kwechiri-runtime.js";
 
@@ -24,17 +25,19 @@ describe("CLI application", () => {
     expect(await runCli([], io)).toBe(ExitCode.InvalidUsage);
     expect(stdout).not.toHaveBeenCalled();
     expect(stderr).toHaveBeenCalledWith(expect.stringContaining("KWECHIRI USAGE ERROR"));
+    expect(stderr).toHaveBeenCalledWith(expect.stringContaining(DiagnosticCodes.CliInvalidUsage));
   });
 
   it("maps Kwechiri compiler and runtime errors to exit 1", async () => {
     for (const error of [
-      new KwechiriError("bad source", { line: 1, column: 1, offset: 0 }, "bad.kwe"),
+      new KwechiriError(DiagnosticCodes.LexUnknownCharacter, "bad source", { line: 1, column: 1, offset: 0 }, "bad.kwe"),
       new KwechiriRuntimeError("bad runtime", "DIVISION_BY_ZERO", { line: 1, column: 1, offset: 0 }, "bad.kwe"),
     ]) {
       const { io, stderr } = captureIo();
       const dependencies = { ...defaultCommandDependencies, compileFile: vi.fn().mockRejectedValue(error) };
       expect(await runCli(["check", "bad.kwe"], io, dependencies)).toBe(ExitCode.KwechiriDiagnostic);
       expect(stderr).toHaveBeenCalledWith(expect.stringContaining("KWECHIRI ERROR"));
+      expect(stderr).toHaveBeenCalledWith(expect.stringContaining(error.code));
     }
   });
 
@@ -44,6 +47,7 @@ describe("CLI application", () => {
     const dependencies = { ...defaultCommandDependencies, compileFile: vi.fn().mockRejectedValue(error) };
     expect(await runCli(["check", "missing.kwe"], io, dependencies)).toBe(ExitCode.FileSystemFailure);
     expect(stderr).toHaveBeenCalledWith(expect.stringContaining("KWECHIRI FILESYSTEM ERROR"));
+    expect(stderr).toHaveBeenCalledWith(expect.stringContaining(DiagnosticCodes.IoFileSystemFailure));
   });
 
   it("maps unexpected errors and thrown values to exit 4 without stacks", async () => {
@@ -53,6 +57,7 @@ describe("CLI application", () => {
       expect(await runCli(["check", "valid.kwe"], io, dependencies)).toBe(ExitCode.InternalFailure);
       const message = String(stderr.mock.calls[0]?.[0]);
       expect(message).toContain("KWECHIRI INTERNAL ERROR");
+      expect(message).toContain(DiagnosticCodes.InternalFailure);
       expect(message).not.toContain("at ");
     }
   });

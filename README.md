@@ -16,11 +16,14 @@ files use the `.kwe` extension.
 
 Language Milestones 0–10 and the post-milestone Lexical Foundations, Core
 Values & Logic, Collections, Functions, and Control Flow phases are closed.
-Modules and the pre-1.0 Language Foundations phase are closed. Milestone 11
-Batch 11A is certified and closed, adding the first explicitly imported
-Standard Library module under the reserved `kwechiri:` namespace. Batch 11B is
-certified and closed, adding grapheme-aware string length and exact
-concatenation.
+Modules and the pre-1.0 Language Foundations phase are closed. Standard Library
+Batches 11A and 11B are certified and closed. The browser playground and VS Code
+support milestones, Batches 12A, 12B, and 13, are also certified and closed.
+
+The current roadmap milestone is Kwechiri 1.0. It is not ready: the release
+contract, language freeze, diagnostics catalog, compatibility policy, support
+matrix, and publication decisions remain in progress. See the
+[Milestone 14 contract](docs/roadmap/MILESTONE-14-KWECHIRI-1.0.md).
 The implemented language includes:
 
 - Unicode Igbo identifiers and located diagnostics
@@ -122,6 +125,7 @@ The build command does not publish. The released extension is available from the
 - [Official website](https://kwechiri.dev/)
 - [Documentation index](docs/README.md)
 - [Current language specification](docs/language-spec/README.md)
+- [Changelog](CHANGELOG.md)
 - [Architecture index](docs/architecture/README.md)
 - [Design-decision index](docs/design-decisions/README.md)
 - [Project status and roadmap](docs/roadmap/PROJECT-STATUS.md)

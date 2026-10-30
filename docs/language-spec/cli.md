@@ -44,6 +44,11 @@ runtime, usage, filesystem, and internal diagnostics use stderr. Successful
 `check` and `compile` produce no normal output. Expected failures do not print
 uncontrolled Node.js stack traces.
 
+Language and runtime details include stable `KWE-<CATEGORY>-<NNN>` codes.
+Usage, filesystem, and internal failure details use `KWE-CLI-*`, `KWE-IO-001`,
+and `KWE-INT-001` respectively. See the
+[diagnostic catalog](error-catalog.md).
+
 | Code | Meaning |
 |---:|---|
 | `0` | success |

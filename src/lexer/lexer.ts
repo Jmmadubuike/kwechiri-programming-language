@@ -1,4 +1,5 @@
 import { KwechiriError, type SourceLocation } from "../errors/kwechiri-error.js";
+import { DiagnosticCodes } from "../errors/diagnostic-catalog.js";
 import { TokenType, type Token } from "./token.js";
 
 export const keywordSpellings = [
@@ -33,17 +34,23 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
   let column = 1;
 
   const location = (): SourceLocation => ({ line, column, offset });
-  const current = (): string | undefined => source[offset];
+  const current = (): string | undefined => {
+    const point = source.codePointAt(offset);
+    return point === undefined ? undefined : String.fromCodePoint(point);
+  };
   const advance = (): string => {
     const character = source[offset] as string;
-    offset += 1;
+    const point = source.codePointAt(offset);
+    const width = point === undefined ? 1 : point > 0xffff ? 2 : 1;
+    const scanned = point === undefined ? character : String.fromCodePoint(point);
+    offset += width;
     if (character === "\n") {
       line += 1;
       column = 1;
     } else {
-      column += 1;
+      column += width;
     }
-    return character;
+    return scanned;
   };
 
   while (offset < source.length) {
@@ -103,20 +110,20 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
       let value = "";
       while (current() !== '"') {
         if (current() === undefined) {
-          throw new KwechiriError("Eriri ederede emechighị. (Unterminated string.)", start, fileName);
+          throw new KwechiriError(DiagnosticCodes.LexUnterminatedString, "Eriri ederede emechighị. (Unterminated string.)", start, fileName);
         }
         if (current() === "\n") {
-          throw new KwechiriError("Eriri ederede enweghị ike ịgafe ahịrị. (A string cannot cross a line.)", start, fileName);
+          throw new KwechiriError(DiagnosticCodes.LexStringCrossesLine, "Eriri ederede enweghị ike ịgafe ahịrị. (A string cannot cross a line.)", start, fileName);
         }
         if (current() === "\\") {
           const escapeLocation = location();
           advance();
           const escaped = current();
           if (escaped === undefined) {
-            throw new KwechiriError("Usoro mgbapụ emechighị. (Unterminated escape sequence.)", escapeLocation, fileName);
+            throw new KwechiriError(DiagnosticCodes.LexUnterminatedEscape, "Usoro mgbapụ emechighị. (Unterminated escape sequence.)", escapeLocation, fileName);
           }
           if (escaped === "\n") {
-            throw new KwechiriError("Eriri ederede enweghị ike ịgafe ahịrị. (A string cannot cross a line.)", escapeLocation, fileName);
+            throw new KwechiriError(DiagnosticCodes.LexStringCrossesLine, "Eriri ederede enweghị ike ịgafe ahịrị. (A string cannot cross a line.)", escapeLocation, fileName);
           }
           const escapes: Readonly<Record<string, string>> = {
             n: "\n",
@@ -127,7 +134,7 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
           };
           const decoded = escapes[escaped];
           if (decoded === undefined) {
-            throw new KwechiriError(`Usoro mgbapụ amaghị: "\\${escaped}". (Unknown escape sequence.)`, escapeLocation, fileName);
+            throw new KwechiriError(DiagnosticCodes.LexUnknownEscape, `Usoro mgbapụ amaghị: "\\${escaped}". (Unknown escape sequence.)`, escapeLocation, fileName);
           }
           advance();
           value += decoded;
@@ -165,7 +172,9 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
       continue;
     }
 
-    if (source.startsWith("n'ihu", offset) && !identifierContinue.test(source[offset + 5] ?? "")) {
+    const afterNihuPoint = source.codePointAt(offset + 5);
+    const afterNihu = afterNihuPoint === undefined ? "" : String.fromCodePoint(afterNihuPoint);
+    if (source.startsWith("n'ihu", offset) && !identifierContinue.test(afterNihu)) {
       for (let index = 0; index < 5; index += 1) advance();
       tokens.push({ type: TokenType.Keyword, lexeme: "n'ihu", canonicalLexeme: "n'ihu", location: start });
       continue;
@@ -186,7 +195,7 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
       continue;
     }
 
-    throw new KwechiriError(`Akara a amaghị: "${character}". (Unknown character.)`, start, fileName);
+    throw new KwechiriError(DiagnosticCodes.LexUnknownCharacter, `Akara a amaghị: "${character}". (Unknown character.)`, start, fileName);
   }
 
   tokens.push({ type: TokenType.EndOfFile, lexeme: "", location: location() });

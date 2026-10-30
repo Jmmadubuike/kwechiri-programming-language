@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { compile } from "../../src/compiler/compile.js";
+import { DiagnosticCodes } from "../../src/errors/diagnostic-catalog.js";
 import { executeJavaScript } from "../../src/runtime/execute.js";
 import { KwechiriRuntimeError, type KwechiriRuntime } from "../../src/runtime/kwechiri-runtime.js";
 import { NodeKwechiriRuntime } from "../../src/runtime/node-runtime.js";
@@ -21,9 +22,11 @@ describe("Kwechiri runtime", () => {
     const runtime = new NodeKwechiriRuntime("zero.kwe", () => undefined);
     expect(() => runtime.divide(10, 0, { line: 4, column: 8, offset: 30 })).toThrowError(
       expect.objectContaining<Partial<KwechiriRuntimeError>>({
+        code: DiagnosticCodes.RuntimeDivisionByZero,
         category: "DIVISION_BY_ZERO",
         fileName: "zero.kwe",
         location: { line: 4, column: 8, offset: 30 },
+        message: "zero.kwe:4:8: KWE-RUN-001: Enweghị ike ikewa site na efu. (Division by zero.)",
       }),
     );
   });
@@ -59,7 +62,11 @@ describe("Kwechiri runtime", () => {
     expect(values).toEqual([1, 10]);
     for (const index of [-1, 0.5, 2, Number.POSITIVE_INFINITY]) {
       expect(() => runtime.setIndex(values, index, 3, location)).toThrowError(
-        expect.objectContaining<Partial<KwechiriRuntimeError>>({ category: "INDEX_OUT_OF_RANGE", location }),
+        expect.objectContaining<Partial<KwechiriRuntimeError>>({
+          code: DiagnosticCodes.RuntimeIndexOutOfRange,
+          category: "INDEX_OUT_OF_RANGE",
+          location,
+        }),
       );
     }
   });

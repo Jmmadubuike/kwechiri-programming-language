@@ -1,4 +1,5 @@
 import type { Expression, FunctionDeclaration, Program, Statement } from "../ast/nodes.js";
+import { DiagnosticCodes } from "../errors/diagnostic-catalog.js";
 import { KwechiriError } from "../errors/kwechiri-error.js";
 import type { ResolvedExpression, ResolvedFunctionDeclaration, ResolvedProgram, ResolvedStatement, ValueType } from "./resolved-nodes.js";
 import type { StandardExportDefinition } from "../standard-library/catalog.js";
@@ -47,22 +48,22 @@ export function analyze(
   };
   const validateIndex = (source: Expression, resolved: ResolvedExpression, knownLength: number | undefined, location: Expression["location"]): void => {
     if (resolved.valueType !== "number") {
-      throw new KwechiriError("Index ndepụta ga-abụ ọnụọgụ. (Array index must be a number.)", location, fileName);
+      throw new KwechiriError(DiagnosticCodes.SemanticIndexNotNumber, "Index ndepụta ga-abụ ọnụọgụ. (Array index must be a number.)", location, fileName);
     }
     const value = staticIndexValue(source);
     if (value !== undefined
       && (!Number.isFinite(value) || !Number.isInteger(value) || value < 0 || (knownLength !== undefined && value >= knownLength))) {
-      throw new KwechiriError("Index ndepụta gafere oke. (Array index out of range.)", location, fileName);
+      throw new KwechiriError(DiagnosticCodes.SemanticIndexOutOfRange, "Index ndepụta gafere oke. (Array index out of range.)", location, fileName);
     }
   };
 
   for (const statement of program.statements) {
     if (statement.kind !== "FunctionDeclaration") continue;
     if (functions.has(statement.name)) {
-      throw new KwechiriError(`E kwupụtala ọrụ "${statement.name}". (Duplicate function.)`, statement.location, fileName);
+      throw new KwechiriError(DiagnosticCodes.SemanticDuplicateFunction, `E kwupụtala ọrụ "${statement.name}". (Duplicate function.)`, statement.location, fileName);
     }
     if (new Set(statement.parameters).size !== statement.parameters.length) {
-      throw new KwechiriError(`Ọrụ "${statement.name}" nwere parameter ugboro abụọ. (Duplicate parameter.)`, statement.location, fileName);
+      throw new KwechiriError(DiagnosticCodes.SemanticDuplicateParameter, `Ọrụ "${statement.name}" nwere parameter ugboro abụọ. (Duplicate parameter.)`, statement.location, fileName);
     }
     functions.set(statement.name, {
       declaration: statement,
@@ -73,6 +74,7 @@ export function analyze(
 
   const nestedFunctionError = (statement: FunctionDeclaration): never => {
     throw new KwechiriError(
+      DiagnosticCodes.SemanticNestedFunction,
       "Enweghị ike ịkọwa ọrụ n'ime block ọzọ. (Functions must be declared at module top level.)",
       statement.location,
       fileName,
@@ -99,7 +101,7 @@ export function analyze(
       || expression.kind === "BooleanLiteral" || expression.kind === "AbsenceLiteral") return;
     if (expression.kind === "VariableReference") {
       if (!symbols.has(expression.name)) {
-        throw new KwechiriError(`Enweghị ike ịchọta mgbanwe "${expression.name}". (Undefined variable.)`, expression.location, fileName);
+        throw new KwechiriError(DiagnosticCodes.SemanticUndefinedVariable, `Enweghị ike ịchọta mgbanwe "${expression.name}". (Undefined variable.)`, expression.location, fileName);
       }
       return;
     }
@@ -107,20 +109,21 @@ export function analyze(
       const standard = standardBindings.get(expression.callee);
       if (standard !== undefined) {
         if (expression.arguments.length !== standard.arity) {
-          throw new KwechiriError(`Ọrụ "${standard.publicName}" chọrọ argument ${standard.arity}, mana enwetara ${expression.arguments.length}. (Wrong standard-library argument count.)`, expression.location, fileName);
+          throw new KwechiriError(DiagnosticCodes.StandardWrongArgumentCount, `Ọrụ "${standard.publicName}" chọrọ argument ${standard.arity}, mana enwetara ${expression.arguments.length}. (Wrong standard-library argument count.)`, expression.location, fileName);
         }
         for (const argument of expression.arguments) validateExpressionStructure(argument, symbols, functionName);
         return;
       }
       const called = functions.get(expression.callee);
       if (expression.callee === functionName) {
-        throw new KwechiriError(`Recursion akwadoghị maka ọrụ "${functionName}".`, expression.location, fileName);
+        throw new KwechiriError(DiagnosticCodes.SemanticRecursion, `Recursion akwadoghị maka ọrụ "${functionName}".`, expression.location, fileName);
       }
       if (called === undefined || called.declaration.location.offset >= expression.location.offset) {
-        throw new KwechiriError(`A kọwaghị ọrụ "${expression.callee}" tupu ojiji ya. (Function must be declared before use.)`, expression.location, fileName);
+        throw new KwechiriError(DiagnosticCodes.SemanticFunctionBeforeDeclaration, `A kọwaghị ọrụ "${expression.callee}" tupu ojiji ya. (Function must be declared before use.)`, expression.location, fileName);
       }
       if (expression.arguments.length !== called.declaration.parameters.length) {
         throw new KwechiriError(
+          DiagnosticCodes.SemanticWrongArgumentCount,
           `Ọrụ "${expression.callee}" chọrọ argument ${called.declaration.parameters.length}, mana enwetara ${expression.arguments.length}. (Wrong argument count.)`,
           expression.location,
           fileName,
@@ -167,7 +170,12 @@ export function analyze(
         const message = alwaysReturns
           ? "Okwu a agaghị eru n'ihi `laghachi`. (Unreachable statement after return.)"
           : "Okwu a agaghị eru mgbe njikwa kwụsịrị. (Unreachable statement after control transfer.)";
-        throw new KwechiriError(message, statement.location, fileName);
+        throw new KwechiriError(
+          alwaysReturns ? DiagnosticCodes.SemanticUnreachableAfterReturn : DiagnosticCodes.SemanticUnreachableAfterTransfer,
+          message,
+          statement.location,
+          fileName,
+        );
       }
       if (statement.kind === "FunctionDeclaration") nestedFunctionError(statement);
       if (statement.kind === "ReturnStatement") {
@@ -177,7 +185,7 @@ export function analyze(
       } else if (statement.kind === "BreakStatement" || statement.kind === "ContinueStatement") {
         if (loopDepth === 0) {
           const word = statement.kind === "BreakStatement" ? "kwụsị" : "gaa n'ihu";
-          throw new KwechiriError(`"${word}" ga-adị n'ime loop. (Loop control is only valid inside a loop.)`, statement.location, fileName);
+          throw new KwechiriError(DiagnosticCodes.SemanticLoopControlOutsideLoop, `"${word}" ga-adị n'ime loop. (Loop control is only valid inside a loop.)`, statement.location, fileName);
         }
         alwaysTransfers = true;
       } else if (statement.kind === "PrintStatement") {
@@ -228,15 +236,15 @@ export function analyze(
     if (expression.kind === "BooleanLiteral") return { kind: "BooleanLiteral", value: expression.value, valueType: "boolean" };
     if (expression.kind === "AbsenceLiteral") return { kind: "AbsenceLiteral", valueType: "absence" };
     if (expression.kind === "ArrayLiteral") {
-      if (expression.elements.length === 0) throw new KwechiriError("Ndepụta efu akwadoghị ugbu a. (Empty arrays are not yet supported.)", expression.location, fileName);
+      if (expression.elements.length === 0) throw new KwechiriError(DiagnosticCodes.SemanticEmptyArray, "Ndepụta efu akwadoghị ugbu a. (Empty arrays are not yet supported.)", expression.location, fileName);
       const elements = expression.elements.map((element) => resolveExpression(element, symbols));
       const elementType = elements[0]?.valueType as ValueType;
-      if (elements.some((element) => element.valueType !== elementType)) throw new KwechiriError("Ihe niile dị na ndepụta ga-enwe otu ụdị. (Array elements must share a type.)", expression.location, fileName);
+      if (elements.some((element) => element.valueType !== elementType)) throw new KwechiriError(DiagnosticCodes.SemanticMixedArrayElements, "Ihe niile dị na ndepụta ga-enwe otu ụdị. (Array elements must share a type.)", expression.location, fileName);
       return { kind: "ArrayLiteral", elements, valueType: arrayType(elementType) };
     }
     if (expression.kind === "ObjectLiteral") {
       const names = expression.fields.map((field) => field.name);
-      if (new Set(names).size !== names.length) throw new KwechiriError("Aha property ugboro abụọ adịghị ekwe. (Duplicate object property.)", expression.location, fileName);
+      if (new Set(names).size !== names.length) throw new KwechiriError(DiagnosticCodes.SemanticDuplicateObjectProperty, "Aha property ugboro abụọ adịghị ekwe. (Duplicate object property.)", expression.location, fileName);
       const fields = expression.fields.map((field) => ({ name: field.name, value: resolveExpression(field.value, symbols) }));
       const types = Object.fromEntries([...fields].sort((a, b) => a.name.localeCompare(b.name)).map((field) => [field.name, field.value.valueType]));
       return { kind: "ObjectLiteral", fields, valueType: objectType(types) };
@@ -244,17 +252,17 @@ export function analyze(
     if (expression.kind === "IndexExpression") {
       const collection = resolveExpression(expression.collection, symbols);
       const index = resolveExpression(expression.index, symbols);
-      if (!collection.valueType.startsWith("array|")) throw new KwechiriError("Enwere ike iji index naanị na ndepụta. (Indexing requires an array.)", expression.location, fileName);
+      if (!collection.valueType.startsWith("array|")) throw new KwechiriError(DiagnosticCodes.SemanticIndexRequiresArray, "Enwere ike iji index naanị na ndepụta. (Indexing requires an array.)", expression.location, fileName);
       const data = collectionData(collection.valueType);
       validateIndex(expression.index, index, knownLengthOf(collection), expression.location);
       return { kind: "IndexExpression", collection, index, valueType: data.element as ValueType, location: expression.location };
     }
     if (expression.kind === "PropertyAccessExpression") {
       const object = resolveExpression(expression.object, symbols);
-      if (!object.valueType.startsWith("object|")) throw new KwechiriError("Nweta property chọrọ object. (Property access requires an object.)", expression.location, fileName);
+      if (!object.valueType.startsWith("object|")) throw new KwechiriError(DiagnosticCodes.SemanticPropertyAccessRequiresObject, "Nweta property chọrọ object. (Property access requires an object.)", expression.location, fileName);
       const fields = collectionData(object.valueType);
       const valueType = fields[expression.property];
-      if (typeof valueType !== "string") throw new KwechiriError(`Property "${expression.property}" adịghị. (Missing property.)`, expression.location, fileName);
+      if (typeof valueType !== "string") throw new KwechiriError(DiagnosticCodes.SemanticMissingProperty, `Property "${expression.property}" adịghị. (Missing property.)`, expression.location, fileName);
       return { kind: "PropertyAccessExpression", object, property: expression.property, valueType };
     }
     if (expression.kind === "CallExpression") {
@@ -262,12 +270,12 @@ export function analyze(
       if (standard !== undefined) {
         const arguments_ = expression.arguments.map((argument) => resolveExpression(argument, symbols));
         if (arguments_.length !== standard.arity) {
-          throw new KwechiriError(`Ọrụ "${standard.publicName}" chọrọ argument ${standard.arity}, mana enwetara ${arguments_.length}. (Wrong standard-library argument count.)`, expression.location, fileName);
+          throw new KwechiriError(DiagnosticCodes.StandardWrongArgumentCount, `Ọrụ "${standard.publicName}" chọrọ argument ${standard.arity}, mana enwetara ${arguments_.length}. (Wrong standard-library argument count.)`, expression.location, fileName);
         }
         for (const [index, argument] of arguments_.entries()) {
           const expected = standard.parameterTypes[index];
           if (argument.valueType !== expected) {
-            throw new KwechiriError(`Argument ${index + 1} nke "${standard.publicName}" ga-abụ ${expected}. (Standard-library argument type mismatch.)`, expression.arguments[index]?.location ?? expression.location, fileName);
+            throw new KwechiriError(DiagnosticCodes.StandardArgumentTypeMismatch, `Argument ${index + 1} nke "${standard.publicName}" ga-abụ ${expected}. (Standard-library argument type mismatch.)`, expression.arguments[index]?.location ?? expression.location, fileName);
           }
         }
         return {
@@ -280,11 +288,11 @@ export function analyze(
       }
       const info = functions.get(expression.callee);
       if (info === undefined || info.declaration.location.offset >= expression.location.offset) {
-        throw new KwechiriError(`A kọwaghị ọrụ "${expression.callee}" tupu ojiji ya. (Function must be declared before use.)`, expression.location, fileName);
+        throw new KwechiriError(DiagnosticCodes.SemanticFunctionBeforeDeclaration, `A kọwaghị ọrụ "${expression.callee}" tupu ojiji ya. (Function must be declared before use.)`, expression.location, fileName);
       }
       const arguments_ = expression.arguments.map((argument) => resolveExpression(argument, symbols));
       if (arguments_.length !== info.declaration.parameters.length) {
-        throw new KwechiriError(`Ọrụ "${expression.callee}" chọrọ argument ${info.declaration.parameters.length}, mana enwetara ${arguments_.length}. (Wrong argument count.)`, expression.location, fileName);
+        throw new KwechiriError(DiagnosticCodes.SemanticWrongArgumentCount, `Ọrụ "${expression.callee}" chọrọ argument ${info.declaration.parameters.length}, mana enwetara ${arguments_.length}. (Wrong argument count.)`, expression.location, fileName);
       }
       const valueType = analyzeFunction(info, arguments_.map((argument) => argument.valueType));
       return { kind: "CallExpression", generatedName: info.generatedName, arguments: arguments_, valueType };
@@ -292,23 +300,23 @@ export function analyze(
     if (expression.kind === "UnaryExpression") {
       const operand = resolveExpression(expression.operand, symbols);
       if (expression.operator === "ọ bụghị") {
-        if (operand.valueType !== "boolean") throw new KwechiriError('Akara "ọ bụghị" chọrọ boolean. (Logical negation requires a boolean.)', expression.location, fileName);
+        if (operand.valueType !== "boolean") throw new KwechiriError(DiagnosticCodes.SemanticNegationRequiresBoolean, 'Akara "ọ bụghị" chọrọ boolean. (Logical negation requires a boolean.)', expression.location, fileName);
         return { kind: "UnaryExpression", operator: "ọ bụghị", operand, valueType: "boolean" };
       }
-      if (operand.valueType !== "number") throw new KwechiriError('Akara "-" chọrọ ọnụọgụ. (Unary "-" requires a number.)', expression.location, fileName);
+      if (operand.valueType !== "number") throw new KwechiriError(DiagnosticCodes.SemanticUnaryMinusRequiresNumber, 'Akara "-" chọrọ ọnụọgụ. (Unary "-" requires a number.)', expression.location, fileName);
       return { kind: "UnaryExpression", operator: "-", operand, valueType: "number" };
     }
     if (expression.kind === "BinaryExpression") {
       const left = resolveExpression(expression.left, symbols);
       const right = resolveExpression(expression.right, symbols);
-      if (left.valueType !== "number" || right.valueType !== "number") throw new KwechiriError(`Akara "${expression.operator}" chọrọ ọnụọgụ abụọ. (Arithmetic requires two numbers.)`, expression.location, fileName);
+      if (left.valueType !== "number" || right.valueType !== "number") throw new KwechiriError(DiagnosticCodes.SemanticArithmeticRequiresNumbers, `Akara "${expression.operator}" chọrọ ọnụọgụ abụọ. (Arithmetic requires two numbers.)`, expression.location, fileName);
       return { kind: "BinaryExpression", operator: expression.operator, left, right, valueType: "number", location: expression.location };
     }
     if (expression.kind === "LogicalExpression") {
       const left = resolveExpression(expression.left, symbols);
       const right = resolveExpression(expression.right, symbols);
       if (left.valueType !== "boolean" || right.valueType !== "boolean") {
-        throw new KwechiriError(`Akara "${expression.operator}" chọrọ boolean abụọ. (Logical operator requires two booleans.)`, expression.location, fileName);
+        throw new KwechiriError(DiagnosticCodes.SemanticLogicalRequiresBooleans, `Akara "${expression.operator}" chọrọ boolean abụọ. (Logical operator requires two booleans.)`, expression.location, fileName);
       }
       return { kind: "LogicalExpression", operator: expression.operator, left, right, valueType: "boolean" };
     }
@@ -316,12 +324,12 @@ export function analyze(
       const left = resolveExpression(expression.left, symbols);
       const right = resolveExpression(expression.right, symbols);
       const ordering = expression.operator !== "==" && expression.operator !== "!=";
-      if (isCollection(left.valueType) || isCollection(right.valueType)) throw new KwechiriError("Ntụnyere collection akwadoghị. (Collection equality is not yet supported.)", expression.location, fileName);
-      if (ordering && (left.valueType !== "number" || right.valueType !== "number")) throw new KwechiriError(`Ntụnyere "${expression.operator}" chọrọ ọnụọgụ abụọ. (Ordering requires two numbers.)`, expression.location, fileName);
+      if (isCollection(left.valueType) || isCollection(right.valueType)) throw new KwechiriError(DiagnosticCodes.SemanticCollectionEqualityUnsupported, "Ntụnyere collection akwadoghị. (Collection equality is not yet supported.)", expression.location, fileName);
+      if (ordering && (left.valueType !== "number" || right.valueType !== "number")) throw new KwechiriError(DiagnosticCodes.SemanticOrderingRequiresNumbers, `Ntụnyere "${expression.operator}" chọrọ ọnụọgụ abụọ. (Ordering requires two numbers.)`, expression.location, fileName);
       return { kind: "ComparisonExpression", operator: expression.operator, left, right, valueType: "boolean" };
     }
     const symbol = symbols.get(expression.name);
-    if (symbol === undefined) throw new KwechiriError(`Enweghị ike ịchọta mgbanwe "${expression.name}". (Undefined variable.)`, expression.location, fileName);
+    if (symbol === undefined) throw new KwechiriError(DiagnosticCodes.SemanticUndefinedVariable, `Enweghị ike ịchọta mgbanwe "${expression.name}". (Undefined variable.)`, expression.location, fileName);
     return {
       kind: "VariableReference",
       generatedName: symbol.generatedName,
@@ -348,14 +356,19 @@ export function analyze(
         const message = alwaysReturns
           ? "Okwu a agaghị eru n'ihi `laghachi`. (Unreachable statement after return.)"
           : "Okwu a agaghị eru mgbe njikwa kwụsịrị. (Unreachable statement after control transfer.)";
-        throw new KwechiriError(message, statement.location, fileName);
+        throw new KwechiriError(
+          alwaysReturns ? DiagnosticCodes.SemanticUnreachableAfterReturn : DiagnosticCodes.SemanticUnreachableAfterTransfer,
+          message,
+          statement.location,
+          fileName,
+        );
       }
       if (statement.kind === "FunctionDeclaration") {
-        if (allowReturn) throw new KwechiriError("Enweghị ike ịkọwa ọrụ n'ime ọrụ ọzọ. (Nested functions are unsupported.)", statement.location, fileName);
+        if (allowReturn) throw new KwechiriError(DiagnosticCodes.SemanticNestedFunction, "Enweghị ike ịkọwa ọrụ n'ime ọrụ ọzọ. (Nested functions are unsupported.)", statement.location, fileName);
         continue;
       }
       if (statement.kind === "ReturnStatement") {
-        if (!allowReturn) throw new KwechiriError('"laghachi" ga-adị n\'ime ọrụ. (Return is only valid inside a function.)', statement.location, fileName);
+        if (!allowReturn) throw new KwechiriError(DiagnosticCodes.SemanticReturnOutsideFunction, '"laghachi" ga-adị n\'ime ọrụ. (Return is only valid inside a function.)', statement.location, fileName);
         const value = resolveExpression(statement.value, symbols);
         statements.push({ kind: "ReturnStatement", value });
         returnTypes.push(value.valueType);
@@ -366,7 +379,7 @@ export function analyze(
       if (statement.kind === "BreakStatement" || statement.kind === "ContinueStatement") {
         if (loopDepth === 0) {
           const word = statement.kind === "BreakStatement" ? "kwụsị" : "gaa n'ihu";
-          throw new KwechiriError(`"${word}" ga-adị n'ime loop. (Loop control is only valid inside a loop.)`, statement.location, fileName);
+          throw new KwechiriError(DiagnosticCodes.SemanticLoopControlOutsideLoop, `"${word}" ga-adị n'ime loop. (Loop control is only valid inside a loop.)`, statement.location, fileName);
         }
         statements.push({ kind: statement.kind });
         alwaysTransfers = true;
@@ -388,14 +401,14 @@ export function analyze(
       if (statement.kind === "IndexAssignment") {
         const collection = resolveExpression(statement.collection, symbols);
         if (!collection.valueType.startsWith("array|")) {
-          throw new KwechiriError("Enwere ike ịgbanwe index naanị na ndepụta. (Index assignment requires an array.)", statement.location, fileName);
+          throw new KwechiriError(DiagnosticCodes.SemanticIndexAssignmentRequiresArray, "Enwere ike ịgbanwe index naanị na ndepụta. (Index assignment requires an array.)", statement.location, fileName);
         }
         const index = resolveExpression(statement.index, symbols);
         validateIndex(statement.index, index, knownLengthOf(collection), statement.location);
         const value = resolveExpression(statement.value, symbols);
         const elementType = collectionData(collection.valueType).element;
         if (value.valueType !== elementType) {
-          throw new KwechiriError("Ụdị uru ọhụrụ ga-adaba n'ụdị ihe ndepụta. (Assigned value must match the array element type.)", statement.location, fileName);
+          throw new KwechiriError(DiagnosticCodes.SemanticIndexAssignmentTypeMismatch, "Ụdị uru ọhụrụ ga-adaba n'ụdị ihe ndepụta. (Assigned value must match the array element type.)", statement.location, fileName);
         }
         statements.push({ kind: "IndexAssignment", collection, index, value, location: statement.location });
         continue;
@@ -403,33 +416,33 @@ export function analyze(
       if (statement.kind === "PropertyAssignment") {
         const object = resolveExpression(statement.object, symbols);
         if (!object.valueType.startsWith("object|")) {
-          throw new KwechiriError("Ịgbanwe property chọrọ object. (Property assignment requires an object.)", statement.location, fileName);
+          throw new KwechiriError(DiagnosticCodes.SemanticPropertyAssignmentRequiresObject, "Ịgbanwe property chọrọ object. (Property assignment requires an object.)", statement.location, fileName);
         }
         const propertyType = collectionData(object.valueType)[statement.property];
         if (typeof propertyType !== "string") {
-          throw new KwechiriError(`Property "${statement.property}" adịghị. (Missing property.)`, statement.location, fileName);
+          throw new KwechiriError(DiagnosticCodes.SemanticMissingProperty, `Property "${statement.property}" adịghị. (Missing property.)`, statement.location, fileName);
         }
         const value = resolveExpression(statement.value, symbols);
         if (value.valueType !== propertyType) {
-          throw new KwechiriError("Ụdị uru ọhụrụ ga-adaba n'ụdị property. (Assigned value must match the property type.)", statement.location, fileName);
+          throw new KwechiriError(DiagnosticCodes.SemanticPropertyAssignmentTypeMismatch, "Ụdị uru ọhụrụ ga-adaba n'ụdị property. (Assigned value must match the property type.)", statement.location, fileName);
         }
         statements.push({ kind: "PropertyAssignment", object, property: statement.property, value });
         continue;
       }
       if (statement.kind === "LoopStatement") {
         const condition = resolveExpression(statement.condition, symbols);
-        if (condition.valueType !== "boolean") throw new KwechiriError("Ọnọdụ `mgbe` ga-abụ eziokwu maọbụ ụgha. (A loop condition must be boolean.)", statement.condition.location, fileName);
+        if (condition.valueType !== "boolean") throw new KwechiriError(DiagnosticCodes.SemanticLoopConditionRequiresBoolean, "Ọnọdụ `mgbe` ga-abụ eziokwu maọbụ ụgha. (A loop condition must be boolean.)", statement.condition.location, fileName);
         const body = resolveBlock(statement.body, symbols, allowReturn, loopDepth + 1);
         for (const [name, symbol] of symbols) {
           const after = body.symbols.get(name);
-          if (after !== undefined && after.valueType !== symbol.valueType) throw new KwechiriError(`Ụdị mgbanwe "${name}" ga-anọ otu n'ime ` + "`mgbe`" + ". (Loop variable type must remain stable.)", statement.location, fileName);
+          if (after !== undefined && after.valueType !== symbol.valueType) throw new KwechiriError(DiagnosticCodes.SemanticLoopVariableTypeMismatch, `Ụdị mgbanwe "${name}" ga-anọ otu n'ime ` + "`mgbe`" + ". (Loop variable type must remain stable.)", statement.location, fileName);
         }
         statements.push({ kind: "LoopStatement", condition, body: body.statements });
         returnTypes.push(...body.returnTypes);
         continue;
       }
       const condition = resolveExpression(statement.condition, symbols);
-      if (condition.valueType !== "boolean") throw new KwechiriError("Ọnọdụ ga-abụ eziokwu maọbụ ụgha. (A condition must be boolean.)", statement.condition.location, fileName);
+      if (condition.valueType !== "boolean") throw new KwechiriError(DiagnosticCodes.SemanticConditionRequiresBoolean, "Ọnọdụ ga-abụ eziokwu maọbụ ụgha. (A condition must be boolean.)", statement.condition.location, fileName);
       const thenResult = resolveBlock(statement.thenBranch, symbols, allowReturn, loopDepth);
       const elseResult = statement.elseBranch === undefined
         ? { statements: [], symbols: new Map(symbols), returnTypes: [], alwaysReturns: false, alwaysTransfers: false }
@@ -441,7 +454,7 @@ export function analyze(
       for (const [name, thenSymbol] of thenResult.symbols) {
         const elseSymbol = elseResult.symbols.get(name);
         if (elseSymbol === undefined) continue;
-        if (thenSymbol.valueType !== elseSymbol.valueType) throw new KwechiriError(`Ụdị mgbanwe "${name}" adabaghị n'alaka abụọ. (Branch variable types differ.)`, statement.location, fileName);
+        if (thenSymbol.valueType !== elseSymbol.valueType) throw new KwechiriError(DiagnosticCodes.SemanticBranchTypesDiffer, `Ụdị mgbanwe "${name}" adabaghị n'alaka abụọ. (Branch variable types differ.)`, statement.location, fileName);
         const knownLength = thenSymbol.knownLength === elseSymbol.knownLength ? thenSymbol.knownLength : undefined;
         merged.set(name, { generatedName: thenSymbol.generatedName, valueType: thenSymbol.valueType, ...(knownLength === undefined ? {} : { knownLength }) });
         if (!symbols.has(name)) {
@@ -460,12 +473,13 @@ export function analyze(
   };
 
   const analyzeFunction = (info: FunctionInfo, parameterTypes: readonly ValueType[]): ValueType => {
-    if (info.analyzing) throw new KwechiriError(`Recursion akwadoghị maka ọrụ "${info.declaration.name}".`, info.declaration.location, fileName);
+    if (info.analyzing) throw new KwechiriError(DiagnosticCodes.SemanticRecursion, `Recursion akwadoghị maka ọrụ "${info.declaration.name}".`, info.declaration.location, fileName);
     if (info.parameterTypes !== undefined) {
       const matches = info.parameterTypes.length === parameterTypes.length
         && info.parameterTypes.every((type, index) => type === parameterTypes[index]);
       if (!matches) {
         throw new KwechiriError(
+          DiagnosticCodes.SemanticFunctionSignatureMismatch,
           `Ụdị argument ọrụ "${info.declaration.name}" adabaghị na signature mbụ ya. (Function calls must use one parameter signature.)`,
           info.declaration.location,
           fileName,
@@ -481,10 +495,10 @@ export function analyze(
       const result = resolveBlock(info.declaration.body, symbols, true);
       const fallthroughType: ValueType = "absence";
       if (!result.alwaysReturns && result.returnTypes.some((type) => type !== fallthroughType)) {
-        throw new KwechiriError(`Ụdị nloghachi ọrụ "${info.declaration.name}" adabaghị na efu nke ụzọ na-enweghị "laghachi". (Return type conflicts with fallthrough absence.)`, info.declaration.location, fileName);
+        throw new KwechiriError(DiagnosticCodes.SemanticReturnFallthroughConflict, `Ụdị nloghachi ọrụ "${info.declaration.name}" adabaghị na efu nke ụzọ na-enweghị "laghachi". (Return type conflicts with fallthrough absence.)`, info.declaration.location, fileName);
       }
       const returnType = (result.returnTypes[0] ?? fallthroughType) as ValueType;
-      if (result.returnTypes.some((type) => type !== returnType)) throw new KwechiriError(`Ụdị nloghachi ọrụ "${info.declaration.name}" adabaghị. (Return types differ.)`, info.declaration.location, fileName);
+      if (result.returnTypes.some((type) => type !== returnType)) throw new KwechiriError(DiagnosticCodes.SemanticReturnTypesDiffer, `Ụdị nloghachi ọrụ "${info.declaration.name}" adabaghị. (Return types differ.)`, info.declaration.location, fileName);
       const body = result.alwaysReturns ? result.statements : [
         ...result.statements,
         { kind: "ReturnStatement", value: { kind: "AbsenceLiteral", valueType: "absence" } } as const,

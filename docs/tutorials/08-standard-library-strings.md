@@ -58,7 +58,7 @@ webata { nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri } site 
 or hidden `.kwe` file. Only the names in the import become available, and the
 import must come before other statements.
 
-The five provisionally named pre-1.0 functions are:
+The five 1.0 string functions are:
 
 | Function | Signature | Meaning |
 |---|---|---|
@@ -131,7 +131,7 @@ Kwechiri
 - Predicates are case-sensitive and do not normalize strings.
 - Length counts user-perceived characters, not UTF-16 code units.
 - Concatenation inserts no separator and performs no implicit conversion.
-- All five public names remain provisional until the 1.0 terminology review.
+- All five public names are frozen for 1.0.
 
 ## Normative references
 

@@ -184,16 +184,22 @@ describe("Kwechiri CLI integration", () => {
       ["runtime.kwe", "bipụta(10 / 0)"],
     ] as const;
     for (const [name, source] of cases) writeFileSync(join(directory, name), source, "utf8");
-    for (const name of ["syntax.kwe", "semantic.kwe", "module.kwe"]) {
+    for (const [name, code] of [
+      ["syntax.kwe", "KWE-SYN-001"],
+      ["semantic.kwe", "KWE-SEM-001"],
+      ["module.kwe", "KWE-MOD-002"],
+    ] as const) {
       const result = runCli(["check", join(directory, name)]);
       expect(result.status).toBe(1);
       expect(result.stdout).toBe("");
       expect(result.stderr).toContain("KWECHIRI ERROR");
+      expect(result.stderr).toContain(code);
     }
     const runtime = runCli(["run", join(directory, "runtime.kwe")]);
     expect(runtime.status).toBe(1);
     expect(runtime.stdout).toBe("");
     expect(runtime.stderr).toContain("Division by zero");
+    expect(runtime.stderr).toContain("KWE-RUN-001");
     expect(runtime.stderr).not.toContain(" at ");
   });
 
@@ -250,6 +256,7 @@ describe("Kwechiri CLI integration", () => {
     expect(executed.status).toBe(1);
     expect(executed.stdout).toBe("");
     expect(executed.stderr).toContain("KWECHIRI ERROR");
+    expect(executed.stderr).toContain("KWE-RUN-001");
     expect(executed.stderr).not.toContain(" at ");
   });
 

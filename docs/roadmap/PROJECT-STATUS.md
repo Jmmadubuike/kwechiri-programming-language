@@ -24,6 +24,10 @@ The pre-1.0 Language Foundations phase is closed. Milestone 11 Batches 11A and
 11B are closed; later Standard Library batches remain unauthorized.
 
 Current roadmap milestone: Milestone 14 — Kwechiri 1.0, not ready
+Contract: [Milestone 14 release contract](MILESTONE-14-KWECHIRI-1.0.md),
+approved 2026-10-30 and in progress
+
+Readiness: [local evidence and remaining gaps](MILESTONE-14-READINESS.md)
 
 ## Purpose
 
@@ -264,15 +268,16 @@ Status: Batches 11A and 11B certified and closed. Batch 11A closed at
 
 Batch 11A establishes the reserved `kwechiri:` namespace, explicit imported
 standard functions, an internal signature catalog, portable pure
-implementations, and exactly three provisional string predicates:
+implementations, and exactly three string predicates, provisional at the time
+of that batch:
 
 - `nwereEriri`
 - `maliteNa`
 - `kwụsịNa`
 
 Batch 11B adds `ogologoEriri` for extended grapheme-cluster length and
-`jikọọEriri` for exact raw-string concatenation. Both are provisionally named
-pre-1.0 APIs in the same `kwechiri:eriri` module.
+`jikọọEriri` for exact raw-string concatenation. All five names are now frozen
+for 1.0 by ADR-027 in the same `kwechiri:eriri` module.
 
 Later string operations, numbers, collections, conversions, JSON, I/O, network,
 randomness, and date/time remain unapproved.
@@ -399,18 +404,31 @@ Milestone 13 certification validation:
 
 ### Milestone 14 — Kwechiri 1.0
 
-Not ready.
+Approved and in progress. The detailed scope, acceptance conditions, and
+owner-decision register are in the
+[Milestone 14 release contract](MILESTONE-14-KWECHIRI-1.0.md).
 
-Required release work includes:
+Completed release work:
 
-- stable language specification
-- final keyword and Igbo terminology review
+- stable language specification and language surface freeze
+- final keyword and Igbo terminology inventory
 - backward-compatibility policy
 - complete error catalog
-- tutorials and reference documentation
-- supported Node.js and operating-system matrix
-- package naming and publication decision
-- release checklist and explicit owner approval
+- compiler architecture documentation
+- release procedure and local Windows readiness evidence
+- Windows Node.js 20, 22, and 24 compiler verification
+- compiler package identity and cross-platform CI matrix
+- tutorial, reference, example, and architecture documentation verification
+
+Remaining release work includes:
+
+- Linux release-candidate verification and final support-matrix approval
+- npm ownership verification and publication authorization
+- final release candidate and explicit owner approval
+
+The [changelog](../../CHANGELOG.md) and
+[release procedure](../development/release.md) are established. The procedure
+does not authorize publication or release.
 
 ## Cross-cutting work still unresolved
 
@@ -431,7 +449,6 @@ the appropriate owner decision and milestone placement.
 ### Engineering and operations
 
 - publish and release procedures under the MIT license recorded in ADR-025
-- add remaining architecture topic documents
 - add cross-platform verification beyond Linux CI
 - finalize the supported Node.js policy beyond the current `>=20` declaration
 - audit bilingual diagnostic consistency
@@ -490,6 +507,10 @@ at `d147ccf2f84ee36261b97b4dca602d95ad34304a`; Batch 11B is closed at
 at `693c5e09c1988cabd94133ee0d3f4af125278466`; Batch 12B is closed at
 `f4fc5b40ac3a002563da60bae170d06e60963b7e`. Milestone 13 is certified and
 closed at `a78d42102d3a672f1bc13535c652300c92f25318`. Further Marketplace
-releases use the trusted-publishing workflow. Do not begin later Standard
-Library batches or Milestone 14 implementation without a separately approved
-contract.
+releases use the trusted-publishing workflow.
+
+Milestone 14 is approved and in progress. Work packages 14A-14E are complete;
+14F and 14G are in progress; 14H remains pending. The next gate is a committed
+release candidate with Linux and Windows CI evidence, verified npm ownership,
+and explicit owner approval for each publication target. Do not publish the
+compiler or begin later Standard Library batches without that approval.

@@ -1,3 +1,4 @@
+import { DiagnosticCodes } from "../errors/diagnostic-catalog.js";
 import { KwechiriError } from "../errors/kwechiri-error.js";
 import { KwechiriRuntimeError } from "../runtime/kwechiri-runtime.js";
 import { CliUsageError, parseArguments } from "./arguments.js";
@@ -42,7 +43,7 @@ export async function runCli(
     return ExitCode.Success;
   } catch (error: unknown) {
     if (error instanceof CliUsageError) {
-      io.stderr(`KWECHIRI USAGE ERROR\n${error.message}`);
+      io.stderr(`KWECHIRI USAGE ERROR\n${error.code}: ${error.message}`);
       return ExitCode.InvalidUsage;
     }
     if (error instanceof KwechiriError || error instanceof KwechiriRuntimeError) {
@@ -50,11 +51,11 @@ export async function runCli(
       return ExitCode.KwechiriDiagnostic;
     }
     if (error instanceof Error && isFileSystemError(error)) {
-      io.stderr(`KWECHIRI FILESYSTEM ERROR\n${error.message}`);
+      io.stderr(`KWECHIRI FILESYSTEM ERROR\n${DiagnosticCodes.IoFileSystemFailure}: ${error.message}`);
       return ExitCode.FileSystemFailure;
     }
     const detail = error instanceof Error ? error.message : "An unknown value was thrown.";
-    io.stderr(`KWECHIRI INTERNAL ERROR\nAn unexpected internal Kwechiri failure occurred.\n${detail}`);
+    io.stderr(`KWECHIRI INTERNAL ERROR\n${DiagnosticCodes.InternalFailure}: An unexpected internal Kwechiri failure occurred.\n${detail}`);
     return ExitCode.InternalFailure;
   }
 }

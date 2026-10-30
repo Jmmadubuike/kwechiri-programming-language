@@ -37,5 +37,5 @@ Collection equality and inequality are unsupported, including comparison of a
 collection with itself. Kwechiri defines neither reference equality nor deep
 equality for collections.
 
-**Status: Undecided** — typed empty construction, computed properties, spread
-syntax, explicit copying, and collection methods.
+Typed empty construction, computed properties, spread syntax, explicit
+copying, and collection methods are deferred beyond 1.0.

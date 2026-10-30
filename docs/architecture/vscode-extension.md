@@ -25,6 +25,10 @@ filesystem-backed module graph but never executes generated JavaScript. The
 extension therefore reports compile-time and module diagnostics; runtime
 diagnostics remain a CLI or future integrated-run concern.
 
+Editor diagnostics expose the stable public code separately from the message
+through `vscode.Diagnostic.code`. The output channel and status tooltip retain
+the code with the located message.
+
 TextMate rules provide comments, operators, punctuation, and a fallback for
 current keywords. Semantic tokens use the lexer for keyword, number, and string
 identity, including normalized keyword matching for decomposed source.

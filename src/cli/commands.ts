@@ -1,6 +1,7 @@
 import { readFile, realpath, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { compileFile } from "../compiler/compile-file.js";
+import { DiagnosticCodes } from "../errors/diagnostic-catalog.js";
 import { executeJavaScript } from "../runtime/execute.js";
 import { CliUsageError, type CliRequest } from "./arguments.js";
 
@@ -110,7 +111,7 @@ export async function executeRequest(
 
   const outputPath = resolve(request.outputPath ?? defaultOutputPath(request.sourcePath));
   if (await pathsReferToSameFile(absoluteSource, outputPath, dependencies)) {
-    throw new CliUsageError("Compiled output must not resolve to the source file.");
+    throw new CliUsageError(DiagnosticCodes.CliOutputResolvesToSource, "Compiled output must not resolve to the source file.");
   }
   const artifact = createRunnableJavaScript(javaScript, request.sourcePath);
   await dependencies.writeFile(outputPath, artifact, { encoding: "utf8", flag: request.force ? "w" : "wx" });

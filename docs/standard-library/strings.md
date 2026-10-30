@@ -1,6 +1,6 @@
 # String functions
 
-The `kwechiri:eriri` module exports five provisionally named pre-1.0 APIs:
+The `kwechiri:eriri` module exports the five string APIs frozen for 1.0:
 
 | Function | Signature | Meaning |
 |---|---|---|
@@ -35,6 +35,6 @@ character. Grapheme segmentation uses the host's Unicode implementation.
 `jikọọEriri` concatenates raw strings exactly. It does not normalize, insert
 separators, or coerce other values.
 
-The public names are provisional until the 1.0 terminology review. Batch 11B
-does not include trimming, case conversion, slicing, replacement, splitting,
-character access, number conversion, or collection operations.
+The public names are frozen for 1.0 by ADR-027. Batch 11B does not include
+trimming, case conversion, slicing, replacement, splitting, character access,
+number conversion, or collection operations.

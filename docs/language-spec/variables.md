@@ -20,5 +20,5 @@ capture module variables. A parameter or local may reuse a module-level name
 because these scopes are isolated. Nested control-flow blocks do not introduce
 general shadowing.
 
-**Status: Undecided** — immutable declarations and explicit declaration syntax.
-General block shadowing is deferred beyond 1.0.
+Immutable declarations, explicit declaration syntax, and general block
+shadowing are deferred beyond 1.0.

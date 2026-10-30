@@ -1,3 +1,4 @@
+import { DiagnosticCodes } from "../errors/diagnostic-catalog.js";
 import { KwechiriError } from "../errors/kwechiri-error.js";
 import { TokenType } from "../lexer/token.js";
 import { tokenize } from "../lexer/lexer.js";
@@ -53,6 +54,7 @@ function prepareSingleSource(source: string, fileName: string): PreparedSingleSo
     if (isImport && importMatch !== null) {
       if (sawBody) {
         throw new KwechiriError(
+          DiagnosticCodes.ModuleImportsMustComeFirst,
           "`webata` ga-adị tupu okwu ndị ọzọ. (Imports must come first.)",
           { line: index + 1, column: 1, offset: 0 },
           fileName,
@@ -63,6 +65,7 @@ function prepareSingleSource(source: string, fileName: string): PreparedSingleSo
       const requestedStandardModule = request.startsWith("kwechiri:") ? standardModule(request) : undefined;
       if (request.startsWith("kwechiri:") && requestedStandardModule === undefined) {
         throw new KwechiriError(
+          DiagnosticCodes.StandardUnknownModule,
           `Amaghị standard module "${request}". (Unknown Kwechiri standard module.)`,
           { line: index + 1, column: 1, offset: 0 },
           fileName,
@@ -70,6 +73,7 @@ function prepareSingleSource(source: string, fileName: string): PreparedSingleSo
       }
       if (requestedStandardModule === undefined) {
         throw new KwechiriError(
+          DiagnosticCodes.ModuleFilesystemUnavailable,
           "Naanị `kwechiri:` standard modules ka browser playground na-akwado. (Filesystem modules are unavailable in the browser playground.)",
           { line: index + 1, column: 1, offset: 0 },
           fileName,
@@ -82,6 +86,7 @@ function prepareSingleSource(source: string, fileName: string): PreparedSingleSo
         if (!name) continue;
         if (imports.has(name)) {
           throw new KwechiriError(
+            DiagnosticCodes.ModuleDuplicateImport,
             `E webatala "${name}" ugboro abụọ. (Duplicate import.)`,
             { line: index + 1, column: 1, offset: 0 },
             fileName,
@@ -90,6 +95,7 @@ function prepareSingleSource(source: string, fileName: string): PreparedSingleSo
         const definition = requestedStandardModule.exports.get(name);
         if (definition === undefined) {
           throw new KwechiriError(
+            DiagnosticCodes.StandardUnknownExport,
             `Standard module "${request}" anaghị ebupụ "${name}". (Unknown Kwechiri standard export.)`,
             { line: index + 1, column: 1, offset: 0 },
             fileName,
@@ -123,6 +129,7 @@ function prepareSingleSource(source: string, fileName: string): PreparedSingleSo
   for (const name of locals) {
     if (imports.has(name)) {
       throw new KwechiriError(
+        DiagnosticCodes.ModuleImportCollision,
         `Aha "${name}" na-adị n'ihe e webatara nakwa na nkwupụta local. (Imported bindings are read-only; imported/local binding collision.)`,
         { line: 1, column: 1, offset: 0 },
         fileName,
@@ -136,6 +143,7 @@ function prepareSingleSource(source: string, fileName: string): PreparedSingleSo
       && tokens[index + 1]?.type === TokenType.Equals
       && imports.has(token.canonicalLexeme ?? token.lexeme)) {
       throw new KwechiriError(
+        DiagnosticCodes.ModuleReadOnlyImport,
         `Enweghị ike ịgbanwe ihe e webatara "${token.lexeme}". (Imported bindings are read-only.)`,
         token.location,
         fileName,

@@ -7,7 +7,8 @@ host implementation. The Batch 12A playground supplies the same runtime
 contract inside an isolated browser worker.
 
 Programs execute in an isolated function scope. Runtime errors carry a stable
-category and original source location. Compiler stages do not call Node output
+category and original source location. Runtime categories map to stable public
+codes `KWE-RUN-001` and `KWE-RUN-002`. Compiler stages do not call Node output
 APIs directly.
 
 The runtime milestone adds no filesystem, HTTP, database, clock, input,
@@ -26,6 +27,6 @@ detail, and JavaScript `undefined` is not a Kwechiri value.
 Collection output uses the compact Kwechiri collection display format. It is
 not JSON: nested Boolean and absence values retain their Kwechiri spellings.
 
-**Status: Undecided** — host capabilities beyond the implemented local
-playground, production-grade untrusted-code execution, and Standard
-Library/runtime ownership beyond the implemented operations.
+Host capabilities beyond the local playground, production-grade untrusted-code
+execution, and additional Standard Library/runtime ownership are deferred
+beyond 1.0.

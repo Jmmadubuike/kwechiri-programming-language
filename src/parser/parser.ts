@@ -1,4 +1,5 @@
 import type { Expression, Program, Statement } from "../ast/nodes.js";
+import { DiagnosticCodes } from "../errors/diagnostic-catalog.js";
 import { KwechiriError } from "../errors/kwechiri-error.js";
 import { TokenType, type Token } from "../lexer/token.js";
 
@@ -9,7 +10,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
   const consume = (type: TokenType, message: string): Token => {
     const token = peek();
     if (token.type !== type) {
-      throw new KwechiriError(message, token.location, fileName);
+      throw new KwechiriError(DiagnosticCodes.SyntaxUnexpectedToken, message, token.location, fileName);
     }
     current += 1;
     return token;
@@ -84,6 +85,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
       expression = { kind: "ObjectLiteral", fields, location: token.location };
     } else {
       throw new KwechiriError(
+        DiagnosticCodes.SyntaxExpectedExpression,
         "A tụrụ anya ederede, ọnụọgụ, boolean, collection, maọbụ aha mgbanwe.",
         token.location,
         fileName,
@@ -127,7 +129,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
       current += 1;
       const second = consume(TokenType.Keyword, 'A tụrụ anya "bụghị" mgbe "ọ" gasịrị. (Expected "bụghị" after "ọ".)');
       if (identity(second) !== "bụghị") {
-        throw new KwechiriError('A tụrụ anya "ọ bụghị". (Expected "ọ bụghị".)', second.location, fileName);
+        throw new KwechiriError(DiagnosticCodes.SyntaxInvalidNegation, 'A tụrụ anya "ọ bụghị". (Expected "ọ bụghị".)', second.location, fileName);
       }
       return { kind: "UnaryExpression", operator: "ọ bụghị", operand: parseUnary(), location: operator.location };
     }
@@ -187,6 +189,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
       };
       if (orderingTypes.has(peek().type)) {
         throw new KwechiriError(
+          DiagnosticCodes.SyntaxChainedComparison,
           "Enweghị ike ijikọ ntụnyere nhazi. (Ordering comparison chaining is unsupported.)",
           peek().location,
           fileName,
@@ -208,7 +211,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
       current += 1;
       expression = { kind: "ComparisonExpression", operator, left: expression, right: parseOrdering(), location: token.location };
       if (equalityTypes.has(peek().type)) {
-        throw new KwechiriError("Enweghị ike ijikọ ntụnyere nha. (Equality chaining is unsupported.)", peek().location, fileName);
+        throw new KwechiriError(DiagnosticCodes.SyntaxChainedComparison, "Enweghị ike ijikọ ntụnyere nha. (Equality chaining is unsupported.)", peek().location, fileName);
       }
     }
     return expression;
@@ -257,7 +260,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
       if (target.kind === "PropertyAccessExpression") {
         return { kind: "PropertyAssignment", object: target.object, property: target.property, value, location: target.location };
       }
-      throw new KwechiriError("Ebumnuche assignment adịghị mma. (Invalid assignment target.)", name.location, fileName);
+      throw new KwechiriError(DiagnosticCodes.SyntaxInvalidAssignmentTarget, "Ebumnuche assignment adịghị mma. (Invalid assignment target.)", name.location, fileName);
     }
 
     const keyword = consume(TokenType.Keyword, 'A tụrụ anya "bipụta", "ọ bụrụ", maọbụ aha mgbanwe.');
@@ -284,14 +287,14 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
     if (identity(keyword) === "gaa") {
       const next = consume(TokenType.Keyword, 'A tụrụ anya "n\'ihu" mgbe "gaa" gasịrị. (Expected "n\'ihu" after "gaa".)');
       if (identity(next) !== "n'ihu") {
-        throw new KwechiriError('A tụrụ anya "gaa n\'ihu". (Expected "gaa n\'ihu".)', next.location, fileName);
+        throw new KwechiriError(DiagnosticCodes.SyntaxUnexpectedToken, 'A tụrụ anya "gaa n\'ihu". (Expected "gaa n\'ihu".)', next.location, fileName);
       }
       return { kind: "ContinueStatement", location: keyword.location };
     }
     if (identity(keyword) === "ọ") {
       const bụrụ = consume(TokenType.Keyword, 'A tụrụ anya "bụrụ" mgbe "ọ" gasịrị.');
       if (identity(bụrụ) !== "bụrụ") {
-        throw new KwechiriError('A tụrụ anya "ọ bụrụ". (Expected "ọ bụrụ".)', bụrụ.location, fileName);
+        throw new KwechiriError(DiagnosticCodes.SyntaxUnexpectedToken, 'A tụrụ anya "ọ bụrụ". (Expected "ọ bụrụ".)', bụrụ.location, fileName);
       }
       consume(TokenType.LeftParen, 'A tụrụ anya "(" mgbe "ọ bụrụ" gasịrị.');
       const condition = parseExpression();
@@ -322,7 +325,7 @@ export function parse(tokens: readonly Token[], fileName?: string): Program {
       };
     }
     if (identity(keyword) !== "bipụta") {
-      throw new KwechiriError(`Okwu iwu a akwadoghị: "${keyword.lexeme}".`, keyword.location, fileName);
+      throw new KwechiriError(DiagnosticCodes.SyntaxUnsupportedStatement, `Okwu iwu a akwadoghị: "${keyword.lexeme}".`, keyword.location, fileName);
     }
     consume(TokenType.LeftParen, 'A tụrụ anya "(" mgbe "bipụta" gasịrị.');
     const value = parseExpression();

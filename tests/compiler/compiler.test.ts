@@ -22,15 +22,21 @@ describe("compiler", () => {
     );
   });
 
+  it("compiles astral letters as identifiers and keeps UTF-16 source coordinates", () => {
+    expect(compile("\u{10400} = 1\nbipụta(\u{10400})")).toBe(
+      "let _kwe0 = 1;\n_kweRuntime.print(_kwe0, {line:2,column:1,offset:7});\n",
+    );
+  });
+
   it("rejects a variable read before its first assignment", () => {
     expect(() => compile('bipụta(aha)', "variables.kwe")).toThrow(
-      /variables\.kwe:1:8: Enweghị ike ịchọta mgbanwe "aha"/,
+      /variables\.kwe:1:8: KWE-SEM-001: Enweghị ike ịchọta mgbanwe "aha"/,
     );
   });
 
   it("does not make a variable visible within its first assignment", () => {
     expect(() => compile("aha = aha", "variables.kwe")).toThrow(
-      /variables\.kwe:1:7: Enweghị ike ịchọta mgbanwe "aha"/,
+      /variables\.kwe:1:7: KWE-SEM-001: Enweghị ike ịchọta mgbanwe "aha"/,
     );
   });
 
@@ -42,7 +48,7 @@ describe("compiler", () => {
 
   it("rejects strings in arithmetic expressions", () => {
     expect(() => compile('aha = "Uche"\nbipụta(aha + 1)', "expressions.kwe")).toThrow(
-      /expressions\.kwe:2:12: Akara "\+" chọrọ ọnụọgụ abụọ/,
+      /expressions\.kwe:2:12: KWE-SEM-017: Akara "\+" chọrọ ọnụọgụ abụọ/,
     );
   });
 
@@ -61,7 +67,7 @@ describe("compiler", () => {
 
   it("requires a boolean condition", () => {
     expect(() => compile('ọ bụrụ (1) { bipụta("mba") }', "conditions.kwe")).toThrow(
-      /conditions\.kwe:1:9: Ọnọdụ ga-abụ eziokwu maọbụ ụgha/,
+      /conditions\.kwe:1:9: KWE-SEM-028: Ọnọdụ ga-abụ eziokwu maọbụ ụgha/,
     );
   });
 

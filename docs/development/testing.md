@@ -11,6 +11,7 @@ Test locations:
 - `tests/runtime/`
 - `tests/integration/`
 - `tests/fixtures/`
+- `tests/diagnostics/`
 - `tests/vscode/`
 
 The explicit Vitest configuration defines deterministic discovery and Node

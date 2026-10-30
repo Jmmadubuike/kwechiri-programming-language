@@ -24,5 +24,5 @@ parameter types are invented for parameter-dependent expressions.
 
 Kwechiri has no implicit truthiness. Logical operators require Booleans.
 
-**Status: Undecided** — explicit type annotations, advanced numeric types,
-typed empty-array construction, and a public type syntax.
+Explicit type annotations, advanced numeric types, typed empty-array
+construction, and a public type syntax are deferred beyond 1.0.

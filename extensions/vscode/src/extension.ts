@@ -71,11 +71,12 @@ class KwechiriChecker implements vscode.Disposable {
         vscode.DiagnosticSeverity.Error,
       );
       diagnostic.source = "kwechiri";
+      diagnostic.code = problem.code;
       this.diagnostics.set(targetUri, [diagnostic]);
       if (targetUri.toString() !== document.uri.toString()) this.diagnostics.delete(document.uri);
       this.status.text = "$(error) Kwechiri";
-      this.status.tooltip = `${problem.line}:${problem.column} ${problem.message}`;
-      this.output.appendLine(`${problem.fileName}:${problem.line}:${problem.column}: ${problem.message}`);
+      this.status.tooltip = `${problem.line}:${problem.column} ${problem.code}: ${problem.message}`;
+      this.output.appendLine(`${problem.fileName}:${problem.line}:${problem.column}: ${problem.code}: ${problem.message}`);
     }
   }
 

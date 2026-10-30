@@ -24,5 +24,5 @@ Array indexes must be finite, non-negative integers within bounds. Collection
 equality and inequality are errors even when both operands are aliases of the
 same collection.
 
-**Status: Undecided** — modulo, exponentiation, implicit conversion, string
-concatenation, and future explicit collection comparison operations.
+Modulo, exponentiation, implicit conversion, string concatenation, and explicit
+collection comparison operations are deferred beyond 1.0.

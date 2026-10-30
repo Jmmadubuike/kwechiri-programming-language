@@ -30,6 +30,21 @@ describe("tokenize", () => {
     expect(tokens[5]?.literal).toBe(36.5);
   });
 
+  it("iterates astral identifiers by code point while preserving UTF-16 locations", () => {
+    const astralLetter = "\u{10400}";
+    const tokens = tokenize(`${astralLetter} = 1`);
+    expect(tokens[0]).toMatchObject({
+      type: TokenType.Identifier,
+      lexeme: astralLetter,
+      location: { line: 1, column: 1, offset: 0 },
+    });
+    expect(tokens[1]).toMatchObject({
+      type: TokenType.Equals,
+      location: { line: 1, column: 4, offset: 3 },
+    });
+    expect(() => tokenize("😀")).toThrow(/KWE-LEX-001: Akara a amaghị: "😀"/);
+  });
+
   it("reports the source location of an unterminated string", () => {
     expect(() => tokenize('\n bipụta("Ndewo')).toThrow(/2:9/);
   });

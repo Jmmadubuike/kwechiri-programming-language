@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { DiagnosticCodes } from "../../src/errors/diagnostic-catalog.js";
 import { KwechiriError } from "../../src/errors/kwechiri-error.js";
 import {
   compilerProblemFromError,
@@ -8,6 +9,7 @@ import {
 describe("VS Code diagnostics", () => {
   it("converts a located Kwechiri error without duplicating its location prefix", () => {
     const error = new KwechiriError(
+      DiagnosticCodes.SemanticUndefinedVariable,
       "Aha amaghị. (Undefined variable.)",
       { line: 3, column: 7, offset: 24 },
       "C:\\ọrụ\\mmemme.kwe",
@@ -17,12 +19,13 @@ describe("VS Code diagnostics", () => {
       fileName: "C:\\ọrụ\\mmemme.kwe",
       line: 3,
       column: 7,
+      code: DiagnosticCodes.SemanticUndefinedVariable,
       message: "Aha amaghị. (Undefined variable.)",
     });
   });
 
   it("uses the entry filename when a compiler error has no filename", () => {
-    const error = new KwechiriError("Emehiere syntax. (Syntax error.)", {
+    const error = new KwechiriError(DiagnosticCodes.SyntaxExpectedExpression, "Emehiere syntax. (Syntax error.)", {
       line: 1,
       column: 4,
       offset: 3,
@@ -44,6 +47,7 @@ describe("VS Code diagnostics", () => {
       fileName: "C:\\ọrụ\\missing.kwe",
       line: 1,
       column: 1,
+      code: DiagnosticCodes.ModuleMissing,
       message: "Missing imported module.",
     };
 

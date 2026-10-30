@@ -13,12 +13,24 @@ env:
 
 jobs:
   validate:
-    name: Node.js ${{ matrix.node-version }}
-    runs-on: ubuntu-latest
+    name: Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        node-version: [20, 24]
+        include:
+          - os: ubuntu-latest
+            node-version: 20
+          - os: ubuntu-latest
+            node-version: 22
+          - os: ubuntu-latest
+            node-version: 24
+          - os: windows-latest
+            node-version: 20
+          - os: windows-latest
+            node-version: 22
+          - os: windows-latest
+            node-version: 24
 
     steps:
       - name: Check out repository
@@ -43,47 +55,47 @@ jobs:
         run: npm run check
 
       - name: Install website dependencies
-        if: matrix.node-version == 24
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
         run: npm ci --prefix website
 
       - name: Validate website
-        if: matrix.node-version == 24
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
         run: npm run website:check
 
       - name: Audit website dependencies
-        if: matrix.node-version == 24
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
         run: npm --prefix website audit --audit-level=high
 
       - name: Install Playwright Chromium
-        if: matrix.node-version == 24
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
         working-directory: website
         run: npx playwright install --with-deps chromium
 
       - name: Test playground in Chromium
-        if: matrix.node-version == 24
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
         run: npm run website:e2e
 
       - name: Install VS Code extension dependencies
-        if: matrix.node-version == 24
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
         run: npm ci --prefix extensions/vscode
 
       - name: Audit VS Code extension dependencies
-        if: matrix.node-version == 24
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
         run: npm --prefix extensions/vscode audit --audit-level=high
 
       - name: Validate and package VS Code extension
-        if: matrix.node-version == 24
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
         run: npm run vscode:check
 
       - name: Cache VS Code extension test runtime
-        if: matrix.node-version == 24
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
         uses: actions/cache@v4
         with:
           path: extensions/vscode/.vscode-test
           key: ${{ runner.os }}-vscode-1.100.0
 
       - name: Test VS Code extension host
-        if: matrix.node-version == 24
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
         run: xvfb-run -a npm run vscode:test
 
       - name: Smoke-test existing CLI

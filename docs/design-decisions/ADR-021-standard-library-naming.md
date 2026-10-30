@@ -28,3 +28,7 @@ Programs remain readable with the existing call grammar, and future terminology
 review remains possible before 1.0. Each later public API still requires owner
 and native-speaker review. Import aliases remain a separate deferred language
 decision.
+
+For Kwechiri 1.0, ADR-027 freezes the five provisionally named
+`kwechiri:eriri` exports as the complete Standard Library surface unless a
+separate batch is approved.

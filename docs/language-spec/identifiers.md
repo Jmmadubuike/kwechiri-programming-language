@@ -4,6 +4,11 @@ Identifiers support Unicode letters and Igbo characters including `ị`, `ọ`,
 and `ụ`. After the first character, combining marks, Unicode numbers, and `_`
 are also accepted.
 
+Scanning operates on Unicode code points, so astral letters can form
+identifiers without being split into surrogate halves. Unicode 15.0.0 is the
+guaranteed portable baseline. A newer host may accept characters added later
+in Unicode, but those characters do not carry a cross-host 1.0 guarantee.
+
 Kwechiri names are resolved through compiler symbol tables. They are not used
 directly as JavaScript variable names; generated names are internal. Approved
 keywords cannot be used where the grammar requires an identifier.
@@ -20,6 +25,6 @@ written by the program.
 
 Source locations use line, column, and source offset information.
 
-**Status: Undecided** — the final identifier code-point profile, Unicode version
-policy, identifier style conventions, and whether source coordinates will
-eventually use UTF-16 code units, Unicode code points, or display units.
+Identifier style conventions are deferred beyond 1.0. The code-point profile,
+Unicode baseline, NFC identity, coordinate units, and no-alias rule are fixed
+by ADR-028 and ADR-027.

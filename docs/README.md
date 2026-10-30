@@ -39,11 +39,22 @@ and consequences; they do not authorize unresolved future features.
 - [Engineering standards](development/engineering-standards.md)
 - [Git workflow](development/git-workflow.md)
 - [Definition of done](development/definition-of-done.md)
+- [Release procedure](development/release.md) - approved 2026-10-30
+- [Supported environments](development/support-matrix.md) - approved direction,
+  final verification pending
+- [Compiler package identity](development/package-identity.md) - approved name,
+  publication blocked
 
 ## 6. Roadmap and status
 
 - [Current project status](roadmap/PROJECT-STATUS.md)
 - [Recorded technical debt](roadmap/technical-debt.md)
+- [Milestone 14 Kwechiri 1.0 contract](roadmap/MILESTONE-14-KWECHIRI-1.0.md)
+  - approved 2026-10-30; in progress
+- [Kwechiri 1.0 language surface inventory](roadmap/KWECHIRI-1.0-SURFACE-INVENTORY.md)
+  - approved for the 1.0 freeze
+- [Milestone 14 release-readiness record](roadmap/MILESTONE-14-READINESS.md)
+  - local baseline and unverified external scope
 - [Website and documentation foundation plan](roadmap/WEBSITE-FOUNDATION-PLAN.md)
   — approved static foundation
 - [Browser playground Batch 12A contract](roadmap/MILESTONE-12-BROWSER-PLAYGROUND.md)

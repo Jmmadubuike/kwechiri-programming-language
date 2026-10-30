@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { compileFile } from "../../src/compiler/compile-file.js";
+import { DiagnosticCodes } from "../../src/errors/diagnostic-catalog.js";
 import { loadModuleGraph } from "../../src/modules/loader.js";
 import { executeJavaScript } from "../../src/runtime/execute.js";
 
@@ -140,6 +141,14 @@ describe("module graph hardening", () => {
     }
   });
 
+  it("preserves astral identifiers across module exports and imports", async () => {
+    const root = temporaryDirectory();
+    const name = "\u{10400}";
+    write(root, "value.kwe", `bupụ ${name} = 7`);
+    const entry = write(root, "main.kwe", `webata { ${name} } site na "./value.kwe"\nbipụta(${name})`);
+    expect(await outputOf(entry)).toEqual([[7]]);
+  });
+
   it("uses canonical identity and containment for symlink aliases when supported", async () => {
     const parent = temporaryDirectory();
     const root = join(parent, "project");
@@ -162,5 +171,23 @@ describe("module graph hardening", () => {
     ].join("\n"));
     expect(await outputOf(entry)).toEqual([["once"], [3]]);
     await expect(loadModuleGraph(write(root, "escape.kwe", 'webata { secret } site na "./escape/secret.kwe"'))).rejects.toThrow(/Canonical module path escapes/);
+  });
+
+  it("rejects malformed UTF-8 entry and imported source files", async () => {
+    const root = temporaryDirectory();
+    const invalidEntry = join(root, "invalid-entry.kwe");
+    writeFileSync(invalidEntry, Buffer.from([0x62, 0x69, 0x70, 0xff]));
+    await expect(loadModuleGraph(invalidEntry)).rejects.toMatchObject({
+      code: DiagnosticCodes.ModuleInvalidUtf8,
+      fileName: invalidEntry,
+    });
+
+    const invalidImport = join(root, "invalid-import.kwe");
+    writeFileSync(invalidImport, Buffer.from([0xc3, 0x28]));
+    const entry = write(root, "main.kwe", 'webata { value } site na "./invalid-import.kwe"');
+    await expect(loadModuleGraph(entry)).rejects.toMatchObject({
+      code: DiagnosticCodes.ModuleInvalidUtf8,
+      fileName: invalidImport,
+    });
   });
 });

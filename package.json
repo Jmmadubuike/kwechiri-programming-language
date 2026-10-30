@@ -5,6 +5,20 @@
   "license": "MIT",
   "description": "An Igbo-first programming language",
   "homepage": "https://kwechiri.dev",
+  "author": "Joseph Mmadubuike",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jmmadubuike/kwechiri-programming-language.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jmmadubuike/kwechiri-programming-language/issues"
+  },
+  "keywords": [
+    "kwechiri",
+    "igbo",
+    "programming-language",
+    "compiler"
+  ],
   "type": "module",
   "bin": {
     "kwechiri": "dist/cli/index.js"
@@ -12,6 +26,7 @@
   "files": [
     "dist",
     "README.md",
+    "CHANGELOG.md",
     "assets/brand/kwechiri-logo-main-640.png"
   ],
   "scripts": {

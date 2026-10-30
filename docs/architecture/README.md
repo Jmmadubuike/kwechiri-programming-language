@@ -18,6 +18,12 @@ passes deterministic source through the compiler pipeline.
 Current documents:
 
 - [Milestone 1 architecture](milestone-1.md) — historical initial slice
+- [Compiler overview](compiler-overview.md) — stages, boundaries, and output
+- [Lexer and token model](lexer-and-tokens.md) — source scanning and tokens
+- [Parser and AST](parser-and-ast.md) — grammar, precedence, and node shape
+- [Semantic analysis](semantic-analysis.md) — symbols, flow, and types
+- [Code generation](code-generation.md) — resolved nodes to JavaScript
+- [Diagnostics and source locations](diagnostics.md) — failures and locations
 - [Runtime architecture](runtime.md) — current runtime boundary
 - [Browser playground architecture](browser-playground.md) — single-source
   browser compilation, worker isolation, runtime, and limits
@@ -29,14 +35,6 @@ Current documents:
 - [VS Code extension architecture](vscode-extension.md) — registration,
   highlighting, canonical compiler bundling, and diagnostics
 
-Architecture documentation still needed:
-
-- compiler overview
-- lexer and token model
-- parser and AST
-- semantic analysis and type representation
-- code generation
-- diagnostics and source locations
-
-These gaps do not authorize internal refactoring. Recorded architectural debt
-is tracked in [technical debt](../roadmap/technical-debt.md).
+Recorded architectural debt is tracked in
+[technical debt](../roadmap/technical-debt.md). Documentation of current
+structure does not authorize internal refactoring.

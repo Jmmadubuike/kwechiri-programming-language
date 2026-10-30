@@ -176,8 +176,7 @@ link audit.
 
 ## Not yet verified
 
-- macOS, which is not currently claimed;
-- a live website deployment verification for 1.0.0.
+- macOS, which is not currently claimed.
 
 ## CI history
 
@@ -208,9 +207,15 @@ Marketplace trusted-publishing run `41135011283` passed for VS Code extension
 `0.2.0`; the public gallery and a clean exact-version installation were then
 verified.
 
+The final 1.0.0 release commit `d5f92d3` passed CI run `41144283521`. The
+post-release website commit `1934feb` passed CI run `41145211276`. Live
+`kwechiri.dev` home and documentation pages served version `1.0.0`, retained
+the configured security headers, returned a valid sitemap, and preserved the
+`www` permanent redirect.
+
 ## Remaining release blockers
 
-1. Complete a live website deployment verification for 1.0.0.
+None for Kwechiri 1.0.0. macOS remains an explicitly unclaimed platform.
 
 ## Evidence rule
 

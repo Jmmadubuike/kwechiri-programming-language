@@ -28,6 +28,7 @@ The VS Code extension is published separately as
 
 npm dist-tags: `latest` points to `1.0.0`; `next` remains the `1.0.0-rc.1`
 prerelease. The Git release tag is annotated `v1.0.0`.
+The `kwechiri.dev` website serves the same 1.0.0 release.
 
 ## Language
 

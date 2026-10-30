@@ -428,7 +428,7 @@ Completed release work:
 
 Remaining release work includes:
 
-- live 1.0.0 website deployment verification
+- none for Kwechiri 1.0.0
 
 The [changelog](../../CHANGELOG.md) and
 [release procedure](../development/release.md) are established. The procedure

@@ -23,12 +23,18 @@ const extensionManifest = `<?xml version="1.0" encoding="utf-8"?>
     <Identity Language="en-US" Id="${xmlEscape(manifest.name)}" Version="${xmlEscape(manifest.version)}" Publisher="${xmlEscape(manifest.publisher)}" />
     <DisplayName>${xmlEscape(manifest.displayName)}</DisplayName>
     <Description xml:space="preserve">${xmlEscape(manifest.description)}</Description>
+    <Tags>${xmlEscape(manifest.keywords.join(" "))}</Tags>
     <Categories>${xmlEscape(manifest.categories.join(","))}</Categories>
+    <GalleryFlags>Public</GalleryFlags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Code" />
   </Installation>
   <Dependencies />
+  <Properties>
+    <Property Id="Microsoft.VisualStudio.Code.Engine" Value="${xmlEscape(manifest.engines.vscode)}" />
+    <Property Id="Microsoft.VisualStudio.Code.ExtensionKind" Value="${xmlEscape(manifest.extensionKind.join(","))}" />
+  </Properties>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true" />
   </Assets>

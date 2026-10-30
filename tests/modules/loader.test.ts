@@ -1,4 +1,4 @@
-import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -135,9 +135,15 @@ describe("module graph hardening", () => {
     const file = "ụbọchị".normalize("NFD");
     write(root, `${directory}/${file}.kwe`, 'bupụ uru = "Mọnde"');
     expect(await outputOf(write(root, "main.kwe", `webata { uru } site na "./${directory}/${file}.kwe"\nbipụta(uru)`))).toEqual([["Mọnde"]]);
-    const normalizedRequest = `./${directory.normalize("NFC")}/${file.normalize("NFC")}.kwe`;
+    const normalizedRelative = `${directory.normalize("NFC")}/${file.normalize("NFC")}.kwe`;
+    const normalizedRequest = `./${normalizedRelative}`;
     if (normalizedRequest !== `./${directory}/${file}.kwe`) {
-      await expect(loadModuleGraph(write(root, "normalized.kwe", `webata { uru } site na "${normalizedRequest}"`))).rejects.toThrow(/Missing imported module/);
+      const normalizedEntry = write(root, "normalized.kwe", `webata { uru } site na "${normalizedRequest}"\nbipụta(uru)`);
+      if (existsSync(join(root, normalizedRelative))) {
+        expect(await outputOf(normalizedEntry)).toEqual([["Mọnde"]]);
+      } else {
+        await expect(loadModuleGraph(normalizedEntry)).rejects.toThrow(/Missing imported module/);
+      }
     }
   });
 

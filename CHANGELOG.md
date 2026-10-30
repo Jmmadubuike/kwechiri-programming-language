@@ -3,11 +3,13 @@
 All notable changes to Kwechiri are recorded here. Release dates and versions
 are added only when the project owner approves a release.
 
-## Unreleased
+## 1.0.0-rc.1 - 2026-10-30
+
+Status: Release candidate under verification; not published.
 
 ### Added
 
-- Milestone 14 release contract and release procedure drafts.
+- Milestone 14 release contract and release procedure.
 - Release-readiness decision register.
 - Stable `KWE-<CATEGORY>-<NNN>` public diagnostic codes.
 - Approved 1.0 compatibility and deprecation policy.
@@ -17,6 +19,7 @@ are added only when the project owner approves a release.
 - Windows Node.js 20, 22, and 24 compiler verification.
 - Windows/Linux CI matrix for supported Node.js versions.
 - Compiler package identity and release metadata.
+- `1.0.0-rc.1` compiler and website candidate version metadata.
 
 ### Changed
 

@@ -7,8 +7,8 @@ Owner approval: 2026-10-30
 
 This document is the approved scope and acceptance contract for Kwechiri 1.0.
 Approval of this scope does not approve npm publication, a release, or
-supported-platform claims. The repository remains at `0.1.0-development` until
-the owner explicitly approves a 1.0 release candidate.
+supported-platform claims. The current candidate is `1.0.0-rc.1`; publication
+remains blocked until external verification and explicit owner approval.
 
 ## Purpose
 
@@ -41,7 +41,7 @@ separate owner decision before implementation.
 | 14E - Documentation and learning path | Complete | Architecture, reference, tutorials, examples, links, and browser examples verified on the current tree |
 | 14F - Support matrix and portability | In progress | Windows Node 20/22/24 verified; Linux release CI and macOS decision remain |
 | 14G - Distribution and release engineering | In progress | Package name and metadata approved; npm ownership and publication remain blocked |
-| 14H - Release candidate and final approval | Pending | Requires the preceding packages and explicit publication GO |
+| 14H - Release candidate and final approval | In progress | `1.0.0-rc.1` metadata and release notes prepared; external verification and publication GO remain |
 
 ### 14A - Release contract and readiness inventory
 

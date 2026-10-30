@@ -8,6 +8,7 @@ interface CliResult { readonly status: number | null; readonly stdout: string; r
 
 const temporaryDirectories: string[] = [];
 const cliPath = resolve("dist/cli/index.js");
+const packageVersion = (JSON.parse(readFileSync(resolve("package.json"), "utf8")) as { version: string }).version;
 const runCli = (arguments_: readonly string[], cwd = process.cwd()): CliResult => {
   const result = spawnSync(process.execPath, [cliPath, ...arguments_], { cwd, encoding: "utf8" });
   return { status: result.status, stdout: result.stdout, stderr: result.stderr };
@@ -294,7 +295,7 @@ describe("Kwechiri CLI integration", () => {
       expect(result.stdout).toContain("Usage:");
       expect(result.stderr).toBe("");
     }
-    expect(runCli(["--version"])).toEqual({ status: 0, stdout: "0.1.0-development\n", stderr: "" });
+    expect(runCli(["--version"])).toEqual({ status: 0, stdout: `${packageVersion}\n`, stderr: "" });
     for (const arguments_ of [[], ["run"], ["invalid", "hello.kwe"], ["run", "hello.KWE"], ["compile", "hello.kwe", "--out", "hello.JS"]]) {
       const result = runCli(arguments_);
       expect(result.status).toBe(2);

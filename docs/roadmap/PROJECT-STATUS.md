@@ -1,7 +1,8 @@
 # Kwechiri project status and remaining roadmap
 
 Last updated: 2026-10-30
-Current version: `0.1.0-development`  
+Current version: `1.0.0-rc.1`, candidate; not published
+
 Current completed milestone: Milestone 13 — VS Code support
 Current VS Code release: `0.1.3`, public
 
@@ -511,7 +512,7 @@ releases use the trusted-publishing workflow.
 
 Milestone 14 is approved and in progress at
 `af28cd686f2fface9b43389cf922e7007307b26d`. Work packages 14A-14E are complete;
-14F and 14G are in progress; 14H remains pending. The next gate is inspected
-Linux and Windows CI evidence, verified npm ownership, and explicit owner
-approval for each publication target. Do not publish the compiler or begin
-later Standard Library batches without that approval.
+14F and 14G are in progress; 14H has prepared the `1.0.0-rc.1` candidate. The
+next gate is inspected Linux and Windows CI evidence, verified npm ownership,
+and explicit owner approval for each publication target. Do not publish the
+compiler or begin later Standard Library batches without that approval.

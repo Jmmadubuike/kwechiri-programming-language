@@ -13,8 +13,8 @@ release.
 | Item | Value |
 | --- | --- |
 | Foundation commit | `af28cd686f2fface9b43389cf922e7007307b26d` |
-| Working tree | clean and synchronized with `origin/main` |
-| Version | `0.1.0-development` |
+| Working tree | `1.0.0-rc.1` release-candidate changes pending commit |
+| Version | `1.0.0-rc.1`, candidate |
 | Operating system | Windows 11 Pro x64 |
 | Node.js | `v24.19.0` |
 | npm | `11.17.0` |
@@ -139,9 +139,19 @@ rules approved in
 The candidate contained 74 entries, including `LICENSE`, `README.md`,
 `CHANGELOG.md`, package metadata, and the complete `dist/` compiler output.
 
-A packed `kwechiri-0.1.0-development.tgz` was installed in a clean temporary
+A packed `kwechiri-1.0.0-rc.1.tgz` was installed in a clean temporary
 consumer directory. Installation exited `0`, the installed `kwechiri` binary
-ran a copied `hello.kwe`, and the output was `Ndewo Ụwa!`.
+reported version `1.0.0-rc.1`, ran a copied `hello.kwe`, and produced
+`Ndewo Ụwa!`.
+
+Candidate package identity:
+
+| Item | Value |
+| --- | --- |
+| Filename | `kwechiri-1.0.0-rc.1.tgz` |
+| Entries | 74 |
+| Packed size | 224,253 bytes |
+| SHA-1 | `abe83038230233a81ab0e86a04b254849cae18ff` |
 
 No package was published and no workspace tarball was retained.
 

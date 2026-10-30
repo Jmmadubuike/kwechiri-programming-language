@@ -1,6 +1,6 @@
 {
   "name": "kwechiri",
-  "version": "0.1.0-development",
+  "version": "1.0.0-rc.1",
   "private": true,
   "license": "MIT",
   "description": "An Igbo-first programming language",

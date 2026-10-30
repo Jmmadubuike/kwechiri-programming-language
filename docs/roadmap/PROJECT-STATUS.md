@@ -4,7 +4,7 @@ Last updated: 2026-10-30
 Current version: `1.0.0-rc.1`, published release candidate
 
 Current completed milestone: Milestone 13 — VS Code support
-Current VS Code release: `0.1.3`, public
+Current VS Code release: `0.2.0`, public
 
 Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
@@ -428,7 +428,6 @@ Remaining release work includes:
 
 - final stable 1.0 approval and release
 - live release-candidate website deployment verification
-- public Marketplace propagation verification for VS Code `0.2.0`
 
 The [changelog](../../CHANGELOG.md) and
 [release procedure](../development/release.md) are established. The procedure

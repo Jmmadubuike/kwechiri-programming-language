@@ -27,8 +27,7 @@ publication, npm assigned both `latest` and `next` to this prerelease.
 - Located diagnostics now include a stable code between the source location and
   message.
 - VS Code extension `0.2.0` adds the stable diagnostics and Unicode compiler
-  updates. Trusted publishing completed; public Marketplace propagation was
-  still pending at the last check.
+  updates. It is public in the Marketplace and verified by clean installation.
 
 ## 0.1.0-development - 2026-10-30
 

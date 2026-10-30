@@ -109,6 +109,8 @@ success. The suite passed when repeated alone.
 
 The `0.2.0` VSIX installed successfully into an isolated VS Code 1.133.0
 profile and was listed as `kwechiri.kwechiri-language@0.2.0`.
+The trusted publishing run succeeded, the public Marketplace feed advanced to
+`0.2.0`, and an exact-version install from Marketplace succeeded.
 
 ### Dependencies
 
@@ -176,11 +178,6 @@ link audit.
 
 - macOS, which is not currently claimed;
 - a live website deployment for the release candidate;
-- public Marketplace propagation of VS Code extension `0.2.0`. The trusted
-  publishing workflow succeeded and logged `Published
-  kwechiri.kwechiri-language v0.2.0`, but the public gallery still reported
-  `0.1.3` and exact-version installation remained unavailable at the last
-  check;
 - final stable 1.0 approval and release.
 
 ## CI history
@@ -208,6 +205,9 @@ successful:
   VS Code extension packaging, and extension-host tests.
 
 Run `41128115799` for the published commit `a307675` also passed all six jobs.
+Marketplace trusted-publishing run `41135011283` passed for VS Code extension
+`0.2.0`; the public gallery and a clean exact-version installation were then
+verified.
 
 ## Remaining release blockers
 

@@ -5,7 +5,7 @@ through manual `workflow_dispatch`, requires the `main` branch, performs the
 canonical compiler and extension checks, and publishes the versioned VSIX
 through GitHub OpenID Connect.
 
-The Kwechiri policy is active. Version `0.1.3` is public in the Visual Studio
+The Kwechiri policy is active. Version `0.2.0` is public in the Visual Studio
 Marketplace and was installed from a clean VS Code profile as deployment
 verification.
 
@@ -30,7 +30,7 @@ After saving the policy:
 2. Select **Publish VS Code extension**.
 3. Choose **Run workflow** on `main`.
 4. Confirm all validation steps pass.
-5. Confirm the Marketplace lists version `0.1.2` and its availability is
+5. Confirm the Marketplace lists the packaged version and its availability is
    `Public`.
 
 For a private repository, the first token exchange must run within 48 hours of

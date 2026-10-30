@@ -510,9 +510,9 @@ at `693c5e09c1988cabd94133ee0d3f4af125278466`; Batch 12B is closed at
 closed at `a78d42102d3a672f1bc13535c652300c92f25318`. Further Marketplace
 releases use the trusted-publishing workflow.
 
-Milestone 14 is approved and in progress at
-`af28cd686f2fface9b43389cf922e7007307b26d`. Work packages 14A-14E are complete;
-14F and 14G are in progress; 14H has prepared the `1.0.0-rc.1` candidate. The
-next gate is inspected Linux and Windows CI evidence, verified npm ownership,
-and explicit owner approval for each publication target. Do not publish the
-compiler or begin later Standard Library batches without that approval.
+Milestone 14 is approved and in progress with the `1.0.0-rc.1` candidate at
+`0bc3b1d`. Work packages 14A-14E are complete; 14F and 14G are in progress;
+14H has prepared the candidate. The next gate is inspected Linux and Windows CI
+evidence, verified npm ownership, and explicit owner approval for each
+publication target. Do not publish the compiler or begin later Standard Library
+batches without that approval.

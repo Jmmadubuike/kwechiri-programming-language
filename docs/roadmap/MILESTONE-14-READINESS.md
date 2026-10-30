@@ -13,14 +13,15 @@ release.
 | Item | Value |
 | --- | --- |
 | Foundation commit | `af28cd686f2fface9b43389cf922e7007307b26d` |
-| Working tree | `1.0.0-rc.1` release-candidate changes pending commit |
+| Candidate commit | `0bc3b1d98f4d0d25026d12a79f55eabfd4cfe41e` |
+| Working tree | clean after candidate commit |
 | Version | `1.0.0-rc.1`, candidate |
 | Operating system | Windows 11 Pro x64 |
 | Node.js | `v24.19.0` |
 | npm | `11.17.0` |
 
-The evidence below applies to compiler code in the foundation commit. The final
-release candidate, if different, must be validated independently.
+The evidence below applies to the `1.0.0-rc.1` candidate. The final release, if
+different, must be validated independently.
 
 ## Verified locally
 

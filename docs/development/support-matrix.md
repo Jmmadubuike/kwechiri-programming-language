@@ -25,9 +25,10 @@ UTF-8 failures.
 
 Linux has historical Node.js 20 and 24 CI evidence from earlier closed
 milestones. The quality workflow now defines Linux and Windows jobs for Node.js
-20, 22, and 24 for the `1.0.0-rc.1` candidate. The remote workflow result could
-not be inspected because the private repository's Actions API is unavailable
-without GitHub authentication in this session.
+20, 22, and 24 for the `1.0.0-rc.1` candidate. Linux jobs passed for the
+initial candidate run. Windows exposed two test portability defects, fixed in
+`a0b474d`; the replacement matrix run is queued behind a GitHub Actions
+degraded-performance incident.
 
 macOS is not claimed as supported. No direct or CI evidence exists for it.
 

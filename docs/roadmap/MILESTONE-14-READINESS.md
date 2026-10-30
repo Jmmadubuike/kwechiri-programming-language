@@ -13,8 +13,8 @@ release.
 | Item | Value |
 | --- | --- |
 | Foundation commit | `af28cd686f2fface9b43389cf922e7007307b26d` |
-| Candidate commit | `0bc3b1d98f4d0d25026d12a79f55eabfd4cfe41e` |
-| Working tree | clean after candidate commit |
+| Candidate commit | `a0b474d2f98eb33e88bd35fd4fc516a8cf4971b6` |
+| Working tree | clean after Windows portability fix |
 | Version | `1.0.0-rc.1`, candidate |
 | Operating system | Windows 11 Pro x64 |
 | Node.js | `v24.19.0` |
@@ -172,9 +172,8 @@ link audit.
 
 ## Not yet verified
 
-- CI for the foundation commit and final release candidate. The repository is
-  private, and the GitHub CLI/API is unauthenticated in this session, so the
-  remote Actions run could not be inspected;
+- the replacement CI matrix run is queued behind GitHub Actions
+  `degraded_performance` and has not executed;
 - Linux at the release commit;
 - macOS, which is not currently claimed;
 - installation of the generated VSIX into a separate editor installation;
@@ -183,6 +182,22 @@ link audit.
 - npm ownership, access, and publication;
 - checksums or immutable artifact storage for the final release;
 - release notes, final version metadata, tag, and owner GO.
+
+## CI history
+
+Run `41099721451` for `0bc3b1d` completed with Linux success and Windows
+failure. The Linux Node.js 20, 22, and 24 jobs passed, including the website,
+Chromium, and VS Code extension checks. All three Windows compiler jobs failed
+on two test portability defects:
+
+- the license test expected LF after Git checked out `LICENSE` with CRLF;
+- the malformed-UTF-8 test compared a short Windows temp path with the loader's
+  canonical long path.
+
+Commit `a0b474d` normalizes the license line endings and compares against
+canonical paths. The complete 199-test suite passes locally after the fix. Run
+`41101489627` for the fix commit was queued but did not start because GitHub
+Actions reported degraded performance.
 
 ## Remaining release blockers
 

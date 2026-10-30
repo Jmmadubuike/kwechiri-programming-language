@@ -3,7 +3,7 @@
 Status: Release candidate under verification; not published
 
 Candidate date: 2026-10-30
-Candidate commit: `0bc3b1d`
+Candidate commit: `a0b474d`
 
 This candidate freezes the Kwechiri 1.0 language surface and establishes the
 compatibility, diagnostic, Unicode, packaging, and release contracts. It is

@@ -11,7 +11,7 @@ const readPackage = (path: string): PackageMetadata =>
 
 describe("project license", () => {
   it("uses the standard MIT text and copyright notice", () => {
-    const license = readFileSync(resolve("LICENSE"), "utf8");
+    const license = readFileSync(resolve("LICENSE"), "utf8").replace(/\r\n/gu, "\n");
 
     expect(license).toMatch(/^MIT License\n\nCopyright \(c\) 2026 Joseph Mmadubuike\n/u);
     expect(license).toContain("Permission is hereby granted, free of charge");

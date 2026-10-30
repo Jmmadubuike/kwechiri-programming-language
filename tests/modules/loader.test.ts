@@ -1,4 +1,4 @@
-import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, realpathSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -179,7 +179,7 @@ describe("module graph hardening", () => {
     writeFileSync(invalidEntry, Buffer.from([0x62, 0x69, 0x70, 0xff]));
     await expect(loadModuleGraph(invalidEntry)).rejects.toMatchObject({
       code: DiagnosticCodes.ModuleInvalidUtf8,
-      fileName: invalidEntry,
+      fileName: realpathSync(invalidEntry),
     });
 
     const invalidImport = join(root, "invalid-import.kwe");
@@ -187,7 +187,7 @@ describe("module graph hardening", () => {
     const entry = write(root, "main.kwe", 'webata { value } site na "./invalid-import.kwe"');
     await expect(loadModuleGraph(entry)).rejects.toMatchObject({
       code: DiagnosticCodes.ModuleInvalidUtf8,
-      fileName: invalidImport,
+      fileName: realpathSync(invalidImport),
     });
   });
 });

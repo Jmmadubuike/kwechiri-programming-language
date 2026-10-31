@@ -34,7 +34,7 @@ afterEach(() => {
 });
 
 describe("kwechiri:eriri", () => {
-  it("records the five approved exports in the declarative catalog", () => {
+  it("records the nine approved exports in the declarative catalog", () => {
     const module = standardModule("kwechiri:eriri");
     expect([...module?.exports.values() ?? []]).toEqual([
       expect.objectContaining({ publicName: "nwereEriri", arity: 2, parameterTypes: ["string", "string"], returnType: "boolean", mutation: "none", intrinsic: "stringContains" }),
@@ -42,6 +42,10 @@ describe("kwechiri:eriri", () => {
       expect.objectContaining({ publicName: "kwụsịNa", arity: 2, parameterTypes: ["string", "string"], returnType: "boolean", mutation: "none", intrinsic: "stringEndsWith" }),
       expect.objectContaining({ publicName: "ogologoEriri", arity: 1, parameterTypes: ["string"], returnType: "number", mutation: "none", intrinsic: "stringGraphemeLength" }),
       expect.objectContaining({ publicName: "jikọọEriri", arity: 2, parameterTypes: ["string", "string"], returnType: "string", mutation: "none", intrinsic: "stringConcat" }),
+      expect.objectContaining({ publicName: "wepuOghere", arity: 1, parameterTypes: ["string"], returnType: "string", mutation: "none", intrinsic: "stringTrim" }),
+      expect.objectContaining({ publicName: "okwuNta", arity: 1, parameterTypes: ["string"], returnType: "string", mutation: "none", intrinsic: "stringLowercase" }),
+      expect.objectContaining({ publicName: "okwuNnukwu", arity: 1, parameterTypes: ["string"], returnType: "string", mutation: "none", intrinsic: "stringUppercase" }),
+      expect.objectContaining({ publicName: "dochieEriri", arity: 3, parameterTypes: ["string", "string", "string"], returnType: "string", mutation: "none", intrinsic: "stringReplaceAll" }),
     ]);
   });
 
@@ -123,6 +127,62 @@ describe("kwechiri:eriri", () => {
     expect(output[3]).not.toBe(composed + composed);
   });
 
+  it("trims only leading and trailing Unicode whitespace", async () => {
+    const source = [
+      'webata { wepuOghere } site na "kwechiri:eriri"',
+      'bipụta(wepuOghere(""))',
+      'bipụta(wepuOghere("   "))',
+      'bipụta(wepuOghere("  Kwechiri  "))',
+      'bipụta(wepuOghere("\\t\\n Kwe \\t chiri \\n\\t"))',
+      'bipụta(wepuOghere(" Kwechiri　"))',
+    ].join("\n");
+
+    expect(await outputOf(source)).toEqual(["", "", "Kwechiri", "Kwe \t chiri", "Kwechiri"]);
+  });
+
+  it("applies locale-independent Unicode case mapping without normalization", async () => {
+    const decomposed = "ụbọchị".normalize("NFD");
+    const source = [
+      'webata { okwuNta, okwuNnukwu } site na "kwechiri:eriri"',
+      'bipụta(okwuNta("ỤBỌCHỊ ỌMA"))',
+      'bipụta(okwuNnukwu("ụbọchị ọma"))',
+      'bipụta(okwuNta("I"))',
+      'bipụta(okwuNnukwu("ß"))',
+      'bipụta(okwuNta("😀"))',
+      `bipụta(okwuNnukwu("${decomposed}"))`,
+    ].join("\n");
+
+    const output = await outputOf(source);
+    expect(output.slice(0, 5)).toEqual(["ụbọchị ọma", "ỤBỌCHỊ ỌMA", "i", "SS", "😀"]);
+    expect(output[5]).toBe("ỤBỌCHỊ".normalize("NFD"));
+  });
+
+  it("replaces every exact non-overlapping occurrence literally", async () => {
+    const composed = "ụ";
+    const decomposed = composed.normalize("NFD");
+    const source = [
+      'webata { dochieEriri } site na "kwechiri:eriri"',
+      'bipụta(dochieEriri("a-b-a", "-", "+"))',
+      'bipụta(dochieEriri("Kwechiri", "missing", "x"))',
+      'bipụta(dochieEriri("Kwechiri", "", "x"))',
+      'bipụta(dochieEriri("aaa", "aa", "X"))',
+      'bipụta(dochieEriri("abc", "b", "$&"))',
+      'bipụta(dochieEriri("abc", "b", "\\\\"))',
+      `bipụta(dochieEriri("${decomposed}", "${composed}", "x"))`,
+    ].join("\n");
+
+    const output = await outputOf(source);
+    expect(output).toEqual([
+      "a+b+a",
+      "Kwechiri",
+      "Kwechiri",
+      "Xa",
+      "a$&c",
+      "a\\c",
+      decomposed,
+    ]);
+  });
+
   it.each([
     ['nwereEriri(42, "x")', /argument type mismatch/i],
     ['maliteNa("x", eziokwu)', /argument type mismatch/i],
@@ -132,9 +192,14 @@ describe("kwechiri:eriri", () => {
     ['ogologoEriri("x", "y")', /argument count/i],
     ['jikọọEriri("x")', /argument count/i],
     ['jikọọEriri("x", eziokwu)', /argument type mismatch/i],
+    ["wepuOghere(42)", /argument type mismatch/i],
+    ['okwuNta("x", "y")', /argument count/i],
+    ["okwuNnukwu(eziokwu)", /argument type mismatch/i],
+    ['dochieEriri("x", "x")', /argument count/i],
+    ['dochieEriri("x", "x", 42)', /argument type mismatch/i],
   ])("rejects invalid call %s with a located semantic diagnostic", async (call, message) => {
     const directory = temporaryDirectory();
-    const source = `webata { nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri } site na "kwechiri:eriri"\nvalue = ${call}`;
+    const source = `webata { nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri, wepuOghere, okwuNta, okwuNnukwu, dochieEriri } site na "kwechiri:eriri"\nvalue = ${call}`;
     await expect(compileFile(write(directory, "invalid.kwe", source))).rejects.toThrow(message);
     await expect(compileFile(join(directory, "invalid.kwe"))).rejects.toThrow(/invalid\.kwe:\d+:\d+:/);
   });

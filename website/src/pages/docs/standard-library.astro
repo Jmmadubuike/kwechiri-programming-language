@@ -5,23 +5,27 @@ import DocsNav from "../../components/DocsNav.astro";
 import PageIntro from "../../components/PageIntro.astro";
 import { SITE } from "../../consts";
 
-const stringExample = `webata { nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri } site na "kwechiri:eriri"
+const stringExample = `webata { nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri, wepuOghere, okwuNta, okwuNnukwu, dochieEriri } site na "kwechiri:eriri"
 
 bipụta(nwereEriri("Kwechiri", "chiri"))
 bipụta(maliteNa("Kwechiri", "Kwe"))
 bipụta(kwụsịNa("Kwechiri", "chiri"))
 bipụta(ogologoEriri("Ụbọchị"))
-bipụta(jikọọEriri("Kwe", "chiri"))`;
+bipụta(jikọọEriri("Kwe", "chiri"))
+bipụta(wepuOghere("  Kwechiri  "))
+bipụta(okwuNta("ỤBỌCHỊ"))
+bipụta(okwuNnukwu("ọma"))
+bipụta(dochieEriri("Kwechiri", "chiri", "Kwe"))`;
 ---
 
 <BaseLayout
   title="Standard Library"
-  description="The official Kwechiri string module and its five frozen 1.0 functions."
+  description="The official Kwechiri string module and its nine functions."
 >
   <PageIntro
     eyebrow="Documentation"
     title="Explicit imports, specified behavior."
-    lead="Batch 11A introduced the reserved kwechiri: namespace. Batch 11B extends its pure string module with length and concatenation. Later Standard Library batches are not yet authorized."
+    lead="Batch 11A introduced the reserved kwechiri: namespace. Batches 11B and 11C extend its pure string module with inspection, measurement, and transformation."
   />
 
   <div class="shell content-layout">
@@ -29,7 +33,7 @@ bipụta(jikọọEriri("Kwe", "chiri"))`;
     <article class="prose">
       <h2><code>kwechiri:eriri</code></h2>
       <p>
-        The module exports five functions frozen for Kwechiri 1.0. All are pure,
+        The module exports nine functions. All are pure,
         non-mutating, case-sensitive, and free of implicit coercion or
         normalization.
       </p>
@@ -44,6 +48,10 @@ bipụta(jikọọEriri("Kwe", "chiri"))`;
             <tr><td><code>kwụsịNa</code></td><td><code>(string, string) -&gt; boolean</code></td><td>Ends with</td></tr>
             <tr><td><code>ogologoEriri</code></td><td><code>(string) -&gt; number</code></td><td>Grapheme-cluster length</td></tr>
             <tr><td><code>jikọọEriri</code></td><td><code>(string, string) -&gt; string</code></td><td>Exact concatenation</td></tr>
+            <tr><td><code>wepuOghere</code></td><td><code>(string) -&gt; string</code></td><td>Trim surrounding whitespace</td></tr>
+            <tr><td><code>okwuNta</code></td><td><code>(string) -&gt; string</code></td><td>Unicode lowercase</td></tr>
+            <tr><td><code>okwuNnukwu</code></td><td><code>(string) -&gt; string</code></td><td>Unicode uppercase</td></tr>
+            <tr><td><code>dochieEriri</code></td><td><code>(string, string, string) -&gt; string</code></td><td>Literal replace all</td></tr>
           </tbody>
         </table>
       </div>
@@ -51,7 +59,7 @@ bipụta(jikọọEriri("Kwe", "chiri"))`;
       <CodeExample
         label="Standard Library"
         code={stringExample}
-        output={"eziokwu\neziokwu\neziokwu\n6\nKwechiri"}
+        output={"eziokwu\neziokwu\neziokwu\n6\nKwechiri\nKwechiri\nụbọchị\nỌMA\nKweKwe"}
       />
 
       <h2>Exact string behavior</h2>
@@ -61,12 +69,15 @@ bipụta(jikọọEriri("Kwe", "chiri"))`;
         <li>The empty string is contained in every string and is a prefix and suffix of every string.</li>
         <li><code>ogologoEriri</code> counts user-perceived characters; an Igbo letter with combining marks counts once.</li>
         <li><code>jikọọEriri</code> joins exact raw sequences without inserting separators.</li>
+        <li><code>wepuOghere</code> removes only surrounding Unicode whitespace.</li>
+        <li>Case conversion uses locale-independent Unicode mapping without normalization.</li>
+        <li><code>dochieEriri</code> replaces every exact non-overlapping occurrence literally.</li>
         <li>Wrong arity and statically known wrong argument types are located semantic errors.</li>
       </ul>
 
       <div class="callout callout--gold">
-        <strong>The names are frozen for 1.0.</strong>
-        All five string function names are no longer provisional.
+        <strong>The original five names are frozen for 1.0.</strong>
+        Batch 11C adds four approved transformation functions.
       </div>
 
       <p>

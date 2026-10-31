@@ -31,7 +31,7 @@ The implemented language includes:
 - named `ọrụ` functions with `laghachi`
 - homogeneous arrays and typed objects
 - named relative modules using `webata`, `bupụ`, and `site na`
-- five explicit string functions imported from `kwechiri:eriri`
+- nine explicit string functions imported from `kwechiri:eriri`
 - an explicit runtime boundary with a Node.js implementation
 - a public VS Code extension for `.kwe` syntax highlighting and diagnostics
 
@@ -42,7 +42,7 @@ Requires Node.js 20 or newer.
 The published release candidate can be installed directly:
 
 ```sh
-npm install --global kwechiri@1.0.0
+npm install --global kwechiri@1.1.0
 kwechiri hello.kwe
 ```
 

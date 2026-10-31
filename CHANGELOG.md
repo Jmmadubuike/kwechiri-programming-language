@@ -3,6 +3,17 @@
 All notable changes to Kwechiri are recorded here. Release dates and versions
 are added only when the project owner approves a release.
 
+## 1.1.0 - 2026-10-31
+
+Release candidate for the first post-1.0 Standard Library expansion.
+
+### Added
+
+- `wepuOghere` for Unicode-whitespace trimming.
+- `okwuNta` and `okwuNnukwu` for locale-independent Unicode case mapping.
+- `dochieEriri` for literal replacement of every exact occurrence.
+- VS Code extension `0.2.1` candidate with the expanded compiler catalog.
+
 ## 1.0.0 - 2026-10-31
 
 First stable Kwechiri release.

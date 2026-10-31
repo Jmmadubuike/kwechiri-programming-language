@@ -13,5 +13,5 @@ unknown `kwechiri:` module is an error. Relative filesystem imports continue to
 use canonical containment and physical-file identity under ADR-019.
 
 Standard imports obey ordinary duplicate and imported/local collision rules.
-Only cataloged exports may be imported. Batch 11A defines only
+Only cataloged exports may be imported. The current catalog defines only
 `kwechiri:eriri`.

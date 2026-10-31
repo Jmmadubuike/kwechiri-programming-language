@@ -1,4 +1,4 @@
-webata { nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri } site na "kwechiri:eriri"
+webata { nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri, wepuOghere, okwuNta, okwuNnukwu, dochieEriri } site na "kwechiri:eriri"
 
 aha = "Kwechiri"
 
@@ -9,3 +9,7 @@ bipụta(kwụsịNa(aha, "chiri"))
 bipụta(ogologoEriri("ụbọchị"))
 bipụta(jikọọEriri("Ndewo, ", aha))
 bipụta(maliteNa(aha, ""))
+bipụta(wepuOghere("  Kwechiri  "))
+bipụta(okwuNta("ỤBỌCHỊ"))
+bipụta(okwuNnukwu("ọma"))
+bipụta(dochieEriri("Kwechiri", "chiri", "Kwe"))

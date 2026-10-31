@@ -11,11 +11,13 @@ Batch 11A introduced one module:
 Batch 11B extends the same module with grapheme-aware string length and exact
 raw-string concatenation.
 
+Batch 11C adds Unicode-whitespace trimming, locale-independent case mapping, and
+literal replacement.
+
 See also:
 
 - [Standard module resolution](modules.md)
 - [Standard Library diagnostics](errors.md)
 
-No trimming, case conversion, slicing, replacement, splitting, character
-access, number, collection, conversion, JSON, I/O, network, random, or date/time
-API is included in Batch 11B.
+No slicing, splitting, character access, number, collection, conversion, JSON,
+I/O, network, random, or date/time API is included.

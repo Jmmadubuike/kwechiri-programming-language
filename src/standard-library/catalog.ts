@@ -4,7 +4,11 @@ export type StandardIntrinsic =
   | "stringStartsWith"
   | "stringEndsWith"
   | "stringGraphemeLength"
-  | "stringConcat";
+  | "stringConcat"
+  | "stringTrim"
+  | "stringLowercase"
+  | "stringUppercase"
+  | "stringReplaceAll";
 
 export interface StandardExportDefinition {
   readonly module: string;
@@ -66,6 +70,42 @@ const stringModuleExports: readonly StandardExportDefinition[] = [
     returnType: "string",
     mutation: "none",
     intrinsic: "stringConcat",
+  },
+  {
+    module: "kwechiri:eriri",
+    publicName: "wepuOghere",
+    arity: 1,
+    parameterTypes: ["string"],
+    returnType: "string",
+    mutation: "none",
+    intrinsic: "stringTrim",
+  },
+  {
+    module: "kwechiri:eriri",
+    publicName: "okwuNta",
+    arity: 1,
+    parameterTypes: ["string"],
+    returnType: "string",
+    mutation: "none",
+    intrinsic: "stringLowercase",
+  },
+  {
+    module: "kwechiri:eriri",
+    publicName: "okwuNnukwu",
+    arity: 1,
+    parameterTypes: ["string"],
+    returnType: "string",
+    mutation: "none",
+    intrinsic: "stringUppercase",
+  },
+  {
+    module: "kwechiri:eriri",
+    publicName: "dochieEriri",
+    arity: 3,
+    parameterTypes: ["string", "string", "string"],
+    returnType: "string",
+    mutation: "none",
+    intrinsic: "stringReplaceAll",
   },
 ];
 

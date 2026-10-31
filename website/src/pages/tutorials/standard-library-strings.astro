@@ -12,17 +12,21 @@ eziokwu
 eziokwu
 6
 Ndewo, Kwechiri
-eziokwu`;
+eziokwu
+Kwechiri
+ụbọchị
+ỌMA
+KweKwe`;
 ---
 
 <BaseLayout
   title="Lesson 8: Standard Library Strings"
-  description="Learn the five certified Kwechiri string functions for exact matching, grapheme-aware length, and concatenation."
+  description="Learn the nine Kwechiri string functions for exact matching, measurement, and transformation."
 >
   <PageIntro
     eyebrow="Tutorial 08"
     title="Standard Library Strings"
-    lead="Import the official kwechiri:eriri module, check string contents, count user-perceived characters, and join strings exactly."
+    lead="Import the official kwechiri:eriri module, inspect and transform strings, count user-perceived characters, and join text exactly."
     meta="Beginner · Complete Lesson 7 first"
   />
 
@@ -52,7 +56,7 @@ eziokwu`;
         modules, but their names begin with the reserved
         <code>kwechiri:</code> namespace:
       </p>
-      <pre tabindex="0"><code>webata &#123; nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri &#125; site na "kwechiri:eriri"</code></pre>
+      <pre tabindex="0"><code>webata &#123; nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri, wepuOghere, okwuNta, okwuNnukwu, dochieEriri &#125; site na "kwechiri:eriri"</code></pre>
       <p>
         <code>kwechiri:eriri</code> is provided by the compiler. It is not a
         package, remote URL, or hidden <code>.kwe</code> file. Only the imported
@@ -70,6 +74,10 @@ eziokwu`;
             <tr><td><code>kwụsịNa</code></td><td><code>(string, string) -&gt; boolean</code></td><td>Ends with</td></tr>
             <tr><td><code>ogologoEriri</code></td><td><code>(string) -&gt; number</code></td><td>Grapheme length</td></tr>
             <tr><td><code>jikọọEriri</code></td><td><code>(string, string) -&gt; string</code></td><td>Exact concatenation</td></tr>
+            <tr><td><code>wepuOghere</code></td><td><code>(string) -&gt; string</code></td><td>Trim surrounding whitespace</td></tr>
+            <tr><td><code>okwuNta</code></td><td><code>(string) -&gt; string</code></td><td>Unicode lowercase</td></tr>
+            <tr><td><code>okwuNnukwu</code></td><td><code>(string) -&gt; string</code></td><td>Unicode uppercase</td></tr>
+            <tr><td><code>dochieEriri</code></td><td><code>(string, string, string) -&gt; string</code></td><td>Literal replace all</td></tr>
           </tbody>
         </table>
       </div>
@@ -111,6 +119,25 @@ nwereEriri("Kwechiri", "CHIRI") # ụgha</code></pre>
         raw strings.
       </p>
 
+      <h2>Transforming strings</h2>
+      <p>
+        <code>wepuOghere</code> removes whitespace only at the beginning and
+        end, preserving interior whitespace:
+      </p>
+      <pre tabindex="0"><code>wepuOghere("  Kwechiri  ") # Kwechiri
+wepuOghere("Kwe chiri")     # Kwe chiri</code></pre>
+      <p>
+        <code>okwuNta</code> and <code>okwuNnukwu</code> use locale-independent
+        Unicode case mapping without normalization:
+      </p>
+      <pre tabindex="0"><code>okwuNta("ỤBỌCHỊ")    # ụbọchị
+okwuNnukwu("ọma")     # ỌMA</code></pre>
+      <p>
+        <code>dochieEriri</code> replaces every exact, non-overlapping literal
+        occurrence. Matching is case-sensitive and is not a regular expression:
+      </p>
+      <pre tabindex="0"><code>dochieEriri("a-b-a", "-", "+") # a+b+a</code></pre>
+
       <h2>Your turn</h2>
       <p>Add these lines and predict the output:</p>
       <pre tabindex="0"><code>bipụta(nwereEriri(aha, ""))
@@ -126,11 +153,12 @@ bipụta(jikọọEriri("Kwe", "chiri"))</code></pre>
         Import the module and name every function you use. Keep the import
         first, provide the exact argument count and string types, and remember
         that predicates are case-sensitive. Length counts user-perceived
-        characters, and concatenation adds no separator or conversion.
+        characters, concatenation adds no separator, and replacement is literal.
       </div>
 
       <p>
-        All five public names are frozen for Kwechiri 1.0.
+        The original five names are frozen for Kwechiri 1.0; Batch 11C adds the
+        four transformation functions.
       </p>
 
       <h2>Normative references</h2>

@@ -22,6 +22,7 @@ export async function run(): Promise<void> {
   const directory = await mkdtemp(join(tmpdir(), "kwechiri-vscode-"));
   const invalidFile = join(directory, "invalid.kwe");
   const missingModuleFile = join(directory, "missing-module.kwe");
+  const standardLibraryFile = join(directory, "standard-library.kwe");
 
   try {
     console.log("Kwechiri extension test: opening invalid source.");
@@ -98,6 +99,24 @@ export async function run(): Promise<void> {
     console.log("Kwechiri extension test: missing module diagnostic observed.");
     assert.equal(moduleDiagnostics[0]?.code, "KWE-MOD-002");
     assert.match(moduleDiagnostics[0]?.message ?? "", /Missing imported module/);
+
+    await writeFile(
+      standardLibraryFile,
+      'webata { wepuOghere } site na "kwechiri:eriri"\nbipụta(wepuOghere(42))',
+      "utf8",
+    );
+    const standardLibraryDocument = await vscode.workspace.openTextDocument(standardLibraryFile);
+    await vscode.window.showTextDocument(standardLibraryDocument);
+    const standardLibraryDiagnostics = await waitFor(
+      () => {
+        const current = vscode.languages.getDiagnostics(standardLibraryDocument.uri);
+        return current.length > 0 ? current : undefined;
+      },
+      "Batch 11C standard-library diagnostics",
+    );
+    console.log("Kwechiri extension test: Batch 11C diagnostic observed.");
+    assert.equal(standardLibraryDiagnostics[0]?.code, "KWE-STD-004");
+    assert.match(standardLibraryDiagnostics[0]?.message ?? "", /argument type mismatch/i);
   } finally {
     await vscode.commands.executeCommand("workbench.action.closeAllEditors");
     await new Promise((resolve) => setTimeout(resolve, 250));

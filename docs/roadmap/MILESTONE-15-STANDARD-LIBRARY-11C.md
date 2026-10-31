@@ -1,12 +1,12 @@
 # Milestone 15 - Standard Library Batch 11C
 
-Status: Draft awaiting owner approval
+Status: Approved; implementation complete, release pending
 
 Last updated: 2026-10-31
+Owner approval: 2026-10-31
 
-This contract proposes the first post-1.0 Standard Library expansion. No public
-API is authorized by this draft until the owner approves the names, semantics,
-diagnostics, and release version below.
+This contract defines the first post-1.0 Standard Library expansion. The owner
+approved the names, semantics, diagnostics, and release version on 2026-10-31.
 
 ## Purpose
 
@@ -24,7 +24,7 @@ in ADR-027.
 
 ## Proposed public functions
 
-These names are proposals requiring owner and native-speaker approval.
+These names are approved for Batch 11C.
 
 | Proposed name | Signature | Proposed behavior |
 | --- | --- | --- |
@@ -117,4 +117,4 @@ approval, and post-publication verification.
 4. Approve the proposed whitespace, case-mapping, and empty-search semantics.
 5. Approve `1.1.0` as the release version.
 
-Implementation begins only after these decisions are recorded.
+All five decisions are approved for the `1.1.0` release candidate.

@@ -28,7 +28,7 @@ const expectedExamples = [
   },
   {
     id: "strings",
-    output: "eziokwu\nụgha\neziokwu\neziokwu\n6\nNdewo, Kwechiri\neziokwu",
+    output: "eziokwu\nụgha\neziokwu\neziokwu\n6\nNdewo, Kwechiri\neziokwu\nKwechiri\nụbọchị\nỌMA\nKweKwe",
   },
 ] as const;
 

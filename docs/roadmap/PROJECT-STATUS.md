@@ -1,7 +1,7 @@
 # Kwechiri project status and remaining roadmap
 
 Last updated: 2026-10-31
-Current version: `1.0.0`, stable and published
+Current version: `1.1.0`, release candidate; `1.0.0` remains public `latest`
 
 Current completed milestone: Milestone 14 — Kwechiri 1.0
 Current VS Code release: `0.2.0`, public
@@ -22,14 +22,16 @@ certified and closed at `8655631f4f9fbb0508447713371e534bee418582`; Milestone
 closed at `a78d42102d3a672f1bc13535c652300c92f25318`.
 
 The pre-1.0 Language Foundations phase is closed. Milestone 11 Batches 11A and
-11B are closed; later Standard Library batches remain unauthorized.
+11B are closed. Batch 11C is approved for `1.1.0`; later Standard Library
+batches remain unauthorized.
 
-Current roadmap milestone: Milestone 14 — Kwechiri 1.0, complete
-Contract: [Milestone 14 release contract](MILESTONE-14-KWECHIRI-1.0.md),
-approved 2026-10-30 and complete
+Current roadmap milestone: Milestone 15 — Standard Library Batch 11C, release
+candidate under verification
+Contract: [Batch 11C contract](MILESTONE-15-STANDARD-LIBRARY-11C.md), approved
+2026-10-31
 
 Next proposed milestone: [Standard Library Batch 11C](MILESTONE-15-STANDARD-LIBRARY-11C.md),
-draft awaiting owner approval
+approved; implementation complete and release pending
 
 Readiness: [local evidence and remaining gaps](MILESTONE-14-READINESS.md)
 
@@ -518,6 +520,12 @@ closed at `a78d42102d3a672f1bc13535c652300c92f25318`. Further Marketplace
 releases use the trusted-publishing workflow.
 
 Milestone 14 is complete. Kwechiri 1.0.0 is published at
-`d5f92d31b1bba1f63a81de0ac35b2e9b78271ded` and tagged `v1.0.0`. The remaining
-operational check is live website verification for the 1.0.0 content. Do not
-begin later Standard Library batches without a separately approved milestone.
+`d5f92d31b1bba1f63a81de0ac35b2e9b78271ded` and tagged `v1.0.0`; its live
+website deployment was verified. Do not begin later Standard Library batches
+without a separately approved milestone.
+
+## Milestone 15 — Standard Library Batch 11C
+
+Approved and implemented for `1.1.0`. The four new string functions and their
+documentation are in place; compiler, browser, package, and extension
+verification plus explicit publication approval remain.

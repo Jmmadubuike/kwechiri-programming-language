@@ -166,7 +166,7 @@ describe("Kwechiri CLI integration", () => {
   it("runs the standard library strings tutorial with its documented output", () => {
     expect(runCli([resolve("examples/tutorials/standard-library.kwe")])).toEqual({
       status: 0,
-      stdout: "eziokwu\nụgha\neziokwu\neziokwu\n6\nNdewo, Kwechiri\neziokwu\n",
+      stdout: "eziokwu\nụgha\neziokwu\neziokwu\n6\nNdewo, Kwechiri\neziokwu\nKwechiri\nụbọchị\nỌMA\nKweKwe\n",
       stderr: "",
     });
   });
@@ -229,20 +229,25 @@ describe("Kwechiri CLI integration", () => {
     const source = join(directory, "standard.kwe");
     const output = join(directory, "standard.js");
     writeFileSync(source, [
-      'webata { nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri } site na "kwechiri:eriri"',
+      'webata { nwereEriri, maliteNa, kwụsịNa, ogologoEriri, jikọọEriri, wepuOghere, okwuNta, okwuNnukwu, dochieEriri } site na "kwechiri:eriri"',
       'bipụta(nwereEriri("Kwechiri", "chiri"))',
       'bipụta(maliteNa("Kwechiri", "Kwe"))',
       'bipụta(kwụsịNa("Kwechiri", "chiri"))',
       'bipụta(ogologoEriri("Ụbọchị"))',
       'bipụta(jikọọEriri("Kwe", "chiri"))',
+      'bipụta(wepuOghere("  Kwechiri  "))',
+      'bipụta(okwuNta("ỤBỌCHỊ"))',
+      'bipụta(okwuNnukwu("ọma"))',
+      'bipụta(dochieEriri("Kwechiri", "chiri", "Kwe"))',
     ].join("\n"), "utf8");
-    expect(runCli(["run", source])).toEqual({ status: 0, stdout: "eziokwu\neziokwu\neziokwu\n6\nKwechiri\n", stderr: "" });
+    const expectedOutput = "eziokwu\neziokwu\neziokwu\n6\nKwechiri\nKwechiri\nụbọchị\nỌMA\nKweKwe\n";
+    expect(runCli(["run", source])).toEqual({ status: 0, stdout: expectedOutput, stderr: "" });
     expect(runCli(["check", source])).toEqual({ status: 0, stdout: "", stderr: "" });
     expect(runCli(["compile", source, "--out", output])).toEqual({ status: 0, stdout: "", stderr: "" });
     const executed = spawnSync(process.execPath, [output], { encoding: "utf8" });
     expect({ status: executed.status, stdout: executed.stdout, stderr: executed.stderr }).toEqual({
       status: 0,
-      stdout: "eziokwu\neziokwu\neziokwu\n6\nKwechiri\n",
+      stdout: expectedOutput,
       stderr: "",
     });
   });

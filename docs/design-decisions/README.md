@@ -33,6 +33,7 @@ decision and a new or amended record.
 | [ADR-026](ADR-026-brand-identity.md) | Kwechiri logo, palette, and product application |
 | [ADR-027](ADR-027-1.0-compatibility-and-diagnostics.md) | 1.0 compatibility, versioning, coordinates, and diagnostic codes |
 | [ADR-028](ADR-028-unicode-identifier-profile.md) | Unicode code-point identifiers and 15.0.0 portable baseline |
+| [ADR-029](ADR-029-string-transformations.md) | Batch 11C string trimming, case mapping, and literal replacement |
 
 ADR-014 settles the normalization and ASCII-alias questions left open by
 ADR-012. ADR-028 defines the 1.0 code-point profile and Unicode baseline.

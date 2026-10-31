@@ -1,10 +1,10 @@
 # Kwechiri project status and remaining roadmap
 
 Last updated: 2026-10-31
-Current version: `1.1.0`, release candidate; `1.0.0` remains public `latest`
+Current version: `1.1.0`, public `latest`
 
-Current completed milestone: Milestone 14 — Kwechiri 1.0
-Current VS Code release: `0.2.0`, public
+Current completed milestone: Milestone 15 - Standard Library Batch 11C
+Current VS Code release: `0.2.1`, public
 
 Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
@@ -22,16 +22,16 @@ certified and closed at `8655631f4f9fbb0508447713371e534bee418582`; Milestone
 closed at `a78d42102d3a672f1bc13535c652300c92f25318`.
 
 The pre-1.0 Language Foundations phase is closed. Milestone 11 Batches 11A and
-11B are closed. Batch 11C is approved for `1.1.0`; later Standard Library
-batches remain unauthorized.
+11B are closed. Batch 11C is certified and closed at
+`64ff2cf5042f8af78c17836080a5ede7b7cb11aa`; later Standard Library batches
+remain unauthorized.
 
-Current roadmap milestone: Milestone 15 — Standard Library Batch 11C, release
-candidate under verification
+Current roadmap milestone: Milestone 15 - Standard Library Batch 11C, released
 Contract: [Batch 11C contract](MILESTONE-15-STANDARD-LIBRARY-11C.md), approved
 2026-10-31
 
-Next proposed milestone: [Standard Library Batch 11C](MILESTONE-15-STANDARD-LIBRARY-11C.md),
-approved; implementation complete and release pending
+Next proposed milestone: none. A later Standard Library batch requires a new
+owner-approved contract.
 
 Readiness: [local evidence and remaining gaps](MILESTONE-14-READINESS.md)
 
@@ -523,9 +523,14 @@ Milestone 14 is complete. Kwechiri 1.0.0 is published at
 website deployment was verified. Do not begin later Standard Library batches
 without a separately approved milestone.
 
+Milestone 15 is complete. Kwechiri 1.1.0 is published at
+`64ff2cf5042f8af78c17836080a5ede7b7cb11aa` and tagged `v1.1.0`; its live
+website deployment and clean registry installation were verified.
+
 ## Milestone 15 — Standard Library Batch 11C
 
-Approved and implemented for `1.1.0`. The four new string functions and their
-documentation are in place; compiler, cross-platform CI, website, package, and
-extension verification are complete. The owner has authorized publication;
-final release evidence is recorded after publication.
+Certified and closed at `64ff2cf5042f8af78c17836080a5ede7b7cb11aa`. The four new
+string functions and their documentation are implemented. `kwechiri@1.1.0` is
+published on npm as `latest`, tagged `v1.1.0`, and VS Code extension `0.2.1` is
+public. Windows, Linux, and macOS arm64 CI, website checks, registry clean
+installation, and extension-host verification are complete.

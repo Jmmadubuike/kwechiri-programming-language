@@ -17,12 +17,15 @@ files use the `.kwe` extension.
 Language Milestones 0–10 and the post-milestone Lexical Foundations, Core
 Values & Logic, Collections, Functions, and Control Flow phases are closed.
 Modules and the pre-1.0 Language Foundations phase are closed. Standard Library
-Batches 11A and 11B are certified and closed. The browser playground and VS Code
-support milestones, Batches 12A, 12B, and 13, are also certified and closed.
+Batches 11A, 11B, and 11C are certified and closed. The browser playground and
+VS Code support milestones, Batches 12A, 12B, and 13, are also certified and
+closed.
 
-Kwechiri 1.0 is released. The [Milestone 14 contract](docs/roadmap/MILESTONE-14-KWECHIRI-1.0.md)
-is complete, with stable npm publication, Windows/Linux CI, and the public
-VS Code extension.
+Kwechiri 1.1.0 is the current release. The
+[Milestone 14 contract](docs/roadmap/MILESTONE-14-KWECHIRI-1.0.md) closed 1.0,
+and [Milestone 15](docs/roadmap/MILESTONE-15-STANDARD-LIBRARY-11C.md) adds the
+Batch 11C string functions. The CLI is published on npm, and the VS Code
+extension is public in the Marketplace.
 The implemented language includes:
 
 - Unicode Igbo identifiers and located diagnostics
@@ -39,7 +42,7 @@ The implemented language includes:
 
 Requires Node.js 20 or newer.
 
-The published release candidate can be installed directly:
+Install the current release:
 
 ```sh
 npm install --global kwechiri@1.1.0

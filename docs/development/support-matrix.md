@@ -1,7 +1,7 @@
 # Supported environments
 
-Status: Verified and published as 1.0.0
-Evidence date: 2026-10-30
+Status: Verified and published as 1.1.0
+Evidence date: 2026-10-31
 
 The compiler, website, and VS Code extension have separate environment
 requirements. A successful build for one does not establish support for the
@@ -48,7 +48,7 @@ The website host is Vercel. The Ubuntu Node.js 24 CI job passed the website
 example checks, static build, Chromium accessibility suite, and VS Code
 extension checks. Compiler support does not imply website build support below
 its separate Node.js minimum. The live site was verified serving version
-`1.0.0`.
+`1.1.0`.
 
 ## VS Code extension
 
@@ -59,6 +59,6 @@ macOS arm64 extension-host tests also passed in CI.
 
 ## Final support claims
 
-The `1.0.0` release has passed the compiler suite on every claimed
+The `1.1.0` release has passed the compiler suite on every claimed
 operating system and Node.js major version. Intel macOS remains unverified.
 The stable compiler release is published.

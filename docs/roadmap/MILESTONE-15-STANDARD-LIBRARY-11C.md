@@ -1,6 +1,6 @@
 # Milestone 15 - Standard Library Batch 11C
 
-Status: Approved; implementation complete, release pending
+Status: Complete; released 2026-10-31
 
 Last updated: 2026-10-31
 Owner approval: 2026-10-31
@@ -118,3 +118,10 @@ approval, and post-publication verification.
 5. Approve `1.1.0` as the release version.
 
 All five decisions are approved for the `1.1.0` release candidate.
+
+## Release record
+
+Released 2026-10-31 at `64ff2cf5042f8af78c17836080a5ede7b7cb11aa`.
+`kwechiri@1.1.0` is the public npm `latest` release, Git tag `v1.1.0` is
+published, VS Code extension `0.2.1` is public, and the website reports
+version `1.1.0`.

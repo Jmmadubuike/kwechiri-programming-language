@@ -12,12 +12,12 @@ if (hello === undefined) throw new Error("The hello example is required.");
 
 <BaseLayout
   title="Getting started"
-  description="Build Kwechiri from source and run a verified first program."
+  description="Install Kwechiri from npm or build it from source, then run a verified first program."
 >
   <PageIntro
     eyebrow="Documentation"
-    title="Build from source."
-    lead="Kwechiri is not yet published as a public npm package. Use the private repository source until packaging and publication policy are approved."
+    title="Install and run Kwechiri."
+    lead="Kwechiri is published on npm. Install the CLI with Node.js 20 or newer, or build from source when contributing to the compiler."
   />
 
   <div class="shell content-layout">
@@ -25,16 +25,26 @@ if (hello === undefined) throw new Error("The hello example is required.");
     <article class="prose">
       <h2>Requirements</h2>
       <ul>
-        <li>Git</li>
         <li>Node.js 20 or newer</li>
         <li>npm</li>
       </ul>
 
-      <h2>Clone and build</h2>
+      <h2>Install the CLI</h2>
+      <pre tabindex="0"><code>npm install --global kwechiri
+kwechiri hello.kwe</code></pre>
+      <p>
+        Save the program below as <code>hello.kwe</code>, or use any existing
+        Kwechiri source file.
+      </p>
+      <CodeExample label="examples/hello.kwe" code={hello.source} output={hello.output} />
+
+      <h2>Build from source</h2>
+      <p>Contributors can clone the repository and run the canonical gate:</p>
       <pre tabindex="0"><code>git clone {SITE.github}.git
 cd kwechiri-programming-language
 npm ci
-npm run check</code></pre>
+npm run check
+node dist/cli/index.js examples/hello.kwe</code></pre>
       <p>
         The canonical gate runs linting, strict source and test type checking,
         all tests, and the production build. Review the
@@ -42,19 +52,11 @@ npm run check</code></pre>
         before making changes.
       </p>
 
-      <h2>Run a program</h2>
-      <CodeExample label="examples/hello.kwe" code={hello.source} output={hello.output} />
-      <pre tabindex="0"><code>node dist/cli/index.js examples/hello.kwe</code></pre>
-
-      <h2>Optional local command</h2>
-      <p>Link the local package if you want the <code>kwechiri</code> command available:</p>
-      <pre tabindex="0"><code>npm link
-kwechiri examples/hello.kwe</code></pre>
       <div class="callout callout--gold">
-        <strong>No public package yet.</strong>
-        Do not replace this source-based setup with an npm installation until
-        npm publication receives explicit owner approval. The project is
-        licensed under MIT.
+        <strong>Release status.</strong>
+        The CLI, website, and VS Code extension are published independently.
+        See the <a href="/roadmap/">roadmap</a> for the verified state of each
+        target. The project is licensed under MIT.
       </div>
 
       <h2>Next reading</h2>

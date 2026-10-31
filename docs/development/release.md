@@ -3,9 +3,9 @@
 Status: Approved with the Milestone 14 contract, 2026-10-30
 
 This procedure defines how a Kwechiri release is prepared and verified. It does
-not authorize publication. The compiler package remains private, and no npm,
-Visual Studio Marketplace, tag, or website release may occur without explicit
-owner approval for that target.
+not authorize publication. The compiler package is published on npm under owner
+control. No npm, Visual Studio Marketplace, tag, or website release may occur
+without explicit owner approval for that target.
 
 ## Release identities
 
@@ -23,10 +23,10 @@ Do not infer one artifact's release state from another.
 
 ## Versioning
 
-Before 1.0, versions use `0.y.z-development` or an approved release-candidate
-form. A final 1.0 version requires owner approval and a compatibility policy.
+Versions follow semantic versioning under the compatibility policy recorded in
+ADR-027. A major version change requires owner approval and an updated policy.
 
-The final policy must define compatibility for:
+The compatibility policy defines compatibility for:
 
 - Kwechiri source and language semantics;
 - the `kwechiri` command, options, streams, and exit codes;
@@ -61,17 +61,16 @@ run and must be repeated alone.
 
 ## Compiler package verification
 
-The compiler package is currently marked `private` to prevent accidental npm
-publication. Until an owner decision changes that guard:
+The compiler package is published on npm under owner control. Before any new
+publication:
 
 - `npm pack --dry-run` may be used to inspect candidate contents;
-- no `npm publish` command may be run;
-- package ownership and access must not be inferred from the package name;
-- packed-artifact installation must be tested before any publication approval.
+- package ownership and access must be verified with the authenticated account;
+- packed-artifact installation must be tested before publication approval.
 
-If publication is approved later, the packed artifact must still be installed
-with its production dependency tree in a clean temporary directory and used to
-run a `.kwe` program before the release is considered successful.
+The published artifact must also be installed with its production dependency
+tree in a clean temporary directory and used to run a `.kwe` program before the
+release is considered successful.
 
 ## VS Code extension verification
 

@@ -462,7 +462,6 @@ the appropriate owner decision and milestone placement.
 - add cross-platform verification beyond Linux CI
 - finalize the supported Node.js policy beyond the current `>=20` declaration
 - audit bilingual diagnostic consistency
-- decide npm publication and package ownership
 - define release and changelog procedures
 
 The owner approved a documentation-first website foundation under `website/`.
@@ -488,8 +487,8 @@ exact expected output, and exercises.
 The Milestone 13 VS Code foundation is publicly distributed through the Visual
 Studio Marketplace using GitHub trusted publishing. The project license is MIT.
 
-The npm package is temporarily marked private to prevent accidental publication
-during development. Publication remains owner-controlled.
+The npm CLI package is published under the MIT license. Package ownership,
+versioning, and publication remain owner-controlled; see the release procedure.
 
 ## Session-start checklist
 
@@ -527,5 +526,6 @@ without a separately approved milestone.
 ## Milestone 15 — Standard Library Batch 11C
 
 Approved and implemented for `1.1.0`. The four new string functions and their
-documentation are in place; compiler, browser, package, and extension
-verification plus explicit publication approval remain.
+documentation are in place; compiler, cross-platform CI, website, package, and
+extension verification are complete. The owner has authorized publication;
+final release evidence is recorded after publication.

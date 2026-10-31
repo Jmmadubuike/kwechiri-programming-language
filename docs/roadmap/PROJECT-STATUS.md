@@ -28,6 +28,9 @@ Current roadmap milestone: Milestone 14 — Kwechiri 1.0, complete
 Contract: [Milestone 14 release contract](MILESTONE-14-KWECHIRI-1.0.md),
 approved 2026-10-30 and complete
 
+Next proposed milestone: [Standard Library Batch 11C](MILESTONE-15-STANDARD-LIBRARY-11C.md),
+draft awaiting owner approval
+
 Readiness: [local evidence and remaining gaps](MILESTONE-14-READINESS.md)
 
 ## Purpose

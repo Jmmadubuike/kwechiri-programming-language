@@ -58,6 +58,8 @@ and consequences; they do not authorize unresolved future features.
   - published 2026-10-30
 - [Kwechiri 1.0.0 release notes](roadmap/RELEASE-NOTES-1.0.0.md)
   - stable release
+- [Milestone 15 Standard Library Batch 11C](roadmap/MILESTONE-15-STANDARD-LIBRARY-11C.md)
+  - draft awaiting owner approval
 - [Website and documentation foundation plan](roadmap/WEBSITE-FOUNDATION-PLAN.md)
   — approved static foundation
 - [Browser playground Batch 12A contract](roadmap/MILESTONE-12-BROWSER-PLAYGROUND.md)

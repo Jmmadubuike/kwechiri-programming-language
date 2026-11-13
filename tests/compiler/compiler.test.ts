@@ -609,4 +609,16 @@ describe("compiler", () => {
     expect(() => compile("bipụta(ọ eziokwu)", "logic.kwe")).toThrow(/Expected "ọ bụghị"/);
     for (const name of ["efu", "maọbụ", "bụghị"]) expect(() => compile(`${name} = 1`)).toThrow();
   });
+
+  it("emits JSON-escaped JavaScript for multiline strings", () => {
+    const source = String.raw`bipụta("""a\nb""")`;
+    expect(compile(source)).toBe('_kweRuntime.print("a\\nb", {line:1,column:1,offset:0});\n');
+  });
+
+  it("compiles and executes multiline strings with embedded line feeds", () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    executeJavaScript(compile('bipụta("""ahịrị mbụ\nahịrị abụọ""")'));
+    expect(log).toHaveBeenCalledWith("ahịrị mbụ\nahịrị abụọ");
+    log.mockRestore();
+  });
 });

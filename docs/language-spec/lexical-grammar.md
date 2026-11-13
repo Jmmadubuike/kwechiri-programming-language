@@ -29,6 +29,12 @@ decoded values are newline, tab, carriage return, backslash, and double quote.
 Any other escape is a located lexical error. String contents are never Unicode
 normalized.
 
+Multiline strings are delimited by three double quotes (`"""`). They may span
+physical lines and keep those line feeds in the decoded value. The five
+single-line escape sequences remain available inside a multiline string; a
+literal line feed is written directly. The string ends at the next unescaped
+`"""`. A multiline string that reaches end of file is a located lexical error.
+
 Numbers use base-10 digits with an optional fractional part after a period.
 Exponent notation and numeric separators are unsupported.
 
@@ -40,4 +46,4 @@ normalize the complete source text.
 remain case-sensitive, and no ASCII aliases exist. `maka` is not reserved by
 this Control Flow contract.
 
-Multiline strings and numeric extensions are deferred beyond 1.0.
+Numeric extensions are deferred beyond 1.0.

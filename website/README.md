@@ -7,7 +7,8 @@ Kwechiri compiler's separate Node.js 20 support.
 
 The site is documentation-first. Its `/playground/` route compiles and runs one
 Kwechiri source file locally in a dedicated browser worker. Source is not
-uploaded, and the site adds no analytics or persistence.
+uploaded. The site adds cookieless Vercel Web Analytics for visit counts and no
+persistence.
 
 The playground supports certified `kwechiri:` imports but not relative
 filesystem modules. Batch 12A deployment and execution limits are documented in

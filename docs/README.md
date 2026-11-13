@@ -60,6 +60,8 @@ and consequences; they do not authorize unresolved future features.
   - stable release
 - [Milestone 15 Standard Library Batch 11C](roadmap/MILESTONE-15-STANDARD-LIBRARY-11C.md)
   - complete; released 2026-10-31
+- [Milestone 16 Multiline strings](roadmap/MILESTONE-16-MULTILINE-STRINGS.md)
+  - approved and implemented locally; awaiting release decision
 - [Kwechiri 1.1.0 release notes](roadmap/RELEASE-NOTES-1.1.0.md)
   - published 2026-10-31
 - [Website and documentation foundation plan](roadmap/WEBSITE-FOUNDATION-PLAN.md)

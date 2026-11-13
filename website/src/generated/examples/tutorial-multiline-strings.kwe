@@ -1,0 +1,11 @@
+mpempe = """Ndewo Ụwa!
+Ahịrị nke abụọ
+Ahịrị nke atọ"""
+bipụta(mpempe)
+
+otuAhiri = "otu ahịrị"
+bipụta(otuAhiri)
+
+otutuAhiri = """ahịrị mbụ
+ahịrị abụọ"""
+bipụta(otutuAhiri)

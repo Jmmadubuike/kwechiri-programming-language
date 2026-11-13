@@ -162,4 +162,29 @@ describe("tokenize", () => {
       words.map((identity) => ({ type: TokenType.Keyword, identity })),
     );
   });
+
+  it("tokenizes multiline strings and preserves embedded line feeds", () => {
+    const source = 'ede = """ahịrị mbụ\nahịrị abụọ"""';
+    const token = tokenize(source).find((candidate) => candidate.type === TokenType.String);
+    expect(token?.literal).toBe("ahịrị mbụ\nahịrị abụọ");
+    expect(token?.lexeme).toBe('"""ahịrị mbụ\nahịrị abụọ"""');
+    expect(token?.location).toMatchObject({ line: 1, column: 7, offset: 6 });
+  });
+
+  it("keeps approved escapes and embedded quotes inside multiline strings", () => {
+    expect(tokenize('"""a\\"b\\tc"""')[0]?.literal).toBe('a"b\tc');
+    expect(tokenize('""""""')[0]?.literal).toBe("");
+    expect(tokenize('"""it says "nnoo" here"""')[0]?.literal).toBe('it says "nnoo" here');
+  });
+
+  it("keeps comment markers inside multiline strings as content", () => {
+    const token = tokenize('bipụta("""https://example.test//x\n// not a comment""")');
+    expect(token.find((candidate) => candidate.type === TokenType.String)?.literal).toBe(
+      "https://example.test//x\n// not a comment",
+    );
+  });
+
+  it("rejects an unterminated multiline string with a located lexical error", () => {
+    expect(() => tokenize('\nede = """ahịrị')).toThrow(/2:7: KWE-LEX-006:.*Unterminated multiline string/);
+  });
 });

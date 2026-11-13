@@ -57,4 +57,14 @@ describe("single-source browser compilation", () => {
     expect(() => compileSingleSource("bipụta(amaghị)", "invalid.kwe"))
       .toThrowError(/invalid\.kwe:1:8:/);
   });
+
+  it("keeps import-looking text inside multiline strings as content", () => {
+    const source = [
+      'ede = """',
+      'webata { ihe } site na "./not-a-module.kwe"',
+      '"""',
+      'bipụta(ede)',
+    ].join("\n");
+    expect(outputOf(source)).toEqual(['\nwebata { ihe } site na "./not-a-module.kwe"\n']);
+  });
 });

@@ -106,6 +106,69 @@ export function tokenize(source: string, fileName?: string): readonly Token[] {
     }
 
     if (character === '"') {
+      if (source.slice(offset, offset + 3) === '"""') {
+        advance();
+        advance();
+        advance();
+        let value = "";
+        while (true) {
+          if (current() === undefined) {
+            throw new KwechiriError(
+              DiagnosticCodes.LexUnterminatedMultilineString,
+              "Eriri ederede ọtụtụ ahịrị emechighị. (Unterminated multiline string.)",
+              start,
+              fileName,
+            );
+          }
+          if (source.slice(offset, offset + 3) === '"""') {
+            advance();
+            advance();
+            advance();
+            break;
+          }
+          if (current() === "\\") {
+            const escapeLocation = location();
+            advance();
+            const escaped = current();
+            if (escaped === undefined) {
+              throw new KwechiriError(
+                DiagnosticCodes.LexUnterminatedEscape,
+                "Usoro mgbapụ emechighị. (Unterminated escape sequence.)",
+                escapeLocation,
+                fileName,
+              );
+            }
+            const escapes: Readonly<Record<string, string>> = {
+              n: "\n",
+              t: "\t",
+              r: "\r",
+              "\\": "\\",
+              '"': '"',
+            };
+            const decoded = escapes[escaped];
+            if (decoded === undefined) {
+              throw new KwechiriError(
+                DiagnosticCodes.LexUnknownEscape,
+                `Usoro mgbapụ amaghị: "\\${escaped}". (Unknown escape sequence.)`,
+                escapeLocation,
+                fileName,
+              );
+            }
+            advance();
+            value += decoded;
+            continue;
+          }
+          value += advance();
+        }
+        tokens.push({
+          type: TokenType.String,
+          lexeme: source.slice(start.offset, offset),
+          literal: value,
+          location: start,
+        });
+        continue;
+      }
+
       advance();
       let value = "";
       while (current() !== '"') {

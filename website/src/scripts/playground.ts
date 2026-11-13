@@ -5,6 +5,7 @@ import loopsSource from "../generated/examples/tutorial-loops.kwe?raw";
 import functionsSource from "../generated/examples/tutorial-functions.kwe?raw";
 import collectionsSource from "../generated/examples/tutorial-collections.kwe?raw";
 import stringsSource from "../generated/examples/tutorial-standard-library.kwe?raw";
+import multilineStringsSource from "../generated/examples/tutorial-multiline-strings.kwe?raw";
 import type {
   PlaygroundDiagnosticKind,
   PlaygroundDiagnosticResponse,
@@ -22,6 +23,7 @@ const examples = [
   { id: "functions", name: "Functions", source: functionsSource },
   { id: "collections", name: "Arrays and objects", source: collectionsSource },
   { id: "strings", name: "Standard Library strings", source: stringsSource },
+  { id: "multiline-strings", name: "Multiline strings", source: multilineStringsSource },
 ] as const;
 
 type PlaygroundExample = (typeof examples)[number];

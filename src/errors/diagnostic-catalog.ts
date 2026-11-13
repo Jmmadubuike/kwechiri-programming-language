@@ -4,6 +4,7 @@ export const DiagnosticCodes = {
   LexStringCrossesLine: "KWE-LEX-003",
   LexUnterminatedEscape: "KWE-LEX-004",
   LexUnknownEscape: "KWE-LEX-005",
+  LexUnterminatedMultilineString: "KWE-LEX-006",
 
   SyntaxUnexpectedToken: "KWE-SYN-001",
   SyntaxExpectedExpression: "KWE-SYN-002",

@@ -2,6 +2,7 @@ import collections from "../generated/examples/collections.kwe?raw";
 import conditions from "../generated/examples/conditions.kwe?raw";
 import functions from "../generated/examples/functions.kwe?raw";
 import hello from "../generated/examples/hello.kwe?raw";
+import multilineStrings from "../generated/examples/multiline-strings.kwe?raw";
 import modules from "../generated/examples/modules-main.kwe?raw";
 
 export interface Example {
@@ -19,6 +20,13 @@ export const examples: readonly Example[] = [
     description: "Print a line of text with the language's runtime output function.",
     source: hello.trimEnd(),
     output: "Ndewo Ụwa!",
+  },
+  {
+    id: "multiline-strings",
+    title: "Multiline strings",
+    description: "Write a string that spans several physical lines with three double quotes.",
+    source: multilineStrings.trimEnd(),
+    output: "Ndewo Ụwa!\nAhịrị abụọ\nAhịrị atọ",
   },
   {
     id: "functions",

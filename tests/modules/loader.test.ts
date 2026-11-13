@@ -196,4 +196,16 @@ describe("module graph hardening", () => {
       fileName: expect.stringMatching(/invalid-import\.kwe$/u),
     });
   });
+
+  it("preserves multiline string content that resembles imports or exports", async () => {
+    const root = temporaryDirectory();
+    const entry = write(root, "main.kwe", [
+      'ede = """',
+      'webata { uru } site na "./fake.kwe"',
+      'bupụ uru = 7',
+      '"""',
+      'bipụta(ede)',
+    ].join("\n"));
+    expect(await outputOf(entry)).toEqual([['\nwebata { uru } site na "./fake.kwe"\nbupụ uru = 7\n']]);
+  });
 });

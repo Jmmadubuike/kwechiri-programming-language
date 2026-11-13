@@ -9,16 +9,18 @@ import PageIntro from "../components/PageIntro.astro";
 >
   <PageIntro
     eyebrow="Privacy"
-    title="Local execution. No analytics."
-    lead="The Kwechiri website collects no visitor account, form, analytics, or uploaded-source data."
+    title="Local execution. Privacy-first analytics."
+    lead="Kwechiri runs code in your browser and measures visits with cookieless Vercel Web Analytics."
   />
 
   <section class="section">
     <div class="shell prose">
       <h2>Data collection</h2>
       <p>
-        This site does not include accounts, newsletters, contact forms,
-        third-party tracking scripts, advertising, or analytics.
+        This site has no accounts, newsletters, contact forms, advertising, or
+        third-party tracking scripts. It uses Vercel Web Analytics to count
+        page views and visits. Vercel Web Analytics is cookieless and does not
+        fingerprint or track visitors across sites.
       </p>
 
       <h2>Program execution</h2>
@@ -35,9 +37,8 @@ import PageIntro from "../components/PageIntro.astro";
       <h2>Hosting</h2>
       <p>
         The production host may process standard request data required to serve
-        and secure the website. Any future analytics, forms, cookies, or
-        third-party data collection require an updated privacy review and owner
-        approval.
+        and secure the website. Visit analytics are processed by Vercel as the
+        site's hosting and analytics provider.
       </p>
     </div>
   </section>

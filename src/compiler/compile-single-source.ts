@@ -2,6 +2,7 @@ import { DiagnosticCodes } from "../errors/diagnostic-catalog.js";
 import { KwechiriError } from "../errors/kwechiri-error.js";
 import { TokenType } from "../lexer/token.js";
 import { tokenize } from "../lexer/lexer.js";
+import { structureSourceLines, type StructuredSourceLine } from "../lexer/line-structure.js";
 import { standardModule, type StandardExportDefinition } from "../standard-library/catalog.js";
 import { compileWithStandardBindings } from "./compile.js";
 
@@ -13,30 +14,9 @@ interface PreparedSingleSource {
 const importPattern = /^\s*([\p{L}\p{M}_]+)\s*\{([^}]*)\}\s*([\p{L}\p{M}_]+)\s+([\p{L}\p{M}_]+)\s+"([^"]+)"\s*$/u;
 const identity = (value: string): string => value.normalize("NFC");
 
-const withoutLineComment = (line: string): string => {
-  let inString = false;
-  let escaped = false;
-  for (let index = 0; index < line.length; index += 1) {
-    const character = line[index];
-    if (escaped) {
-      escaped = false;
-      continue;
-    }
-    if (inString && character === "\\") {
-      escaped = true;
-      continue;
-    }
-    if (character === '"') {
-      inString = !inString;
-      continue;
-    }
-    if (!inString && character === "/" && line[index + 1] === "/") return line.slice(0, index);
-  }
-  return line;
-};
-
 function prepareSingleSource(source: string, fileName: string): PreparedSingleSource {
   const lines = source.split(/\r?\n/u);
+  const structuredLines = structureSourceLines(lines);
   const imports = new Map<string, string>();
   const standardBindings = new Map<string, StandardExportDefinition>();
   const bodyLines: string[] = [];
@@ -45,7 +25,10 @@ function prepareSingleSource(source: string, fileName: string): PreparedSingleSo
 
   for (let index = 0; index < lines.length; index += 1) {
     const line = lines[index] as string;
-    const importMatch = importPattern.exec(withoutLineComment(line));
+    const structuredLine = structuredLines[index] as StructuredSourceLine;
+    const importMatch = structuredLine.startsInsideMultilineString
+      ? null
+      : importPattern.exec(structuredLine.structural);
     const isImport = importMatch !== null
       && identity(importMatch[1] as string) === "webata"
       && identity(importMatch[3] as string) === "site"
@@ -109,7 +92,7 @@ function prepareSingleSource(source: string, fileName: string): PreparedSingleSo
       continue;
     }
 
-    if (withoutLineComment(line).trim() !== "") sawBody = true;
+    if (structuredLine.structural.trim() !== "") sawBody = true;
     bodyLines.push(line);
   }
 

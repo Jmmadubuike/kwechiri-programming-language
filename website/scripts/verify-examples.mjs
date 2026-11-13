@@ -6,6 +6,7 @@ const websiteRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const repositoryRoot = resolve(websiteRoot, "..");
 const pairs = [
   ["hello.kwe", "hello.kwe"],
+  ["multiline-strings.kwe", "multiline-strings.kwe"],
   ["functions.kwe", "functions.kwe"],
   ["conditions.kwe", "conditions.kwe"],
   ["collections.kwe", "collections.kwe"],
@@ -18,6 +19,7 @@ const pairs = [
   ["tutorials/modules/aha.kwe", "tutorial-modules-aha.kwe"],
   ["tutorials/modules/main.kwe", "tutorial-modules-main.kwe"],
   ["tutorials/standard-library.kwe", "tutorial-standard-library.kwe"],
+  ["tutorials/multiline-strings.kwe", "tutorial-multiline-strings.kwe"],
 ];
 
 for (const [sourceName, websiteName] of pairs) {

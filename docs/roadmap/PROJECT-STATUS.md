@@ -30,8 +30,9 @@ Current roadmap milestone: Milestone 15 - Standard Library Batch 11C, released
 Contract: [Batch 11C contract](MILESTONE-15-STANDARD-LIBRARY-11C.md), approved
 2026-10-31
 
-Next proposed milestone: none. A later Standard Library batch requires a new
-owner-approved contract.
+Next proposed milestone: Milestone 16 - Multiline strings, approved
+2026-11-13 and implemented locally. Release, tagging, and publication remain
+owner-controlled and have not been performed.
 
 Readiness: [local evidence and remaining gaps](MILESTONE-14-READINESS.md)
 
@@ -534,3 +535,11 @@ string functions and their documentation are implemented. `kwechiri@1.1.0` is
 published on npm as `latest`, tagged `v1.1.0`, and VS Code extension `0.2.1` is
 public. Windows, Linux, and macOS arm64 CI, website checks, registry clean
 installation, and extension-host verification are complete.
+
+## Milestone 16 — Multiline strings
+
+Approved by the owner on 2026-11-13 and implemented locally. The language gains
+`"""..."""` multiline string literals and lexical diagnostic `KWE-LEX-006`;
+see [MILESTONE-16-MULTILINE-STRINGS.md](MILESTONE-16-MULTILINE-STRINGS.md).
+The canonical local gate passes. Release, tagging, publication, and deployment
+remain owner-controlled and have not been performed.

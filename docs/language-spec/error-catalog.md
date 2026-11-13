@@ -49,6 +49,7 @@ errors do not become public codes: they are reported as `KWE-INT-001`.
 | `KWE-LEX-003` | String contains a physical newline | String crosses a line |
 | `KWE-LEX-004` | Backslash reaches end of file | Unterminated escape |
 | `KWE-LEX-005` | Escape is not one of the five approved forms | Unknown escape |
+| `KWE-LEX-006` | Multiline string reaches end of file | Unterminated multiline string |
 
 ## Syntax diagnostics
 

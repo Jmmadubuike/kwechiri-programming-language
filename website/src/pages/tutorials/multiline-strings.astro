@@ -1,0 +1,118 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CodeExample from "../../components/CodeExample.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
+import lessonSource from "../../generated/examples/tutorial-multiline-strings.kwe?raw";
+
+const source = lessonSource.trimEnd();
+const output = `Ndewo Ụwa!
+Ahịrị nke abụọ
+Ahịrị nke atọ
+otu ahịrị
+ahịrị mbụ
+ahịrị abụọ`;
+---
+
+<BaseLayout
+  title="Lesson 9: Multiline strings"
+  description="Write one string value that spans several physical lines with three double quotes."
+>
+  <PageIntro
+    eyebrow="Tutorial 09"
+    title="Multiline strings"
+    lead="Keep a single string value readable across many lines, preserve the line breaks, and learn where escapes still apply."
+    meta="Beginner · Complete Lesson 8 first"
+  />
+
+  <div class="shell content-layout">
+    <nav class="docs-nav" aria-label="Tutorial navigation">
+      <a href="/tutorials/standard-library-strings/">← Lesson 8: Standard Library strings</a>
+      <a href="/tutorials/multiline-strings/" aria-current="page">
+        Lesson 9: Multiline strings
+      </a>
+    </nav>
+    <article class="prose">
+      <h2>The program</h2>
+      <p>Open <code>examples/tutorials/multiline-strings.kwe</code>.</p>
+      <CodeExample
+        label="examples/tutorials/multiline-strings.kwe"
+        code={source}
+        output={output}
+      />
+
+      <h2>Run it</h2>
+      <p>From the repository root, run the entry file:</p>
+      <pre tabindex="0"><code>node dist/cli/index.js examples/tutorials/multiline-strings.kwe</code></pre>
+
+      <h2>One string, many lines</h2>
+      <p>
+        A multiline string starts and ends with three double quotes. Everything
+        between the delimiters is part of one string value, including the
+        physical line breaks:
+      </p>
+      <pre tabindex="0"><code>mpempe = """Ndewo Ụwa!
+Ahịrị nke abụọ
+Ahịrị nke atọ"""</code></pre>
+      <p>
+        Each <code>bipụta</code> call in the program prints its full value, so
+        the stored line breaks appear in the output exactly as written.
+      </p>
+
+      <h2>Single line or many</h2>
+      <p>
+        An ordinary string still uses one pair of double quotes and cannot cross
+        a line. A multiline string uses three double quotes and may span many
+        lines. Both are the same <code>string</code> type, so either can be
+        assigned to a variable and printed.
+      </p>
+
+      <h2>Escapes still work</h2>
+      <p>
+        The five escapes from single-line strings remain available inside a
+        multiline string: <code>\n</code>, <code>\t</code>, <code>\r</code>,
+        <code>\\</code>, and <code>\"</code>. A literal line break is written
+        directly, with no backslash.
+      </p>
+      <pre tabindex="0"><code>mpempe = """ahịrị mbụ
+ahịrị abụọ"""
+bipụta(mpempe)</code></pre>
+      <p>
+        A single or double quote inside the delimiters is ordinary content; only
+        the next unescaped <code>"""</code> ends the string. Comment markers
+        such as <code>//</code> inside a multiline string are content, not
+        comments.
+      </p>
+
+      <h2>Your turn</h2>
+      <p>Add these lines and predict the output:</p>
+      <pre tabindex="0"><code>okwu = """O kwuru, "Ndewo!"
+ahịrị abụọ"""
+bipụta(okwu)</code></pre>
+      <p>
+        Expected output: <code>O kwuru, "Ndewo!"</code> followed by
+        <code>ahịrị abụọ</code> on the next line.
+      </p>
+
+      <div class="callout callout--gold">
+        <strong>Common problems</strong>
+        Keep the opening and closing <code>"""</code> paired. A string that
+        reaches the end of the file without its closing delimiter reports
+        lexical error <code>KWE-LEX-006</code>.
+      </div>
+
+      <h2>Normative references</h2>
+      <ul>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/lexical-grammar.md`}>Lexical grammar</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/language-spec/errors.md`}>Current language errors</a></li>
+        <li><a href={`${SITE.github}/blob/main/docs/design-decisions/ADR-030-multiline-strings.md`}>Multiline strings decision</a></li>
+      </ul>
+
+      <h2>Next</h2>
+      <p>
+        Continue with the <a href="/examples/">verified examples</a> and the
+        <a href="/docs/language/">language overview</a>.
+      </p>
+    </article>
+  </div>
+</BaseLayout>

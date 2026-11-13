@@ -2,6 +2,7 @@ import { readFile, realpath, stat } from "node:fs/promises";
 import { dirname, extname, relative, resolve, sep } from "node:path";
 import { DiagnosticCodes } from "../errors/diagnostic-catalog.js";
 import { KwechiriError } from "../errors/kwechiri-error.js";
+import { structureSourceLines, type StructuredSourceLine } from "../lexer/line-structure.js";
 import { tokenize } from "../lexer/lexer.js";
 import { TokenType } from "../lexer/token.js";
 import { standardModule, type StandardExportDefinition } from "../standard-library/catalog.js";
@@ -20,27 +21,6 @@ const importPattern = /^\s*([\p{L}\p{M}_]+)\s*\{([^}]*)\}\s*([\p{L}\p{M}_]+)\s+(
 const exportPattern = /^(\s*)([\p{L}\p{M}_]+)\s+(?:([\p{L}\p{M}_]+)\s+)?([\p{L}_][\p{L}\p{M}\p{N}_]*)/u;
 const identity = (value: string): string => value.normalize("NFC");
 const utf8Decoder = new TextDecoder("utf-8", { fatal: true });
-const withoutLineComment = (line: string): string => {
-  let inString = false;
-  let escaped = false;
-  for (let index = 0; index < line.length; index += 1) {
-    const character = line[index];
-    if (escaped) {
-      escaped = false;
-      continue;
-    }
-    if (inString && character === "\\") {
-      escaped = true;
-      continue;
-    }
-    if (character === '"') {
-      inString = !inString;
-      continue;
-    }
-    if (!inString && character === "/" && line[index + 1] === "/") return line.slice(0, index);
-  }
-  return line;
-};
 
 export async function loadModuleGraphForCompiler(entryPath: string): Promise<LoadedModuleGraph> {
   const requestedEntry = resolve(entryPath);
@@ -96,14 +76,17 @@ export async function loadModuleGraphForCompiler(entryPath: string): Promise<Loa
       );
     }
     const lines = raw.split(/\r?\n/u);
+    const structuredLines = structureSourceLines(lines);
     const imports = new Map<string, string>();
     const bodyLines: string[] = [];
     let sawBody = false;
 
     for (let index = 0; index < lines.length; index += 1) {
       const line = lines[index] as string;
-      const structuralLine = withoutLineComment(line);
-      const importMatch = importPattern.exec(structuralLine);
+      const structuredLine = structuredLines[index] as StructuredSourceLine;
+      const importMatch = structuredLine.startsInsideMultilineString
+        ? null
+        : importPattern.exec(structuredLine.structural);
       const isImport = importMatch !== null
         && identity(importMatch[1] as string) === "webata"
         && identity(importMatch[3] as string) === "site"
@@ -143,12 +126,14 @@ export async function loadModuleGraphForCompiler(entryPath: string): Promise<Loa
         bodyLines.push("");
         continue;
       }
-      if (structuralLine.trim() !== "") sawBody = true;
+      if (structuredLine.structural.trim() !== "") sawBody = true;
       bodyLines.push(line);
     }
 
     const exported = new Set<string>();
     const cleanedLines = bodyLines.map((line, index) => {
+      const structuredLine = structuredLines[index] as StructuredSourceLine;
+      if (structuredLine.startsInsideMultilineString) return line;
       const match = exportPattern.exec(line);
       if (match === null || identity(match[2] as string) !== "bupụ") return line;
       if (match[3] !== undefined && identity(match[3]) !== "ọrụ") return line;

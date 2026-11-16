@@ -144,6 +144,7 @@ The build command does not publish. The released extension is available from the
 - [Contributing guide](CONTRIBUTING.md)
 - [Code of conduct](CODE_OF_CONDUCT.md)
 - [Security policy](SECURITY.md)
+- [Third-party notices](THIRD_PARTY_NOTICES.md)
 
 Historical `milestone-*.md` files remain available as incremental records and
 may be superseded by the current topic-oriented specification and later ADRs.

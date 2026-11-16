@@ -1,10 +1,10 @@
 # Kwechiri project status and remaining roadmap
 
-Last updated: 2026-10-31
-Current version: `1.1.0`, public `latest`
+Last updated: 2026-11-16
+Current version: `1.2.0`, public `latest`
 
-Current completed milestone: Milestone 15 - Standard Library Batch 11C
-Current VS Code release: `0.2.1`, public
+Current completed milestone: Milestone 16 - Multiline strings
+Current VS Code release: `0.2.2`, public
 
 Certification state: Milestone 10 certified and closed at
 `60944dc77b7a5529a217c4474e56ecd3bb8150ef`; Lexical Foundations certified and
@@ -26,13 +26,12 @@ The pre-1.0 Language Foundations phase is closed. Milestone 11 Batches 11A and
 `64ff2cf5042f8af78c17836080a5ede7b7cb11aa`; later Standard Library batches
 remain unauthorized.
 
-Current roadmap milestone: Milestone 15 - Standard Library Batch 11C, released
-Contract: [Batch 11C contract](MILESTONE-15-STANDARD-LIBRARY-11C.md), approved
-2026-10-31
+Current roadmap milestone: Milestone 16 - Multiline strings, released
+Contract: [Multiline strings contract](MILESTONE-16-MULTILINE-STRINGS.md),
+approved 2026-11-13
 
-Next proposed milestone: Milestone 16 - Multiline strings, approved
-2026-11-13 and implemented locally. Release, tagging, and publication remain
-owner-controlled and have not been performed.
+Next proposed milestone: none. Later language or Standard Library work requires
+a new owner-approved contract.
 
 Readiness: [local evidence and remaining gaps](MILESTONE-14-READINESS.md)
 
@@ -538,8 +537,9 @@ installation, and extension-host verification are complete.
 
 ## Milestone 16 — Multiline strings
 
-Approved by the owner on 2026-11-13 and implemented locally. The language gains
-`"""..."""` multiline string literals and lexical diagnostic `KWE-LEX-006`;
-see [MILESTONE-16-MULTILINE-STRINGS.md](MILESTONE-16-MULTILINE-STRINGS.md).
-The canonical local gate passes. Release, tagging, publication, and deployment
-remain owner-controlled and have not been performed.
+Approved by the owner on 2026-11-13 and released as Kwechiri 1.2.0 on
+2026-11-16. The language gains `"""..."""` multiline string literals and
+lexical diagnostic `KWE-LEX-006`; see
+[MILESTONE-16-MULTILINE-STRINGS.md](MILESTONE-16-MULTILINE-STRINGS.md).
+The compiler, website, and VS Code extension releases are recorded separately
+in their release evidence.

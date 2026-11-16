@@ -3,6 +3,23 @@
 All notable changes to Kwechiri are recorded here. Release dates and versions
 are added only when the project owner approves a release.
 
+## 1.2.0 - 2026-11-16
+
+Adds multiline string literals while preserving the existing single-line
+string, type, runtime, and module rules.
+
+### Added
+
+- `"""..."""` multiline string literals, including embedded physical line
+  feeds and the five existing string escapes.
+- Located lexical diagnostic `KWE-LEX-006` for unterminated multiline strings.
+- VS Code extension `0.2.2` with the updated compiler bundle.
+
+### Changed
+
+- The module loader and browser single-source boundary ignore comment and
+  import/export markers inside multiline strings.
+
 ## 1.1.0 - 2026-10-31
 
 First post-1.0 Standard Library expansion.

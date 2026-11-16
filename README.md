@@ -21,15 +21,17 @@ Batches 11A, 11B, and 11C are certified and closed. The browser playground and
 VS Code support milestones, Batches 12A, 12B, and 13, are also certified and
 closed.
 
-Kwechiri 1.1.0 is the current release. The
+Kwechiri 1.2.0 is the current release. The
 [Milestone 14 contract](docs/roadmap/MILESTONE-14-KWECHIRI-1.0.md) closed 1.0,
 and [Milestone 15](docs/roadmap/MILESTONE-15-STANDARD-LIBRARY-11C.md) adds the
-Batch 11C string functions. The CLI is published on npm, and the VS Code
+Batch 11C string functions. [Milestone 16](docs/roadmap/MILESTONE-16-MULTILINE-STRINGS.md)
+adds multiline string literals. The CLI is published on npm, and the VS Code
 extension is public in the Marketplace.
 The implemented language includes:
 
 - Unicode Igbo identifiers and located diagnostics
 - strings, numbers, booleans, variables, arithmetic, and comparisons
+- `"""..."""` multiline string literals with `KWE-LEX-006` diagnostics
 - `bipụta`, `ọ bụrụ`/`ọzọ`, `mgbe`, `kwụsị`, and `gaa n'ihu`
 - named `ọrụ` functions with `laghachi`
 - homogeneous arrays and typed objects
@@ -45,7 +47,7 @@ Requires Node.js 20 or newer.
 Install the current release:
 
 ```sh
-npm install --global kwechiri@1.1.0
+npm install --global kwechiri@1.2.0
 kwechiri hello.kwe
 ```
 
@@ -154,7 +156,7 @@ may be superseded by the current topic-oriented specification and later ADRs.
 Kwechiri is licensed under the MIT License. See [`LICENSE`](LICENSE) for the
 full text and copyright notice.
 
-The compiler package is published on npm as `kwechiri@1.1.0`. The separate VS
+The compiler package is published on npm as `kwechiri@1.2.0`. The separate VS
 Code extension is publicly distributed through the Visual Studio Marketplace.
 The source repository is public at
 <https://github.com/Jmmadubuike/kwechiri-programming-language>.

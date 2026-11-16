@@ -40,9 +40,9 @@ and consequences; they do not authorize unresolved future features.
 - [Git workflow](development/git-workflow.md)
 - [Definition of done](development/definition-of-done.md)
 - [Release procedure](development/release.md) - approved 2026-10-30
-- [Supported environments](development/support-matrix.md) - verified for 1.1.0
+- [Supported environments](development/support-matrix.md) - verified for 1.2.0
 - [Compiler package identity](development/package-identity.md) - published as
-  `kwechiri@1.1.0`
+  `kwechiri@1.2.0`
 
 ## 6. Roadmap and status
 
@@ -61,7 +61,9 @@ and consequences; they do not authorize unresolved future features.
 - [Milestone 15 Standard Library Batch 11C](roadmap/MILESTONE-15-STANDARD-LIBRARY-11C.md)
   - complete; released 2026-10-31
 - [Milestone 16 Multiline strings](roadmap/MILESTONE-16-MULTILINE-STRINGS.md)
-  - approved and implemented locally; awaiting release decision
+  - released 2026-11-16
+- [Kwechiri 1.2.0 release notes](roadmap/RELEASE-NOTES-1.2.0.md)
+  - published 2026-11-16
 - [Kwechiri 1.1.0 release notes](roadmap/RELEASE-NOTES-1.1.0.md)
   - published 2026-10-31
 - [Website and documentation foundation plan](roadmap/WEBSITE-FOUNDATION-PLAN.md)

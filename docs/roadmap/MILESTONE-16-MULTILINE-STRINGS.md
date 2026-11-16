@@ -1,6 +1,6 @@
 # Milestone 16 - Multiline strings
 
-Status: Implemented locally; awaiting owner review and release decision
+Status: Released as Kwechiri 1.2.0 on 2026-11-16
 
 Last updated: 2026-11-13
 Owner approval: 2026-11-13

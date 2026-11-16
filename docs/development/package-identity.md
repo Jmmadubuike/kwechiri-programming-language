@@ -1,6 +1,6 @@
 # Compiler package identity
 
-Status: Published as stable 1.1.0
+Status: Published as stable 1.2.0
 
 The compiler package identity for Kwechiri is:
 
@@ -16,16 +16,16 @@ registry under the owner's approved release.
 The stable publication is:
 
 - maintainer: `jmmadubuike`;
-- version: `1.1.0`;
+- version: `1.2.0`;
 - access: public;
-- registry SHA-1: `a638693e60b19c79884c08ebbdcded35dc1a5f2b`;
+- registry SHA-1: `144143939efe69e413b9cf23e95b4cadc5d7a30b`;
 - registry tarball:
-  `https://registry.npmjs.org/kwechiri/-/kwechiri-1.1.0.tgz`;
-- git commit: `64ff2cf5042f8af78c17836080a5ede7b7cb11aa`;
-- git tag: `v1.1.0`.
+  `https://registry.npmjs.org/kwechiri/-/kwechiri-1.2.0.tgz`;
+- git commit: `7455da3aa770a3ad2ffb8aac5e9c636e1597b919`;
+- git tag: `v1.2.0`.
 
 Account-level two-factor authentication is enabled in `auth-and-writes` mode.
-npm `latest` points to `1.1.0`; `next` remains the published `1.0.0-rc.1`
+npm `latest` points to `1.2.0`; `next` remains the published `1.0.0-rc.1`
 prerelease.
 
 ## Package metadata

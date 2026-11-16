@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageIntro from "../../components/PageIntro.astro";
+import { SITE } from "../../consts";
 ---
 
 <BaseLayout
@@ -11,7 +12,7 @@ import PageIntro from "../../components/PageIntro.astro";
     eyebrow="Documentation"
     title="Learn what exists today."
     lead="This site summarizes verified Kwechiri behavior. The repository's normative specification and ADRs remain authoritative."
-    meta="Current version: 1.1.0"
+    meta={`Current version: ${SITE.version}`}
   />
 
   <section class="section">

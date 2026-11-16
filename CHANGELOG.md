@@ -8,6 +8,9 @@ are added only when the project owner approves a release.
 Adds multiline string literals while preserving the existing single-line
 string, type, runtime, and module rules.
 
+Published to npm as `latest` on 2026-11-16. Git tag: `v1.2.0`. VS Code
+extension `0.2.2` was published to the Marketplace on 2026-11-16.
+
 ### Added
 
 - `"""..."""` multiline string literals, including embedded physical line

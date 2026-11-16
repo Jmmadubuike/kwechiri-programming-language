@@ -541,5 +541,7 @@ Approved by the owner on 2026-11-13 and released as Kwechiri 1.2.0 on
 2026-11-16. The language gains `"""..."""` multiline string literals and
 lexical diagnostic `KWE-LEX-006`; see
 [MILESTONE-16-MULTILINE-STRINGS.md](MILESTONE-16-MULTILINE-STRINGS.md).
-The compiler, website, and VS Code extension releases are recorded separately
-in their release evidence.
+Published to npm as `kwechiri@1.2.0`, tagged `v1.2.0` at
+`7455da3aa770a3ad2ffb8aac5e9c636e1597b919`, and released on GitHub. VS Code
+extension `0.2.2` was published to the Marketplace. Website, registry clean
+installation, and CI evidence are recorded separately.

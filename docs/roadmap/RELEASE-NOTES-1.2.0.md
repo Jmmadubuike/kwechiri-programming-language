@@ -47,5 +47,10 @@ misread as module directives.
   and accessibility tests passed.
 - VS Code extension: `0.2.2` type-checked, bundled, verified, packaged, and
   extension-host tested.
-- npm and Marketplace publication status must be verified separately after
-  release.
+- npm: `kwechiri@1.2.0` published as `latest`; registry SHA-1
+  `144143939efe69e413b9cf23e95b4cadc5d7a30b`; clean registry installation
+  reproduced the multiline example output.
+- GitHub: tagged `v1.2.0` at
+  `7455da3aa770a3ad2ffb8aac5e9c636e1597b919`; GitHub release published.
+- Marketplace: `kwechiri.kwechiri-language v0.2.2` published through trusted
+  publishing.

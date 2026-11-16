@@ -156,5 +156,5 @@ full text and copyright notice.
 
 The compiler package is published on npm as `kwechiri@1.1.0`. The separate VS
 Code extension is publicly distributed through the Visual Studio Marketplace.
-At the time of this release preparation, the GitHub source repository is
-private; repository publication is a separate owner-controlled decision.
+The source repository is public at
+<https://github.com/Jmmadubuike/kwechiri-programming-language>.

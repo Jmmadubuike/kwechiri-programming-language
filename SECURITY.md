@@ -14,11 +14,9 @@ Please do not report a security vulnerability in a public issue, discussion, or
 pull request.
 
 The preferred channel is GitHub private vulnerability reporting on the
-repository's **Security** tab. Private reporting is not enabled on the private
-repository at the time of this preparation. Before public release, the
-maintainer should enable it.
+repository's **Security** tab.
 
-Until it is enabled, contact the project owner privately through
+If private reporting is unavailable, contact the project owner privately through
 <https://github.com/Jmmadubuike> and identify the report as a security matter.
 
 Please include:

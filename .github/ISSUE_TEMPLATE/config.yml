@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Kwechiri documentation
+    url: https://kwechiri.dev/
+    about: Read the language, CLI, tutorial, and project documentation.
+  - name: Security policy
+    url: https://github.com/Jmmadubuike/kwechiri-programming-language/security/policy
+    about: Report a vulnerability privately; do not open a public issue.

@@ -141,6 +141,9 @@ The build command does not publish. The released extension is available from the
 - [Recorded technical debt](docs/roadmap/technical-debt.md)
 - [Website foundation plan](docs/roadmap/WEBSITE-FOUNDATION-PLAN.md)
 - [VS Code support contract](docs/roadmap/MILESTONE-13-VS-CODE.md)
+- [Contributing guide](CONTRIBUTING.md)
+- [Code of conduct](CODE_OF_CONDUCT.md)
+- [Security policy](SECURITY.md)
 
 Historical `milestone-*.md` files remain available as incremental records and
 may be superseded by the current topic-oriented specification and later ADRs.
@@ -150,6 +153,7 @@ may be superseded by the current topic-oriented specification and later ADRs.
 Kwechiri is licensed under the MIT License. See [`LICENSE`](LICENSE) for the
 full text and copyright notice.
 
-The compiler package remains temporarily marked private to prevent accidental
-npm publication. The separate VS Code extension is publicly distributed
-through the Visual Studio Marketplace.
+The compiler package is published on npm as `kwechiri@1.1.0`. The separate VS
+Code extension is publicly distributed through the Visual Studio Marketplace.
+At the time of this release preparation, the GitHub source repository is
+private; repository publication is a separate owner-controlled decision.

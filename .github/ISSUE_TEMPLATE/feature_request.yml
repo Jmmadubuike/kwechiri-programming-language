@@ -1,0 +1,59 @@
+name: Feature request
+description: Propose a documentation, tooling, website, or repository improvement.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for improvements that are not language syntax or semantic
+        changes. Language proposals have a separate template.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: What is difficult, missing, or unclear today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed improvement
+      description: Describe the smallest useful change.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe any simpler or existing approaches.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Documentation or tutorials
+        - Compiler tooling
+        - CLI
+        - VS Code extension
+        - Website or playground
+        - Repository or release process
+        - Community or accessibility
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: I searched existing issues for a similar request.
+          required: true
+        - label: This request does not require an unapproved language syntax or semantic change.
+          required: true

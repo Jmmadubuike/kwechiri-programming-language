@@ -1,0 +1,89 @@
+name: Language proposal
+description: Propose an Igbo-first syntax, keyword, semantic, or Standard Library change.
+title: "[Language proposal]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Kwechiri is an Igbo-first language, not English or JavaScript with
+        translated keywords. Language changes require owner approval and a
+        documented decision before implementation.
+
+        Use this form to describe the problem and proposed contract. Do not open
+        an implementation pull request before the design is approved.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or learner need
+      description: What problem does this proposal solve, and who experiences it?
+    validations:
+      required: true
+
+  - type: input
+    id: syntax
+    attributes:
+      label: Proposed Kwechiri term or syntax
+      description: Show the exact spelling, including Igbo characters and diacritics.
+      placeholder: "Example: a proposed keyword or expression"
+    validations:
+      required: true
+
+  - type: textarea
+    id: meaning
+    attributes:
+      label: Meaning in Igbo and English
+      description: Explain the term in both languages and note any dialect or usage considerations.
+    validations:
+      required: true
+
+  - type: textarea
+    id: semantics
+    attributes:
+      label: Proposed semantics
+      description: Define behaviour precisely, including edge cases, errors, and source locations.
+    validations:
+      required: true
+
+  - type: textarea
+    id: beginner
+    attributes:
+      label: Beginner impact
+      description: How will a new programmer understand and use this feature?
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples
+      description: Provide valid and invalid examples, or the expected diagnostic.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and prior art
+      description: What alternatives were considered? If another language has this feature, explain why Kwechiri needs it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility and diagnostics
+      description: Describe effects on existing programs, modules, generated JavaScript, the CLI, and diagnostic codes.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: I understand that this language change requires owner approval before implementation.
+          required: true
+        - label: I searched existing issues and decision records for related proposals.
+          required: true
